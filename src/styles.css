@@ -552,13 +552,14 @@ nav {
   .nav-links {
     display: flex;
     align-items: center;
-    gap: 15px; /* Espacement entre les liens */
+    margin-right: 230px;
+    gap: 30px; /* Espacement entre les liens */
   }
   
   .nav-link {
     color: white;
     text-decoration: none;
-    margin: 0;
+    margin: 10;
   }
   
   .nav-logo-container {
