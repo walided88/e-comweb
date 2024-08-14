@@ -1,23 +1,22 @@
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import HamburgerMenu from './HamburgerMenu';
 import '../styles.css';
 
 function Navbar() {
   const navigate = useNavigate();
-const [count,setCount] = useState(0);
+  const [count, setCount] = useState(0);
+
   const handleImageClick = () => {
-    navigate('/users/list'); 
-    setCount(count+1);
+    navigate('/users/list');
+    setCount(count + 1);
   };
 
   return (
-    <nav style={{
-      display: 'flex',
-      justifyContent: 'space-between', // Espace égal entre les éléments
-      padding: '13px 30px',
-      backgroundColor: '#333',
-    }}>
+
+    <div >
+
+    <nav>
       <HamburgerMenu />
 
       <div className="nav-links">
@@ -29,18 +28,22 @@ const [count,setCount] = useState(0);
         <Link to="/users/UserDashboard" className="nav-link">UserDashboard</Link>
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+   
+
+    </nav>
+
+    <div >
         <img 
           src={require('../images/shop2.png')}
           alt="Shop Logo" 
-          style={{ width: '20px', height: '20px', marginRight: '50px', cursor: 'pointer' }}
+          className="nav-shop"
           onClick={handleImageClick}
         />
-              <a  style={{ display: 'flex', top: '15px',right:"87px",position: 'relative', cursor: 'pointer',color:"#17eb6f", fontSize:"15px"}}>{count} </a>
-
       </div>
+          <div  className="nav-count">{count}</div>
+          </div>
 
-    </nav>
   );
 }
+
 export default Navbar;

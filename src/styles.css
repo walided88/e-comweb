@@ -108,7 +108,7 @@ code {
 .search-bar {
   width: 30%;
   padding: 10px;
-  margin-left:200px ;
+  margin-left:10px ;
   border-radius: 5px;
   border: 1px solid #ccc;
 }
@@ -160,28 +160,15 @@ code {
 }
 
 .products-list {
-  display: flex; /* Affiche les éléments en ligne */
-  flex-direction: row; /* Définit la direction des éléments comme étant horizontale */
-  justify-content: flex-start; /* Aligne les éléments au début de la ligne */
-  gap: 70px; /* Espace entre les éléments */
+  display: flex;
+  justify-content: flex-start;
+  gap: 70px;
   width: 100%;
-  margin-left: 100px; /* Ajustez cette marge selon vos besoins */
+  margin-left: 100px;
   margin-top: 10px;
-  overflow-x: auto; /* Permet le défilement horizontal */
-  scroll-behavior: smooth; /* Rend le défilement plus fluide */
-  animation: scrollLeftRight 10s linear infinite; /* Animation pour faire défiler les éléments automatiquement */
-}
-/* Animation pour faire défiler les éléments horizontalement */
-@keyframes scrollLeftRight {
-  0% {
-    transform: translateX(0); /* Position initiale */
-  }
-  50% {
-    transform: translateX(-30%); /* Déplace à gauche */
-  }
-  100% {
-    transform: translateX(0); /* Reviens à la position initiale */
-  }
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  animation: scrollLeftRight 10s linear infinite;
 }
 
 @keyframes scrollLeftRight {
@@ -288,6 +275,23 @@ nav {
 .nav-count {
   display: flex;
   align-items: center;
+  color: #17eb6f;
+  font-size: 15px;
+}
+.nav-shop {
+  display: flex;
+  width: 30px;
+margin-left: 90%;
+margin-top: -4%;
+
+  color: #17eb6f;
+  font-size: 15px;
+}
+.nav-count {
+  display: flex;
+  width: 30px;
+margin-left: 89%;
+
   color: #17eb6f;
   font-size: 15px;
 }
