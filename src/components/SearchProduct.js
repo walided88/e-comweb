@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import '../styles.css'; // Importer le fichier CSS global
 
 const SearchProduct = () => {
   const [searchTerm, setSearchTerm] = useState('');
