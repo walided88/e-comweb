@@ -4,7 +4,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // Importez les 
 import { useNavigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Homepage2 from './HomePage2';
-import './HomePage.css'; // Assure-toi de créer un fichier CSS pour le style
+import './styles.css';
 import SearchProduct from './components/SearchProduct';
 
 

@@ -18,7 +18,7 @@ import ProgressBar from './components/ProgressBar';
 import MyDatePicker from './components/DatePicker';
 import Rating from './components/Rating';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import "animate.css";
+import './styles.css';
 import { useSpring,animated,useSprings } from 'react-spring';
 function Home() {
   return <h2>Accueil</h2>;

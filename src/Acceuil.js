@@ -1,5 +1,5 @@
 import React from 'react';
-import './HomePage.css'; // Assure-toi de créer un fichier CSS pour le style
+import './styles.css';
 import { Carousel } from 'react-responsive-carousel';
 import { useNavigate } from 'react-router-dom';
 import SearchProduct from './components/SearchProduct';

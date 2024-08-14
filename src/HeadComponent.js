@@ -1,4 +1,4 @@
-import "./FirstComponentStyle.css"
+import './styles.css';
 
 
 

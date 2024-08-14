@@ -1,5 +1,5 @@
 import React from 'react';
-import '../css/Article.css'; // Import the CSS file for styling
+import '../styles.css';
 
 const Article = ({ title, author, date, image, content }) => {
     return (
