@@ -50,6 +50,7 @@ const products = [
   { id: 3, name: 'Shoes', category: 'Fashion' },
   { id: 4, name: 'Blender', category: 'Home & Kitchen' },
   { id: 5, name: 'T-shirt', category: 'Fashion' },
+  
 ];
 
 export default SearchProduct;
