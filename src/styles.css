@@ -522,4 +522,23 @@ body {
       padding: 10px 0;
     }
   }
+  /* Ajouter ces styles à votre fichier CSS principal */
+
+.products-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  
+  .product-item {
+    flex: 1 1 calc(33.333% - 20px); /* 3 produits par ligne sur écran large */
+    box-sizing: border-box;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .product-item {
+      flex: 1 1 100%; /* 1 produit par ligne sur mobile */
+    }
+  }
   
