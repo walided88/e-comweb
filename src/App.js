@@ -1,24 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Home from './Home';
+import UserList from './components/UserList';
+import DeleteUser from './components/DeleteUser';
+import Navbar from './components/Navbar';
+import HomePage from './HomePage';
+import AuthForm from './components/AutForm'; // Assurez-vous que le chemin est correct
+import Footer from './components/Footer';
+import Article1 from './components/Article1';
+import Acceuil  from './Acceuil';
+import ListProd from './components/ListProd';
+import CartPage from './components/CartPage';
+import UserSettings from './components/UserSettings';
+import UserDashboard from './components/UserDashboard';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+            <Navbar />
+ 
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/about" element={<Home />} />
+      <Route path="/users/list" element={<ListProd />} />
+      <Route path="/users/cartPage" element={<CartPage />} />
+      <Route path="/users/UserDashboard" element={<UserDashboard/>} />
+      <Route path="/users/UserSettings" element={<UserSettings />} />
+
+      <Route path="/users/log" element={<AuthForm />} />
+      <Route path="/users/acceuil" element={<Acceuil />} />
+
+    </Routes>
+
+
+    <Footer />
+
     </div>
+
   );
 }
 

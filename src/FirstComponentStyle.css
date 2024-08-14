@@ -1,0 +1,41 @@
+.redBg{
+    background-color: red;
+    margin: 44px;
+    width: 970px;
+    height: 200px;
+    border-radius: 6%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 44px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.blueBg{
+    background-color: blue;
+    margin: 44px;
+    width: 970px;
+    height: 200px;
+    border-radius: 6%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 44px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+.blueBg-nd-smallTxt{
+    background-color: blue;
+    margin: 222px;
+    top: 202px;    
+    border-radius: 6%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 11px;
+    color: white;
+
+}
