@@ -83,8 +83,11 @@ const Accueil = () => {
 
       {/* Produits populaires */}
       <section>
-    <h2>Popular Products</h2>
-    <div className="products-list" style={{ display: 'flex' }}>
+      <h2>Popular Products</h2>
+
+      <div class="cadre">
+  <div class="contenu">
+  <div className="products-list" >
       {headers.map((src, index) => (
         <ProductItem
           key={index}
@@ -94,7 +97,11 @@ const Accueil = () => {
         />
       ))}
 
-    </div>
+    </div> 
+     </div>
+</div>
+
+
   </section>
 
     </div>
