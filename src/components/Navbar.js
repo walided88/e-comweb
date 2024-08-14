@@ -1,6 +1,7 @@
 import React,{useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import HamburgerMenu from './HamburgerMenu';
+import '../styles.css';
 
 function Navbar() {
   const navigate = useNavigate();
@@ -19,14 +20,13 @@ const [count,setCount] = useState(0);
     }}>
       <HamburgerMenu />
 
-      <div>
-        <Link to="/users/acceuil" style={{ color: 'white', textDecoration: 'none', marginRight: '30px',marginLeft: '-470px'}}>Home</Link>
-        <Link to="/" style={{ color: 'white', textDecoration: 'none' }}>Products</Link>
-        <Link to="/users/Log" style={{ color: 'white', textDecoration: 'none', marginRight: '30px',marginLeft: '30px' }}>Login </Link>
-        <Link to="/users/cartPage" style={{ color: 'white', textDecoration: 'none' }}>CartPage </Link>
-        <Link to="/users/UserSettings" style={{ color: 'white', textDecoration: 'none', marginRight: '30px',marginLeft: '30px' }}>UserSettings </Link>
-        <Link to="/users/UserDashboard" style={{ color: 'white', textDecoration: 'none', marginRight: '30px',marginLeft: '30px' }}>UserDashboard </Link>
-
+      <div className="nav-links">
+        <Link to="/users/acceuil" className="nav-link">Home</Link>
+        <Link to="/" className="nav-link">Products</Link>
+        <Link to="/users/Log" className="nav-link">Login</Link>
+        <Link to="/users/cartPage" className="nav-link">CartPage</Link>
+        <Link to="/users/UserSettings" className="nav-link">UserSettings</Link>
+        <Link to="/users/UserDashboard" className="nav-link">UserDashboard</Link>
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center' }}>
