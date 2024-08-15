@@ -12,47 +12,96 @@ function Form() {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', width: '200px' }}>
-            <label >Formulaire</label>
+    <form onSubmit={handleSubmit} style={styles.form}>
+      <h2 style={styles.title}>Formulaire</h2>
 
-      <label htmlFor="name">Name:</label>
+      <label htmlFor="name" style={styles.label}>Name:</label>
       <input
         id="name"
         type="text"
         value={name}
         onChange={(e) => setName(e.target.value)}
-        style={{ padding: '8px', marginBottom: '8px' }}
+        style={styles.input}
       />
-     
-          <label htmlFor="num">Num:</label>
+
+      <label htmlFor="num" style={styles.label}>Num:</label>
       <input
         id="num"
         type="number"
         value={num}
         onChange={(e) => setNum(e.target.value)}
-        style={{ padding: '8px', marginBottom: '8px' }}
+        style={styles.input}
       />
-              <label htmlFor="email">Email:</label>
+
+      <label htmlFor="email" style={styles.label}>Email:</label>
       <input
         id="email"
-        type="text"
+        type="email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        style={{ padding: '8px', marginBottom: '8px' }}
-      /> 
-      <label htmlFor="adress">Adresse:</label>
+        style={styles.input}
+      />
+
+      <label htmlFor="adress" style={styles.label}>Adresse:</label>
       <input
-        id="adresse"
+        id="adress"
         type="text"
         value={adress}
         onChange={(e) => setAdress(e.target.value)}
-        style={{ padding: '8px', marginBottom: '8px' }}
-      />   
-      <button type="submit" style={{ padding: '8px', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
-        Submit
-      </button>
+        style={styles.input}
+      />
+
+      <button type="submit" style={styles.button}>Submit</button>
     </form>
   );
 }
+
+const styles = {
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '300px',
+    margin: 'auto',
+    padding: '20px',
+    border: '1px solid #ccc',
+    borderRadius: '8px',
+    boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
+    backgroundColor: '#fff',
+  },
+  title: {
+    fontSize: '1.5em',
+    marginBottom: '20px',
+    color: '#333',
+    textAlign: 'center',
+  },
+  label: {
+    marginBottom: '5px',
+    fontSize: '1em',
+    color: '#555',
+  },
+  input: {
+    padding: '10px',
+    marginBottom: '15px',
+    border: '1px solid #ccc',
+    borderRadius: '4px',
+    fontSize: '1em',
+    color: '#333',
+    outline: 'none',
+    transition: 'border-color 0.3s ease',
+  },
+  inputFocus: {
+    borderColor: '#007bff',
+  },
+  button: {
+    padding: '10px',
+    border: 'none',
+    borderRadius: '4px',
+    backgroundColor: '#007bff',
+    color: '#fff',
+    fontSize: '1em',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s ease',
+  },
+};
 
 export default Form;
