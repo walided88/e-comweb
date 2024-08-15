@@ -311,3 +311,49 @@ margin-left: 89%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
+/* Styles pour les petits écrans */
+@media only screen and (max-width: 600px) {
+  .container {
+    width: 95%;
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 1.5em;
+  }
+
+  button {
+    width: 100%;
+    padding: 15px;
+  }
+}
+
+/* Styles pour les écrans moyens */
+@media only screen and (min-width: 601px) and (max-width: 1024px) {
+  .container {
+    width: 85%;
+  }
+
+  h1 {
+    font-size: 2em;
+  }
+
+  button {
+    padding: 12px 25px;
+  }
+}
+
+/* Styles pour les grands écrans */
+@media only screen and (min-width: 1025px) {
+  .container {
+    width: 70%;
+  }
+
+  h1 {
+    font-size: 2.5em;
+  }
+
+  button {
+    padding: 10px 30px;
+  }
+}

@@ -5,6 +5,7 @@ function Form() {
   const [num, setNum] = useState('');
   const [email, setEmail] = useState('');
   const [adress, setAdress] = useState('');
+  const [ville, setVille] = useState('');
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -20,6 +21,7 @@ function Form() {
         id="name"
         type="text"
         value={name}
+        required
         onChange={(e) => setName(e.target.value)}
         style={styles.input}
       />
@@ -29,6 +31,7 @@ function Form() {
         id="num"
         type="number"
         value={num}
+        required
         onChange={(e) => setNum(e.target.value)}
         style={styles.input}
       />
@@ -38,6 +41,7 @@ function Form() {
         id="email"
         type="email"
         value={email}
+        required
         onChange={(e) => setEmail(e.target.value)}
         style={styles.input}
       />
@@ -47,7 +51,17 @@ function Form() {
         id="adress"
         type="text"
         value={adress}
+        required
         onChange={(e) => setAdress(e.target.value)}
+        style={styles.input}
+      />
+        <label htmlFor="ville" style={styles.label}>Ville:</label>
+      <input
+        id="ville"
+        type="text"
+        value={ville}
+        required
+        onChange={(e) => setVille(e.target.value)}
         style={styles.input}
       />
 
