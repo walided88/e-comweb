@@ -2,14 +2,18 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import HamburgerMenu from './HamburgerMenu';
 import '../styles.css';
+import { useSelector, useDispatch } from 'react-redux';
+import { setUsers, prodSelected, updateUser, deleteUser } from '../reducers/userReducer';
 
 function Navbar() {
   const navigate = useNavigate();
   const [count, setCount] = useState(0);
+  const dispatch = useDispatch();
+  const prodSelecteds = useSelector((state) => state.user.productNumber);
 
   const handleImageClick = () => {
     navigate('/users/list');
-    setCount(count + 1);
+
   };
 
   return (
@@ -40,7 +44,7 @@ function Navbar() {
           onClick={handleImageClick}
         />
       </div>
-          <div  className="nav-count">{count}</div>
+          <div  className="nav-count">{prodSelecteds}</div>
           </div>
 
   );

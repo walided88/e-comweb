@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CartSummary from './CartSummary';
 import CartModification from './CartModification';
 import ShippingEstimator from './ShippingEstimator';
 import AddressSearch  from './AddressSearch';
+import { updateProducts, prodSelected, setIndex,setCurrentAdds } from '../reducers/userReducer';
+import { useSelector, useDispatch } from 'react-redux';
 
 const CartPage = () => {
-  const [cartItems, setCartItems] = useState([
-    { id: 1, name: 'Product 1', price: 29.99, image: require("../images/11.png"), quantity: 1 },
-    { id: 2, name: 'Product 2', price: 39.99, image: require("../images/11.png"), quantity: 2 },
-    // Plus de produits peuvent être ajoutés ici
-  ]);
-
+  const dispatch = useDispatch();
+  const list = useSelector((state) => state.user.productList);
+  const [cartItem, setCartItems] = useState([list]);
+  const [selectedProducts, setSelectedProducts] = useState([]);
   const updateQuantity = (itemId, newQuantity) => {
     setCartItems(prevItems =>
       prevItems.map(item =>
@@ -23,12 +23,17 @@ const CartPage = () => {
     setCartItems(prevItems => prevItems.filter(item => item.id !== itemId));
   };
 
-
+  useEffect(() => {
+    // Mettre à jour la quantité de produits sélectionnés dans le state
+    setCartItems(prevItems => list.filter(item => item.quantity > 0));
+  }, [cartItem, dispatch]);
+ 
+console.log(cartItem,"xxxxxxxxxxxxxxxxxxx")
 
   return (
     <div>
-      <CartSummary cartItems={cartItems} />
-      <CartModification cartItems={cartItems} updateQuantity={updateQuantity} removeItem={removeItem} />
+      <CartSummary cartItems={cartItem} />
+      {/* <CartModification cartItems={list} updateQuantity={updateQuantity} removeItem={removeItem} /> */}
       <div>
       <h1>Recherche d'adresse avec Google Maps API</h1>
       <AddressSearch />

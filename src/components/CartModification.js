@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CartModification = ({ cartItems, updateQuantity, removeItem }) => {
+const CartModification = ({ cartItems, removeItem }) => {
   return (
     <div>
       <h2>Modify Your Cart</h2>
@@ -8,12 +8,9 @@ const CartModification = ({ cartItems, updateQuantity, removeItem }) => {
         <div key={item.id} className="cart-item">
           <img src={item.image} alt={item.name} style={{ width: '50px' }} />
           <p>{item.name}</p>
-          <input
-            type="number"
-            value={item.quantity}
-            onChange={(e) => updateQuantity(item.id, e.target.value)}
-            min="1"
-          />
+          <p>{item.quantity}</p>
+
+        
           <button onClick={() => removeItem(item.id)}>Remove</button>
         </div>
       ))}
