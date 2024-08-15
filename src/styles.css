@@ -314,7 +314,7 @@ margin-left: 89%;
 /* Styles pour les petits écrans */
 @media only screen and (max-width: 600px) {
   .container {
-    width: 95%;
+    width: 90%;
     padding: 10px;
   }
 
@@ -355,5 +355,28 @@ margin-left: 89%;
 
   button {
     padding: 10px 30px;
+  }
+}
+
+
+/* Media query pour les petits écrans */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none; /* Cacher les liens de navigation par défaut */
+  }
+
+  nav {
+    flex-direction: column; /* Alignement vertical */
+  }
+
+  .nav-shop {
+    margin-top: 10px;
+  }
+  
+  /* Vous pouvez aussi réafficher les liens de navigation avec le menu hamburger */
+  .nav-links.open {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
 }
