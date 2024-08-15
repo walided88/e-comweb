@@ -12,7 +12,7 @@ function Navbar() {
   const prodSelecteds = useSelector((state) => state.user.productNumber);
 
   const handleImageClick = () => {
-    navigate('/users/list');
+    navigate('/users/cartPage');
 
   };
 

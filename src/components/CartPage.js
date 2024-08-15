@@ -5,12 +5,17 @@ import ShippingEstimator from './ShippingEstimator';
 import AddressSearch  from './AddressSearch';
 import { updateProducts, prodSelected, setIndex,setCurrentAdds } from '../reducers/userReducer';
 import { useSelector, useDispatch } from 'react-redux';
+import ProductList from './ProductList';
+import Form from './Form';
 
 const CartPage = () => {
   const dispatch = useDispatch();
   const list = useSelector((state) => state.user.productList);
   const [cartItem, setCartItems] = useState([list]);
   const [selectedProducts, setSelectedProducts] = useState([]);
+  const totalPrice = cartItem.reduce((total, item) => total + item.price * item.quantity, 0);
+
+ 
   const updateQuantity = (itemId, newQuantity) => {
     setCartItems(prevItems =>
       prevItems.map(item =>
@@ -32,7 +37,11 @@ console.log(cartItem,"xxxxxxxxxxxxxxxxxxx")
 
   return (
     <div>
-      <CartSummary cartItems={cartItem} />
+
+      <ProductList cartItems={cartItem} />
+      <h3>Total Price: ${totalPrice.toFixed(2)}</h3>
+      <Form />
+
       {/* <CartModification cartItems={list} updateQuantity={updateQuantity} removeItem={removeItem} /> */}
       <div>
       <h1>Recherche d'adresse avec Google Maps API</h1>

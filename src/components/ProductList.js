@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const ProductList = ({ products }) => {
+const ProductList = ({ cartItems }) => {
   const [filter, setFilter] = useState('');
   const [sortOrder, setSortOrder] = useState('asc');
 
@@ -12,8 +12,8 @@ const ProductList = ({ products }) => {
     setSortOrder(event.target.value);
   };
 
-  const filteredProducts = products
-    .filter(product => product.name.toLowerCase().includes(filter.toLowerCase()))
+  const filteredProducts = cartItems
+    .filter(product => product.name)
     .sort((a, b) => sortOrder === 'asc' ? a.price - b.price : b.price - a.price);
 
   return (
@@ -30,8 +30,9 @@ const ProductList = ({ products }) => {
         {filteredProducts.map(product => (
           <div key={product.id} className="product-item">
             <img src={product.image} alt={product.name} />
-            <p>{product.name}</p>
-            <p>${product.price}</p>
+            <p>name: {product.name}</p>
+            <p>quantity: x{product.quantity}</p>
+            <p>price: {product.price} $</p>
           </div>
         ))}
       </div>

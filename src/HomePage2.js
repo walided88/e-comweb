@@ -63,7 +63,7 @@ const HomePage = () => {
 
     const handleButtonClick = (index) => {
         // Redirige vers la page cible
-        navigate(`/about/${index}` + "buy");
+        navigate(`/users/cartPage`);
     
         // Récupère le produit actuel dans la liste
         const currentProduct = list[index];
