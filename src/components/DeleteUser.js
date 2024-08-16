@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import axios from '../axios';
+import { instanceUsers, instanceClients } from '../axios';
 import Navbar from './Navbar';
 
 const DeleteUser = () => {
@@ -9,7 +9,7 @@ const DeleteUser = () => {
 
     const deleteUser = async () => {
         try {
-            await axios.delete(`/users/${id}`);
+            await instanceUsers.delete(`/users/${id}`);
             navigate('/users'); // Utilisez navigate à la place de history.push
         } catch (error) {
             console.error('Error deleting user:', error);

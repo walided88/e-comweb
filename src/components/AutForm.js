@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import styled from 'styled-components';
 import Navbar from './Navbar';
 import { useNavigate } from 'react-router-dom';
+import { instanceUsers, instanceClients } from '../axios';
 
 const Container = styled.div`
   display: flex;
@@ -105,14 +105,14 @@ const AuthForm = () => {
         try {
             let response;
             if (isSignUp) {
-                response = await axios.post('http://localhost:5000/users/signup', { 
+                response = await instanceUsers.post('http://localhost:5000/users/signup', { 
                     name,
                     email,
                     password,
                     age
                 });
             } else {
-                response = await axios.post('http://localhost:5000/users/login', {
+                response = await instanceUsers.post('http://localhost:5000/users/login', {
                     email,
                     password
                 });

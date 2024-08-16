@@ -1,19 +1,63 @@
-import React, { useState } from 'react';
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable no-undef */
+import React, { useEffect, useState } from 'react';
+import { instanceClients } from '../axios';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import { useSelector } from 'react-redux';
+
+const ErrorMessage = styled.p`
+  color: red;
+  text-align: center;
+`;
 
 function Form() {
   const [name, setName] = useState('');
   const [num, setNum] = useState('');
   const [email, setEmail] = useState('');
-  const [adress, setAdress] = useState('');
+  const [adresse, setAdress] = useState('');
   const [ville, setVille] = useState('');
+  const [error, setError] = useState('');
+  const [prods, setProds] = useState([]);
+  const navigate = useNavigate();
+  const list = useSelector((state) => state.user.productList);
+  const [cartItem, setCartItems] = useState([]);
 
-  const handleSubmit = (event) => {
+  useEffect(() => {
+    // Mettre à jour la quantité de produits sélectionnés dans le state
+    setCartItems(list.filter(item => item.quantity > 0));
+  }, [list]);
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    alert(`Submitted name: ${name}`);
+    setError('');
+
+    try {
+      const response = await instanceClients.post('/submit', {
+        name,
+        email,
+        num,
+        adresse,
+        prods: cartItem,
+      });
+
+      console.log('Client data submitted:', response.data);
+
+      // Réinitialiser les champs du formulaire après soumission
+      setName('');
+      setEmail('');
+      setAdress('');
+      setNum('');
+      setVille('');
+      navigate('/about');
+    } catch (error) {
+      setError('Failed to process request: ' + (error.response?.data?.message || error.message));
+    }
   };
 
   return (
     <form onSubmit={handleSubmit} style={styles.form}>
+      {error && <ErrorMessage>{error}</ErrorMessage>}
       <h2 style={styles.title}>Formulaire</h2>
 
       <label htmlFor="name" style={styles.label}>Name:</label>
@@ -29,7 +73,7 @@ function Form() {
       <label htmlFor="num" style={styles.label}>Num:</label>
       <input
         id="num"
-        type="number"
+        type="text"
         value={num}
         required
         onChange={(e) => setNum(e.target.value)}
@@ -46,16 +90,17 @@ function Form() {
         style={styles.input}
       />
 
-      <label htmlFor="adress" style={styles.label}>Adresse:</label>
+      <label htmlFor="adresse" style={styles.label}>Adresse:</label>
       <input
-        id="adress"
+        id="adresse"
         type="text"
-        value={adress}
+        value={adresse}
         required
         onChange={(e) => setAdress(e.target.value)}
         style={styles.input}
       />
-        <label htmlFor="ville" style={styles.label}>Ville:</label>
+
+      <label htmlFor="ville" style={styles.label}>Ville:</label>
       <input
         id="ville"
         type="text"
@@ -102,9 +147,6 @@ const styles = {
     color: '#333',
     outline: 'none',
     transition: 'border-color 0.3s ease',
-  },
-  inputFocus: {
-    borderColor: '#007bff',
   },
   button: {
     padding: '10px',

@@ -1,6 +1,6 @@
 // src/components/UpdateUser.js
 import React, { useState, useEffect } from 'react';
-import axios from '../axios';
+import { instanceUsers, instanceClients } from '../axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser, setCurrentUser } from '../reducers/userReducer';
@@ -17,7 +17,7 @@ const UpdateUser = () => {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const response = await axios.get(`/users/${id}`);
+                const response = await instanceUsers.get(`/users/${id}`);
                 dispatch(setCurrentUser(response.data));
                 setName(response.data.name);
                 setEmail(response.data.email);
@@ -34,7 +34,7 @@ const UpdateUser = () => {
         e.preventDefault();
         try {
             const updatedUser = { id, name, email, age };
-            await axios.put(`/users/${id}`, updatedUser);
+            await instanceUsers.put(`/users/${id}`, updatedUser);
             dispatch(updateUser(updatedUser));
             navigate('/');
         } catch (error) {
