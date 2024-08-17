@@ -7,7 +7,7 @@ import Navbar from './components/Navbar';
 import HomePage from './HomePage';
 import AuthForm from './components/AutForm'; // Assurez-vous que le chemin est correct
 import Footer from './components/Footer';
-import Article1 from './components/Article1';
+import ClientForm from './components/ClientForm';
 import Acceuil  from './Acceuil';
 import ListProd from './components/ListProd';
 import CartPage from './components/CartPage';
@@ -29,6 +29,7 @@ function App() {
 
       <Route path="/users/log" element={<AuthForm />} />
       <Route path="/users/acceuil" element={<Acceuil />} />
+      <Route path="/users/clientForm" element={<ClientForm/>} />
 
     </Routes>
 

@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import HamburgerMenu from './HamburgerMenu';
 import '../styles.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { setUsers, prodSelected, updateUser, deleteUser } from '../reducers/userReducer';
 import { useMediaQuery } from 'react-responsive'; // Importer le hook
 
 function Navbar() {
@@ -34,6 +33,8 @@ function Navbar() {
             <Link to="/users/cartPage" className="nav-link">CartPage</Link>
             <Link to="/users/UserSettings" className="nav-link">UserSettings</Link>
             <Link to="/users/UserDashboard" className="nav-link">UserDashboard</Link>
+            <Link to="/users/clientForm" className="nav-link">clientForm</Link>
+
           </div>
         )}
 

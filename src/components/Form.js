@@ -26,6 +26,8 @@ function Form() {
   useEffect(() => {
     // Mettre à jour la quantité de produits sélectionnés dans le state
     setCartItems(list.filter(item => item.quantity > 0));
+
+
   }, [list]);
 
   const handleSubmit = async (event) => {
@@ -39,6 +41,7 @@ function Form() {
         num,
         adresse,
         prods: cartItem,
+        ville,
       });
 
       console.log('Client data submitted:', response.data);
@@ -49,7 +52,7 @@ function Form() {
       setAdress('');
       setNum('');
       setVille('');
-      navigate('/about');
+      navigate('/users/clientForm');
     } catch (error) {
       setError('Failed to process request: ' + (error.response?.data?.message || error.message));
     }

@@ -2,34 +2,34 @@
 const express = require('express');
 const router = express.Router();
 const Client = require('../models/Client');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+// const bcrypt = require('bcryptjs');
+// const jwt = require('jsonwebtoken');
 
 // Secret key for JWT
-const JWT_SECRET = 'xxxx'; // Replace with a strong secret key
-
-
-
-// Sign Up Route
+// const JWT_SECRET = 'xxxx'; // Replace with a strong secret key
 router.post('/submit', async (req, res) => {
     try {
-        const { name, email, num, adresse,prods } = req.body;
+        const { name, email, num, adresse, prods,ville } = req.body;
 
         // Check if the client already exists
-        const existingUser = await Client.findOne({ email });
-        if (existingUser) {
-            return res.status(400).json({ message: 'Client already exists' });
+        let client = await Client.findOne({ email });
+        if (client) {
+            // Add new order to existing client
+             await client.save();
+
+            return res.status(201).json({ message: 'New order added to existing client', client });
         }
 
-        // Create a new client
-        const client = new Client({ name, email, num, adresse,prods });
+        // Create a new client with the first order
+        client = new Client({ name, email, num, adresse, commandes: [{ prods }],ville });
         await client.save();
 
-        res.status(201).json({ message: 'client created successfully', client });
+        res.status(201).json({ message: 'Client created successfully', client });
     } catch (error) {
         res.status(500).json({ message: error.message });
-    }
+    } 
 });
+
 
 
 // Route pour obtenir tous les utilisateurs
@@ -56,26 +56,32 @@ router.get('/:id', async (req, res) => {
 });
 
 // Route pour mettre à jour un utilisateur par ID
-router.put('/:id', async (req, res) => {
+router.put('/:clientId/:commandeId', async (req, res) => {
     try {
-        const { name, email, password, age } = req.body;
-        const client = await Client.findById(req.params.id);
+        const { selled } = req.body;
+        const client = await Client.findById(req.params.clientId);
         
         if (!client) {
             return res.status(404).json({ message: 'Client not found' });
         }
 
-        client.name = name || client.name;
-        client.email = email || client.email;
-        client.password = password || client.password;
-        client.age = age || client.age;
+        // Trouver la commande avec l'ID spécifié
+        const commande = client.commandes.id(req.params.commandeId);
+        if (!commande) {
+            return res.status(404).json({ message: 'Commande not found' });
+        }
 
-        await user.save();
-        res.status(200).json(user);
+        // Mettre à jour la propriété 'selled'
+        commande.selled = selled;
+
+        // Sauvegarder les changements dans le client
+        await client.save();
+        res.status(200).json(client);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 });
+
 
 // Route pour supprimer un utilisateur par ID
 router.delete('/:id', async (req, res) => {

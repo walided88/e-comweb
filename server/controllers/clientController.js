@@ -49,6 +49,7 @@ const getUserProfile = async (req, res) => {
             num: client.num,
             adresse: client.adresse,
             prods: client.prods,
+            ville:client.ville,
 
         });
     } else {

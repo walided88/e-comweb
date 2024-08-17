@@ -17,12 +17,17 @@ const clientSchema = new mongoose.Schema({
     adresse: {
         type: String,
         required: true
-    }, 
- 
-    prods: {
-        type: [mongoose.Schema.Types.Mixed],        
+    },  
+    ville: {
+        type: String,
         required: true
-    }
+    }, 
+    commandes: [{
+        prods: [mongoose.Schema.Types.Mixed],
+        selled: { type: Boolean, default: false },
+        // date: { type: Date, default: Date.now }
+        date: { type: Date, default: Date.now }
+    }]
 });
 
 
