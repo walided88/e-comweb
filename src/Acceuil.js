@@ -4,28 +4,45 @@ import { Carousel } from 'react-responsive-carousel';
 import { useNavigate } from 'react-router-dom';
 import SearchProduct from './components/SearchProduct';
 import ProductItem from './components/ProductItem';
+import { updateProducts, prodSelected, setIndex,setCurrentAdds } from './reducers/userReducer';
+import { useSelector, useDispatch, } from 'react-redux';
 
 const Accueil = () => {
     const navigate = useNavigate();
+    const list = useSelector((state) => state.user.productList);
+    const dispatch = useDispatch();
+    const prodSelecteds = useSelector((state) => state.user.productNumber);
 
     const handleImageClick = (index) => {
-        navigate(`/about/${index}`);
-    };
-    const headers = [
-        require('./images/11.png'),
-        require('./images/22.png'),
-        require('./images/33.png'),
-        require('./images/44.png'),
-        require('./images/55.png'),
-        require('./images/66.png'),
-        require('./images/77.png'),
-        require('./images/88.png'),
-    ];
+ // Redirige vers la page cible
+ navigate(`/users/cartPage`);
+    
+ // Récupère le produit actuel dans la liste
+ const currentProduct = list[index];
+ 
+ // Vérifie si la quantité existe déjà, sinon l'initialise à 0
+ const currentQuantity = currentProduct.quantity || 0;
+ 
+ // Incrémente la quantité
+ const newQuantity = currentQuantity + 1;
+ 
+ // Crée un nouvel objet produit avec la quantité mise à jour
+ const updatedProduct = {
+     ...currentProduct,
+     quantity: newQuantity
+ };
+ 
+ // Dispatch l'action pour mettre à jour le produit dans Redux
+ dispatch(updateProducts(updatedProduct));
+ 
+ // Déclenche l'action pour suivre le nombre de produits sélectionnés
+ dispatch(prodSelected(prodSelecteds + 1));    };
+    const headers = [list];
     const handleButtonClick = (index) => {
         // Logique du bouton lors du clic
         navigate(`/about/${index}`+"buy"); // Redirige vers la page cible
     };
-
+console.log(list,'ckckckckcck');
     const handleButtonPanel = (index) => {
         // Logique du bouton lors du clic
         navigate(`/about/${index}`+"panel"); // Redirige vers la page cible
@@ -62,9 +79,9 @@ const Accueil = () => {
                 interval={5000} // Durée pendant laquelle chaque diapositive est affichée (en millisecondes)
                 transitionTime={2000} // Durée de la transition entre les diapositives (en millisecondes)
             >
-                    {headers.map((src, index) => (
+                    {list.map((src, index) => (
                         <div  key={index}>
-                            <img  src={src} alt={`header-${index}`} style={{ cursor: 'pointer',width: '30%', height: '50%'}} />
+                            <img  src={src.image} alt={`header-${index}`} style={{ cursor: 'pointer',width: '30%', height: '50%'}} />
                         </div>
                     ))}
                 </Carousel>
@@ -88,12 +105,14 @@ const Accueil = () => {
       <div class="cadre">
   <div class="contenu">
   <div className="products-list" >
-      {headers.map((src, index) => (
+      {list.map((src, index) => (
         <ProductItem
           key={index}
-          src={src}
+          src={src.image}
           altText={`Product ${index + 1}`}
           productName={`Product ${index + 1}`}
+          methode={() => handleImageClick(index)} // Correctly pass the function
+
         />
       ))}
 

@@ -4,7 +4,8 @@ import React, { useEffect, useState } from 'react';
 import { instanceClients } from '../axios';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateProducts, prodSelected, setIndex,setCurrentAdds } from '../reducers/userReducer';
 
 const ErrorMessage = styled.p`
   color: red;
@@ -22,6 +23,8 @@ function Form() {
   const navigate = useNavigate();
   const list = useSelector((state) => state.user.productList);
   const [cartItem, setCartItems] = useState([]);
+  const dispatch = useDispatch();
+  const prodSelecteds = useSelector((state) => state.user.productNumber);
 
   useEffect(() => {
     // Mettre à jour la quantité de produits sélectionnés dans le state
@@ -33,6 +36,7 @@ function Form() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError('');
+    dispatch(prodSelected(prodSelecteds*0));
 
     try {
       const response = await instanceClients.post('/submit', {

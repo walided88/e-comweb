@@ -13,9 +13,11 @@ const CartPage = () => {
   const list = useSelector((state) => state.user.productList);
   const [cartItem, setCartItems] = useState([list]);
   const [selectedProducts, setSelectedProducts] = useState([]);
-  const totalPrice = cartItem.reduce((total, item) => total + item.price * item.quantity, 0);
+  const totalPrices = cartItem.reduce((total, item) => total + item.price * item.quantity, 0);
+  const prodSelecteds = useSelector((state) => state.user.productNumber);
+  const [zeroProd, setZeroProd] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(0);
 
- 
   const updateQuantity = (itemId, newQuantity) => {
     setCartItems(prevItems =>
       prevItems.map(item =>
@@ -29,9 +31,19 @@ const CartPage = () => {
   };
 
   useEffect(() => {
-    // Mettre à jour la quantité de produits sélectionnés dans le state
-    setCartItems(prevItems => list.filter(item => item.quantity > 0));
-  }, [cartItem, dispatch]);
+    setTotalPrice(totalPrices);
+
+    if(prodSelecteds===0){
+      setCartItems([list]);
+      dispatch(prodSelected(zeroProd));
+      setTotalPrice(zeroProd);
+
+    }else{
+// Mettre à jour la quantité de produits sélectionnés dans le state
+setCartItems(prevItems => list.filter(item => item.quantity > 0));
+ 
+    }
+     }, [cartItem, dispatch]);
  
 console.log(cartItem,"xxxxxxxxxxxxxxxxxxx")
 
@@ -39,14 +51,16 @@ console.log(cartItem,"xxxxxxxxxxxxxxxxxxx")
     <div>
 
       <ProductList cartItems={cartItem} />
-      <h3>Total Price: ${totalPrice.toFixed(2)}</h3>
+      <h3>Total Price: ${totalPrice.toFixed(2) }</h3>
       <Form />
 
       {/* <CartModification cartItems={list} updateQuantity={updateQuantity} removeItem={removeItem} /> */}
       <div>
       {/* <h1>Recherche d'adresse avec Google Maps API</h1>
       <AddressSearch /> */}
-    </div>    </div>
+    </div>    
+    
+    </div>
   );
 };
 

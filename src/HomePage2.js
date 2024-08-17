@@ -28,17 +28,7 @@ const HomePage = () => {
 
 
 
-    const [headers, setHeaders] = useState([
-    { id: 1, name: 'Product 1', price: 1.99, image: require("./images/11.png"), quantity: 1 },
-    { id: 2, name: 'Product 2', price: 2.99, image: require("./images/22.png"), quantity: 2 },
-    { id: 3, name: 'Product 3', price: 3.99, image: require("./images/33.png"), quantity: 1 },
-    { id: 4, name: 'Product 4', price: 4.99, image: require("./images/44.png"), quantity: 2 },
-    { id: 5, name: 'Product 5', price: 5.99, image: require("./images/55.png"), quantity: 1 },
-    { id: 6, name: 'Product 6', price: 6.99, image: require("./images/66.png"), quantity: 2 },
-    { id: 7, name: 'Product 7', price: 7.99, image: require("./images/77.png"), quantity: 1 },
-    { id: 8, name: 'Product 8', price: 8.99, image: require("./images/88.png"), quantity: 2 },
-   
-]);
+    const [headers, setHeaders] = useState([list]);
 
 // for (let header of headers) {
 //     dispatch(addProducts(header));
@@ -57,6 +47,7 @@ const HomePage = () => {
     // Fonction pour gérer le clic sur une image
     const handleImageClick = (index) => {
         navigate(`/about/${index}`); // Redirige vers la page cible
+    
     };
     // Fonction pour gérer le clic sur une image
 
@@ -113,7 +104,7 @@ const HomePage = () => {
 
     return (
         <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-            {headers.map((src, index) => (
+            {list.map((src, index) => (
                 <div 
                     key={index} 
                     style={{ position: 'relative', margin: '5px' }}
@@ -129,7 +120,7 @@ const HomePage = () => {
                             transform: hoveredIndex === index ? 'scale(1.1)' : 'scale(1)',
                             transition: 'transform 0.3s ease'
                         }}
-                        onClick={() => handleImageClick(index)}
+                        onClick={() => handleButtonClick(index)}
                     />
                     {hoveredIndex === index && (
                         <div style={{

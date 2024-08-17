@@ -21,11 +21,12 @@ function DataTable({ headers, data }) {
       console.log('commandeId:', commandeId);
 
       console.log('Client data updated:', response.data);
-      navigate('/users/clientForm');
+      // navigate('/users/clientForm');
+      window.location.reload();
+
     } catch (error) {
       setError('Failed to process request: ' + (error.response?.data?.message || error.message));
     }
-    window.location.reload();
 
   };
 

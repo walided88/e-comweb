@@ -12,28 +12,28 @@ const HomePage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
 
-    const headers = [
-        require('./images/11.png'),
-        require('./images/22.png'),
-        require('./images/33.png'),
-        require('./images/44.png'),
-        require('./images/55.png'),
-        require('./images/66.png'),
-        require('./images/77.png'),
-        require('./images/88.png'),
-    ];
+    // const headers = [
+    //     require('./images/11.png'),
+    //     require('./images/22.png'),
+    //     require('./images/33.png'),
+    //     require('./images/44.png'),
+    //     require('./images/55.png'),
+    //     require('./images/66.png'),
+    //     require('./images/77.png'),
+    //     require('./images/88.png'),
+    // ];
 
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setIsLoading(false);
-        }, 20);
+    // useEffect(() => {
+    //     const timer = setTimeout(() => {
+    //         setIsLoading(false);
+    //     }, 20);
 
-        return () => clearTimeout(timer);
-    }, []);
+    //     return () => clearTimeout(timer);
+    // }, []);
 
-    const handleImageClick = (index) => {
-        navigate(`/about/${index}`);
-    };
+    // const handleImageClick = (index) => {
+    //     navigate(`/about/${index}`);
+    // };
 
     return (
         <div>
