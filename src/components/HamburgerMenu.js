@@ -111,10 +111,10 @@ const HamburgerMenu = () => {
 
       <DropdownMenu ref={menuRef} isOpen={isOpen}>
         <ul>
-           <li><MenuLink onClick={() => handleClick(3)}>Acceuil</MenuLink></li>
+           <li><MenuLink onClick={() => handleClick(3)}>Shop</MenuLink></li>
           <li><MenuLink onClick={() => handleClick(4)}>Login Admin</MenuLink></li>
           <li><MenuLink onClick={() => handleClick(1)}>Watchs</MenuLink></li>
-          <li><MenuLink onClick={() => handleClick(2)}>Shop</MenuLink></li>
+          <li><MenuLink onClick={() => handleClick(2)}>Form</MenuLink></li>
         
         </ul>
       </DropdownMenu>

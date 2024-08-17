@@ -262,7 +262,7 @@ top:42px ;
   display: flex;
   width: 30px;
   margin-left: -70px;
-  margin-top: -1px;
+  margin-top: -60px;
   color: #17eb6f;
   font-size: 15px;
   position: absolute;
@@ -288,6 +288,18 @@ top:42px ;
   .nav-links {
     display: none;
   }
+
+  .nav-shop {
+  display: flex;
+  width: 30px;
+  margin-left: 20px;
+  top: 2px;
+  color: #17eb6f;
+  font-size: 15px;
+  position: absolute;
+
+
+}
 }
 .cadre {
   width: 1200px; /* largeur du cadre */
@@ -364,6 +376,7 @@ top:42px ;
 
   .nav-count {
     font-size: 14px;
+    left: 20px;
   }
 
 

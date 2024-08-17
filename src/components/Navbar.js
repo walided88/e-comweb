@@ -44,7 +44,6 @@ function Navbar() {
         </div>
       )}
 
-      {!isMobile && ( // Show shop logo only on non-mobile screens
         <div>
           <img 
             src={require('../images/shop2.png')} 
@@ -53,7 +52,6 @@ function Navbar() {
             onClick={handleImageClick}
           />
         </div>
-      )}
 
       <div className="nav-count">{prodSelecteds}</div>
     </nav>
