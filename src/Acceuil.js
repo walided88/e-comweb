@@ -6,12 +6,14 @@ import SearchProduct from './components/SearchProduct';
 import ProductItem from './components/ProductItem';
 import { updateProducts, prodSelected, setIndex,setCurrentAdds } from './reducers/userReducer';
 import { useSelector, useDispatch, } from 'react-redux';
+import { useMediaQuery } from 'react-responsive'; // Importer le hook
 
 const Accueil = () => {
     const navigate = useNavigate();
     const list = useSelector((state) => state.user.productList);
     const dispatch = useDispatch();
     const prodSelecteds = useSelector((state) => state.user.productNumber);
+    const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
 
     const handleImageClick = (index) => {
  // Redirige vers la page cible
@@ -59,7 +61,8 @@ console.log(list,'ckckckckcck');
               height: '25vh'
             }
             }>
-      <SearchProduct />
+    {!isMobile && (
+   <SearchProduct />) }
 
       </div>
       {/* <div className="banner">

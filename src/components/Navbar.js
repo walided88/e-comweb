@@ -20,39 +20,46 @@ function Navbar() {
   };
 
   return (
-    <div>
-      <nav>
-        {isMobile && <HamburgerMenu />} {/* Afficher HamburgerMenu sur mobile */}
-
-        {!isMobile && ( // Afficher les liens de navigation pour les écrans non mobiles
+  <div>
+    <nav>
+      {isMobile ? (
+        // Mobile view: Show the hamburger menu with navigation links
+        <div className="mobile-nav-links">
+          <HamburgerMenu />
           <div className="nav-links">
-            <HamburgerMenu />
             <Link to="/users/acceuil" className="nav-link">Home</Link>
             <Link to="/" className="nav-link">Products</Link>
             <Link to="/users/cartPage" className="nav-link">CartPage</Link>
-            {/* <Link to="/users/UserSettings" className="nav-link">UserSettings</Link>
-            <Link to="/users/UserDashboard" className="nav-link">UserDashboard</Link>
-            <Link to="/users/clientForm" className="nav-link">clientForm</Link> */}
             <Link to="/users/Log" className="nav-link">Login for Admins</Link>
-
           </div>
-        )}
+        </div>
+      ) : (
+        // Non-mobile view: Show the full navigation bar
+        <div className="nav-links">
+          <HamburgerMenu />
+          <Link to="/users/acceuil" className="nav-link">Home</Link>
+          <Link to="/" className="nav-link">Products</Link>
+          <Link to="/users/cartPage" className="nav-link">CartPage</Link>
+          <Link to="/users/Log" className="nav-link">Login for Admins</Link>
+        </div>
+      )}
 
-        {!isMobile && ( // Afficher la classe pour les écrans mobiles
-          <div>
-            <img 
-              src={require('../images/shop2.png')}
-              alt="Shop Logo" 
-              className="nav-shop"
-              onClick={handleImageClick}
-            />
-          </div>
-        )}
+      {!isMobile && ( // Show shop logo only on non-mobile screens
+        <div>
+          <img 
+            src={require('../images/shop2.png')} 
+            alt="Shop Logo" 
+            className="nav-shop" 
+            onClick={handleImageClick}
+          />
+        </div>
+      )}
 
-        <div className="nav-count">{prodSelecteds}</div>
-      </nav>
-    </div>
-  );
+      <div className="nav-count">{prodSelecteds}</div>
+    </nav>
+  </div>
+);
+
 }
 
 export default Navbar;

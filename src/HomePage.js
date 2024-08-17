@@ -6,11 +6,13 @@ import Navbar from './components/Navbar';
 import Homepage2 from './HomePage2';
 import './styles.css';
 import SearchProduct from './components/SearchProduct';
+import { useMediaQuery } from 'react-responsive'; // Importer le hook
 
 
 const HomePage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
+    const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
 
     // const headers = [
     //     require('./images/11.png'),
@@ -45,7 +47,9 @@ const HomePage = () => {
               
             }
             }>
-      <SearchProduct />
+              
+     {!isMobile && (
+   <SearchProduct />) }
 
       </div>
             {/* {isLoading ? (

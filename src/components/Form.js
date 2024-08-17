@@ -58,7 +58,7 @@ function Form({totaleP}) {
       setNum('');
       setVille('');
       setIsSubmitted(true); // Set success status to true after successful submit
-      setCartItems(list);
+      setCartItems([list]);
     } catch (error) {
       setError('Failed to process request: ' + (error.response?.data?.message || error.message));
     }

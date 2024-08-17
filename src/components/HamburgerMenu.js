@@ -65,8 +65,26 @@ const HamburgerMenu = () => {
   };
 
   const handleClick = (index) => {
-    navigate(`/about/${index}`);
+    switch (index) {
+     
+      case 1:
+        navigate(`/`);
+        break;
+      case 2:
+        navigate(`/users/cartPage`);
+        break;
+      case 3:
+        navigate(`/users/acceuil`);
+        break;
+        case 4:
+          navigate(`/users/log`);
+          break;
+      default:
+        console.warn(`No route defined for index: ${index}`);
+        break;
+    }
   };
+  
 
   // Ferme le menu lorsque l'on clique en dehors du menu
   useEffect(() => {
@@ -93,10 +111,11 @@ const HamburgerMenu = () => {
 
       <DropdownMenu ref={menuRef} isOpen={isOpen}>
         <ul>
-          <li><MenuLink onClick={() => handleClick(1)}>Option 1</MenuLink></li>
-          <li><MenuLink onClick={() => handleClick(2)}>Option 2</MenuLink></li>
-          <li><MenuLink onClick={() => handleClick(3)}>Option 3</MenuLink></li>
-          <li><MenuLink onClick={() => handleClick(4)}>Option 4</MenuLink></li>
+           <li><MenuLink onClick={() => handleClick(3)}>Acceuil</MenuLink></li>
+          <li><MenuLink onClick={() => handleClick(4)}>Login Admin</MenuLink></li>
+          <li><MenuLink onClick={() => handleClick(1)}>Watchs</MenuLink></li>
+          <li><MenuLink onClick={() => handleClick(2)}>Shop</MenuLink></li>
+        
         </ul>
       </DropdownMenu>
     </div>

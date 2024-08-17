@@ -25,7 +25,12 @@ const CartPage = () => {
       )
     );
   };
-
+  const nouveauTableau = cartItem.map((element) => {
+    if (element.quality>0) {
+      return 0; // Nouvelle valeur
+    }
+    return element; // Garder les autres éléments inchangés
+  });
   const removeItem = (itemId) => {
     setCartItems(prevItems => prevItems.filter(item => item.id !== itemId));
   };
@@ -34,9 +39,9 @@ const CartPage = () => {
     setTotalPrice(totalPrices);
 
     if(prodSelecteds===0){
-      setCartItems([list]);
       dispatch(prodSelected(zeroProd));
       setTotalPrice(zeroProd);
+      setCartItems(nouveauTableau);
 
     }else{
 // Mettre à jour la quantité de produits sélectionnés dans le state
