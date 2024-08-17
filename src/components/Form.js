@@ -12,7 +12,7 @@ const ErrorMessage = styled.p`
   text-align: center;
 `;
 
-function Form() {
+function Form({totaleP}) {
   const [name, setName] = useState('');
   const [num, setNum] = useState('');
   const [email, setEmail] = useState('');
@@ -25,6 +25,7 @@ function Form() {
   const [cartItem, setCartItems] = useState([]);
   const dispatch = useDispatch();
   const prodSelecteds = useSelector((state) => state.user.productNumber);
+  const [price, setPrice] = useState(0);
 
   useEffect(() => {
     // Mettre à jour la quantité de produits sélectionnés dans le state
@@ -57,6 +58,7 @@ function Form() {
       setNum('');
       setVille('');
       setIsSubmitted(true); // Set success status to true after successful submit
+      setCartItems(list);
     } catch (error) {
       setError('Failed to process request: ' + (error.response?.data?.message || error.message));
     }
