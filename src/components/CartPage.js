@@ -44,8 +44,8 @@ console.log(cartItem,"xxxxxxxxxxxxxxxxxxx")
 
       {/* <CartModification cartItems={list} updateQuantity={updateQuantity} removeItem={removeItem} /> */}
       <div>
-      <h1>Recherche d'adresse avec Google Maps API</h1>
-      <AddressSearch />
+      {/* <h1>Recherche d'adresse avec Google Maps API</h1>
+      <AddressSearch /> */}
     </div>    </div>
   );
 };

@@ -18,7 +18,7 @@ function Form() {
   const [adresse, setAdress] = useState('');
   const [ville, setVille] = useState('');
   const [error, setError] = useState('');
-  const [prods, setProds] = useState([]);
+  const [isSubmitted, setIsSubmitted] = useState(false); // Track submission status
   const navigate = useNavigate();
   const list = useSelector((state) => state.user.productList);
   const [cartItem, setCartItems] = useState([]);
@@ -52,7 +52,7 @@ function Form() {
       setAdress('');
       setNum('');
       setVille('');
-      navigate('/users/clientForm');
+      setIsSubmitted(true); // Set success status to true after successful submit
     } catch (error) {
       setError('Failed to process request: ' + (error.response?.data?.message || error.message));
     }
@@ -114,6 +114,8 @@ function Form() {
       />
 
       <button type="submit" style={styles.button}>Submit</button>
+      {isSubmitted && <p style={styles.successMessage}>Form submitted successfully!</p>}
+
     </form>
   );
 }
@@ -130,6 +132,21 @@ const styles = {
     boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
     backgroundColor: '#fff',
   },
+  button: {
+    // Your button styles here
+},
+successMessage: {
+    position: 'fixed',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    fontSize: '24px',
+    fontWeight: 'bold',
+    color: 'green',
+    opacity: 1,
+    animation: 'fadeOut 7s forwards'
+    
+},
   title: {
     fontSize: '1.5em',
     marginBottom: '20px',
@@ -161,6 +178,8 @@ const styles = {
     cursor: 'pointer',
     transition: 'background-color 0.3s ease',
   },
+
+  
 };
 
 export default Form;

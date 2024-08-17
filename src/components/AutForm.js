@@ -122,7 +122,7 @@ const AuthForm = () => {
             setEmail('');
             setPassword('');
             setAge('');
-            navigate('/about');
+            navigate('/users/clientForm');
         } catch (error) {
             setError('Failed to process request: ' + (error.response?.data?.message || error.message));
         }

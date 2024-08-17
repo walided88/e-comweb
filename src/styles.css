@@ -383,3 +383,12 @@ top:42px ;
     padding: 10px 30px;
   }
 }
+
+@keyframes fadeOut {
+  0% {
+      opacity: 1;
+  }
+  100% {
+      opacity: 0;
+  }
+}

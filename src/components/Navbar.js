@@ -29,11 +29,11 @@ function Navbar() {
             <HamburgerMenu />
             <Link to="/users/acceuil" className="nav-link">Home</Link>
             <Link to="/" className="nav-link">Products</Link>
-            <Link to="/users/Log" className="nav-link">Login</Link>
             <Link to="/users/cartPage" className="nav-link">CartPage</Link>
-            <Link to="/users/UserSettings" className="nav-link">UserSettings</Link>
+            {/* <Link to="/users/UserSettings" className="nav-link">UserSettings</Link>
             <Link to="/users/UserDashboard" className="nav-link">UserDashboard</Link>
-            <Link to="/users/clientForm" className="nav-link">clientForm</Link>
+            <Link to="/users/clientForm" className="nav-link">clientForm</Link> */}
+            <Link to="/users/Log" className="nav-link">Login for Admins</Link>
 
           </div>
         )}
