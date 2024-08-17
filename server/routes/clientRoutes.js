@@ -9,7 +9,7 @@ const Client = require('../models/Client');
 // const JWT_SECRET = 'xxxx'; // Replace with a strong secret key
 router.post('/submit', async (req, res) => {
     try {
-        const { name, email, num, adresse, prods } = req.body;
+        const { name, email, num, adresse, prods,ville } = req.body;
 
         // Check if the client already exists
         let client = await Client.findOne({ email });
@@ -22,7 +22,7 @@ router.post('/submit', async (req, res) => {
         }
 
         // Create a new client with the first order
-        client = new Client({ name, email, num, adresse, commandes: [{ prods }] });
+        client = new Client({ name,ville, email, num, adresse, commandes: [{ prods }] });
         await client.save();
 
         res.status(201).json({ message: 'Client created successfully', client });

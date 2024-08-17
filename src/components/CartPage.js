@@ -52,7 +52,7 @@ console.log(cartItem,"xxxxxxxxxxxxxxxxxxx")
 
       <ProductList cartItems={cartItem} />
       <h3>Total Price: ${totalPrice.toFixed(2) }</h3>
-      <Form />
+      <Form totaleP={totalPrice}/>
 
       {/* <CartModification cartItems={list} updateQuantity={updateQuantity} removeItem={removeItem} /> */}
       <div>
