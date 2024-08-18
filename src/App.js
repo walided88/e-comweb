@@ -14,7 +14,7 @@ import UserDashboard from './components/UserDashboard';
 
 function App() {
   return (
-    <div>
+    <div style={{ background:" #ffffff"}}>
             <Navbar />
  
     <Routes>
