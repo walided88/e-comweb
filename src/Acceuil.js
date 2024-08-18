@@ -58,7 +58,7 @@ console.log(list,'ckckckckcck');
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              height: '27vh'
+              height: '33vh'
             }
             }>
     {!isMobile && (
