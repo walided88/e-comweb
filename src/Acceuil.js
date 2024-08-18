@@ -54,13 +54,7 @@ console.log(list,'ckckckckcck');
     <div className="homepage">
       {/* Barre de recherche */}
 
-      <div style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: '25vh'
-            }
-            }>
+      <div className="homepage">
     {!isMobile && (
    <SearchProduct />) }
 

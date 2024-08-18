@@ -50,7 +50,6 @@ setCartItems(prevItems => list.filter(item => item.quantity > 0));
     }
      }, [cartItem, dispatch]);
  
-console.log(cartItem,"xxxxxxxxxxxxxxxxxxx")
 
   return (
     <div>
