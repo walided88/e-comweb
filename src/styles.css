@@ -54,6 +54,7 @@ code {
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 16px;
+  
 }
 
 /* Styles pour les petits écrans */
@@ -130,7 +131,10 @@ code {
   100% { transform: translateX(0); }
 }
 
-
+/* Arrêter l'animation au survol */
+.products-list:hover {
+  animation-play-state: paused;
+}
 
 .product-item {
   flex: 20 0 auto;

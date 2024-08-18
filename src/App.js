@@ -1,8 +1,6 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Home from './Home';
-import UserList from './components/UserList';
-import DeleteUser from './components/DeleteUser';
 import Navbar from './components/Navbar';
 import HomePage from './HomePage';
 import AuthForm from './components/AutForm'; // Assurez-vous que le chemin est correct
