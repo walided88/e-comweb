@@ -228,6 +228,13 @@ nav {
   font-size: 15px;
   right: 11%;
 top:42px ; 
+ display: flex;
+  width: 30px;
+  margin-left: 20px;
+  top: 2px;
+  color: #17eb6f;
+  font-size: 15px;
+  position: absolute;
  position: absolute;
 }
 
@@ -268,15 +275,34 @@ top:42px ;
 
 .nav-shop {
   display: flex;
-  width: 30px;
-  margin-left: -120px;
-  margin-top: -60px;
+  width: 50px;
+  height: 50px;
+  margin-left: -170px;
+  margin-top: 23px;
   color: #17eb6f;
-  font-size: 15px;
+  font-size: 22px;
+  top: 11px;
+  left: 90%;
+  transform: translate(260%, -50%);
+  cursor: pointer;
   position: absolute;
 
 }
+.nav-shop2 {
+  display: flex;
+  width: 50px;
+  height: 50px;
+  margin-left: -170px;
+  margin-top: 66px;
+  color: #17eb6f;
+  font-size: 22px;
+  top: px;
+  left: 89%;
+  transform: translate(260%, -50%);
+  cursor: pointer;
+  position: absolute;
 
+}
 /* Styles for mobile navigation */
 .mobile-nav-links {
   display: flex;
@@ -298,16 +324,36 @@ top:42px ;
   }
 
   .nav-shop {
-  display: flex;
-  width: 30px;
-  margin-left: 20px;
-  top: 2px;
-  color: #17eb6f;
-  font-size: 15px;
-  position: absolute;
-
-
-}
+    display: flex;
+    width: 50px;
+    height: 50px;
+    margin-left: -440px;
+    margin-top: -27px;
+    color: #17eb6f;
+    font-size: 22px;
+    top: 55px;
+    left: 89%;
+    transform: translate(260%, -50%);
+    cursor: pointer;
+    position: absolute;
+  
+  
+  }
+  .nav-shop2 {
+    display: flex;
+    width: 50px;
+    height: 50px;
+    margin-left: -450px;
+    margin-top: 17px;
+    color: #17eb6f;
+    font-size: 22px;
+    top: 55px;
+    left: 89%;
+    transform: translate(260%, -50%);
+    cursor: pointer;
+    position: absolute;
+  
+  }
 }
 .cadre {
   width: 1200px; /* largeur du cadre */
@@ -378,13 +424,16 @@ top:42px ;
     gap: 10px;
   }
 
-  .nav-shop {
-    margin-top: 10px;
-  }
+
 
   .nav-count {
-    font-size: 14px;
-    left: 20px;
+    display: flex;
+    width: 309px;
+    margin-left: 20px;
+    top: 2px;
+    color: #17eb6f;
+    font-size: 15px;
+    position: absolute;
   }
 
 
@@ -458,7 +507,15 @@ top:42px ;
 
   
   }
+.imgContainer{
 
+  position: 'relative';
+  top:-21px ; 
+  width: 150px;
+  overflow: "hidden";
+  border-radius: 50%;
+  height: 340px;
+}
   .contenu {
     flex-direction: column;
     align-items: center;

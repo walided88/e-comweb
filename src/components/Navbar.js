@@ -26,6 +26,7 @@ function Navbar() {
         // Mobile view: Show the hamburger menu with navigation links
         <div className="mobile-nav-links">
           <HamburgerMenu />
+          
           <div className="nav-links">
             <Link to="/users/acceuil" className="nav-link">Home</Link>
             <Link to="/" className="nav-link">Products</Link>
@@ -36,7 +37,6 @@ function Navbar() {
       ) : (
         // Non-mobile view: Show the full navigation bar
         <div className="nav-links">
-          <HamburgerMenu />
           <Link to="/users/acceuil" className="nav-link">Home</Link>
           <Link to="/" className="nav-link">Products</Link>
           <Link to="/users/cartPage" className="nav-link">CartPage</Link>
@@ -51,9 +51,10 @@ function Navbar() {
             className="nav-shop" 
             onClick={handleImageClick}
           />
+          
         </div>
 
-      <div className="nav-count">{prodSelecteds}</div>
+      <div className="nav-shop2">{prodSelecteds}</div>
     </nav>
   </div>
 );
@@ -61,3 +62,6 @@ function Navbar() {
 }
 
 export default Navbar;
+
+
+
