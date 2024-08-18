@@ -54,7 +54,7 @@ code {
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 16px;
-  margin-top: 52px;
+  margin-top: 49px;
 }
 
 /* Styles pour les petits écrans */
@@ -360,10 +360,11 @@ top:42px ;
   }
 }
 .cadre {
-  width: 1200px; /* largeur du cadre */
+  width: 800px; /* largeur du cadre */
   height: 300px; /* hauteur du cadre */
   overflow: auto; /* permettre le défilement manuel */
   position: relative; /* pour permettre le positionnement absolu de l'enfant */
+margin-left: 77px;
 }
 
 .contenu {
@@ -407,7 +408,7 @@ top:42px ;
   .products-list div {
     width: 100%;
     max-width: none;
-    margin-left: -210%;
+    margin-left: -120%;
   }
 
   .product-item {
@@ -508,7 +509,7 @@ top:42px ;
   height: 300px; /* hauteur du cadre */
   overflow: auto; /* permettre le défilement manuel */
   position: relative; /* pour permettre le positionnement absolu de l'enfant */
-
+margin-left:  32px;
   
   }
 .imgContainer{
