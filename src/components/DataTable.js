@@ -11,24 +11,19 @@ function DataTable({ headers, data }) {
   function setChang() {
     setChangColor('32%');
   }
-
-  // Fonction pour gérer le clic sur une image
-  const handleImageClick = async (clientId, commandeId, isSelled) => {
-    try {
-      const response = await instanceClients.put(`/${clientId}/${commandeId}`, {
-        selled: isSelled
+// Fonction pour gérer le clic sur une image
+const handleImageClick = async (clientId, commandeId, prodId, isSelled) => {
+  try {
+      const response = await instanceClients.put(`/${clientId}/${commandeId}/${prodId}`, {
       });
-      console.log('commandeId:', commandeId);
-
-      console.log('Client data updated:', response.data);
+      console.log('Produit mis à jour:', response.data);
       window.location.reload();
-    } catch (error) {
-      setError('Failed to process request: ' + (error.response?.data?.message || error.message));
-    }
-    navigate('/users/clientForm');
 
+  } catch (error) {
+      console.error('Erreur lors de la mise à jour du produit:', error);
+  }
+};
 
-  };
 
   return (
     <table style={{ width: changColor, borderCollapse: 'collapse' }}>
@@ -61,13 +56,13 @@ function DataTable({ headers, data }) {
                           <p><strong>Prix:</strong> ${prod.price}</p>
                           <p><strong>Quantité:</strong> {prod.quantity}</p>
                           <img src={prod.image} alt={prod.name} style={{ width: '100px', height: '100px' }} />
-                          {!commande.selled && (
+                          {!prod.selled && (
                             <button 
-                              onClick={() => handleImageClick(item._id, commande._id, true)}>
+                              onClick={() => handleImageClick(item._id, commande._id,prod.id, true)}>
                               Mark as Sold
                             </button>
                           )}
-                          {commande.selled ? 'Already selled' : ""}
+                          {prod.selled ? 'Already selled' : ""}
                         </li>
                       ))}
                     </ul>

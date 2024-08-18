@@ -54,10 +54,7 @@ router.get('/:id', async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
-});
-
-// Route pour mettre à jour un utilisateur par ID
-router.put('/:clientId/:commandeId', async (req, res) => {
+});router.put('/:clientId/:commandeId/:prodId', async (req, res) => {
     try {
         const { selled } = req.body;
         const client = await Client.findById(req.params.clientId);
@@ -72,8 +69,14 @@ router.put('/:clientId/:commandeId', async (req, res) => {
             return res.status(404).json({ message: 'Commande not found' });
         }
 
+        // Trouver le produit avec l'ID spécifié dans la commande
+        const prod = commande.prods.find(prod => prod.id == req.params.prodId);
+        if (!prod) {
+            return res.status(404).json({ message: 'Product not found' });
+        }
+
         // Mettre à jour la propriété 'selled'
-        commande.selled = selled;
+        prod.selled = true;
 
         // Sauvegarder les changements dans le client
         await client.save();
@@ -82,6 +85,8 @@ router.put('/:clientId/:commandeId', async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 });
+
+
 
 
 // Route pour supprimer un utilisateur par ID
