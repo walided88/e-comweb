@@ -150,8 +150,9 @@ successMessage: {
     fontWeight: 'bold',
     color: 'green',
     opacity: 1,
-    animation: 'fadeOut 7s forwards'
-    
+    backgroundColor: 'orange',
+    animation: 'fadeOut 7s forwards',
+
 },
   title: {
     fontSize: '1.5em',

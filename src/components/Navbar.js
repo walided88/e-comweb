@@ -22,27 +22,18 @@ function Navbar() {
   return (
   <div>
     <nav>
-      {isMobile ? (
-        // Mobile view: Show the hamburger menu with navigation links
-        <div className="mobile-nav-links">
-          <HamburgerMenu />
-          
+    <div className="mobile-nav-links">
+        {isMobile && (  <HamburgerMenu /> )}
+        </div> 
+      
           <div className="nav-links">
-            <Link to="/users/acceuil" className="nav-link">Home</Link>
+           
+          <Link to="/users/acceuil" className="nav-link">Home</Link>
             <Link to="/" className="nav-link">Products</Link>
             <Link to="/users/cartPage" className="nav-link">CartPage</Link>
             <Link to="/users/Log" className="nav-link">Login for Admins</Link>
           </div>
-        </div>
-      ) : (
-        // Non-mobile view: Show the full navigation bar
-        <div className="nav-links">
-          <Link to="/users/acceuil" className="nav-link">Home</Link>
-          <Link to="/" className="nav-link">Products</Link>
-          <Link to="/users/cartPage" className="nav-link">CartPage</Link>
-          <Link to="/users/Log" className="nav-link">Login for Admins</Link>
-        </div>
-      )}
+
 
         <div>
           <img 
