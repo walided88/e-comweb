@@ -200,18 +200,27 @@ nav {
   padding: 13px 30px;
   background-color: #333;
 }
-
 .nav-links {
   display: flex;
-  justify-content: space-around;
-  align-items: center;
-  margin-left: -473px;
+  overflow-x: auto; /* Permet le défilement horizontal */
+  white-space: nowrap; /* Empêche les liens de passer à la ligne */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling pour iOS */
 }
 
 .nav-link {
-  color: white;
+  flex: 0 0 auto;
+  padding: 10px 20px;
   text-decoration: none;
-  margin: 10px;
+  color: white;
+  background-color: #333;
+  margin-right: 10px;
+  overflow-x: unset;
+  scroll-behavior: smooth;
+}
+
+.nav-link:hover {
+  transform: scale(1); /* Zoomer légèrement sur l'élément au survol */
+  background-color: #f0a500; /* Change color on hover */
 }
 
 .nav-logo-container {
@@ -292,6 +301,7 @@ top:42px ;
   cursor: pointer;
   position: absolute;
 
+
 }
 .nav-shop2 {
   display: flex;
@@ -307,7 +317,12 @@ top:42px ;
   cursor: pointer;
   position: absolute;
 
+
 }
+
+
+
+
 /* Styles for mobile navigation */
 .mobile-nav-links {
   display: flex;
@@ -367,7 +382,13 @@ top:42px ;
   position: relative; /* pour permettre le positionnement absolu de l'enfant */
 margin-left: 77px;
 }
-
+.cadre2 {
+  width: 800px; /* largeur du cadre */
+  height: 30px; /* hauteur du cadre */
+  overflow: auto; /* permettre le défilement manuel */
+  position: relative; /* pour permettre le positionnement absolu de l'enfant */
+margin-left: 77px;
+}
 .contenu {
   text-align: center;
   line-height: 1.5;
