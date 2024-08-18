@@ -57,11 +57,13 @@ const userSlice = createSlice({
             if (index !== -1) {
                 state.productList[index] = action.payload;
             }
-        }
-        
+        },
+        rebootList: (state, action) => {
+            state.productList.map(element => element.quantity * action.payload);
+        },
     },
 });
 
-export const { setUsers, setCurrentUser,updateProducts, addUser, updateUser,setCurrentAdds, deleteUser,prodSelected,addProducts,setIndex } = userSlice.actions;
+export const { setUsers, setCurrentUser,updateProducts, addUser, updateUser,setCurrentAdds, deleteUser,prodSelected,addProducts,setIndex,rebootList } = userSlice.actions;
 
 export default userSlice.reducer;

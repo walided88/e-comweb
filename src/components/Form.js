@@ -5,7 +5,7 @@ import { instanceClients } from '../axios';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateProducts, prodSelected, setIndex,setCurrentAdds } from '../reducers/userReducer';
+import { updateProducts, prodSelected, rebootList,setCurrentAdds } from '../reducers/userReducer';
 
 const ErrorMessage = styled.p`
   color: red;
@@ -27,6 +27,10 @@ function Form({totaleP}) {
   const prodSelecteds = useSelector((state) => state.user.productNumber);
   const [price, setPrice] = useState(0);
 
+
+  function multiplyArrayElements(arr, multiplier) {
+    return arr.map(element => element.quantity * multiplier);
+  }
   useEffect(() => {
     // Mettre à jour la quantité de produits sélectionnés dans le state
     setCartItems(list.filter(item => item.quantity > 0));
@@ -37,8 +41,6 @@ function Form({totaleP}) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError('');
-    dispatch(prodSelected(prodSelecteds*0));
-
     try {
       const response = await instanceClients.post('/submit', {
         name,
@@ -50,7 +52,12 @@ function Form({totaleP}) {
       });
 
       console.log('Client data submitted:', response.data);
+    //   const updList=multiplyArrayElements(list,0)
 
+    //   const updatedProduct = {
+    //     ...list,
+    //     quantity:price
+    // };
       // Réinitialiser les champs du formulaire après soumission
       setName('');
       setEmail('');
@@ -58,11 +65,19 @@ function Form({totaleP}) {
       setNum('');
       setVille('');
       setIsSubmitted(true); // Set success status to true after successful submit
-      setCartItems([list]);
+      // dispatch(prodSelected(prodSelecteds*0));
+      window.location.reload();
+
+   console.log(list,'ssssssssssssssssssssss');
+
     } catch (error) {
       setError('Failed to process request: ' + (error.response?.data?.message || error.message));
     }
-  };
+
+  //   if(isSubmitted){   dispatch(prodSelected(prodSelecteds*0));
+  //     dispatch(multiplyArrayElements(list.quantity, 0));
+  //     setCartItems([list]); }
+   };
 
   return (
     <form onSubmit={handleSubmit} style={styles.form}>

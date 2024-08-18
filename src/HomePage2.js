@@ -108,7 +108,6 @@ const HomePage = () => {
                 <div 
                     key={index} 
                     style={{ position: 'relative', margin: '5px' }}
-                    className='imgContainer'
                     onMouseOver={() => handleMouseOver(index)}
                     onMouseOut={handleMouseOut}
                 >
