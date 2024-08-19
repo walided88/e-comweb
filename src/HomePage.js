@@ -7,6 +7,7 @@ import Homepage2 from './HomePage2';
 import './styles.css';
 import SearchProduct from './components/SearchProduct';
 import { useMediaQuery } from 'react-responsive'; // Importer le hook
+import Chat from './Chat';
 
 
 const HomePage = () => {
@@ -50,7 +51,6 @@ const HomePage = () => {
               
      {!isMobile && (
    <SearchProduct />) }
-
       </div>
             {/* {isLoading ? (
                 <div className="banner" style={{ marginTop: '20px', top: '200px', left: "200px" }}>

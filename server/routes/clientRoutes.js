@@ -30,6 +30,25 @@ router.post('/submit', async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 });
+router.post('/sendMessage', async (req, res) => {
+    try {
+        const { messages,clientId } = req.body;
+
+        // Check if the client already exists
+        let user = await User.findOne({ clientId });
+        if (user) {
+            // Add new order to existing client
+            user.messages.details.push({ messages });
+            await user.save();
+
+            return res.status(201).json({ messages: 'New order added to existing client', client });
+        }
+
+        res.status(201).json({ message: 'Client created successfully', client });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
 
 
 

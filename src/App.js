@@ -11,7 +11,7 @@ import ListProd from './components/ListProd';
 import CartPage from './components/CartPage';
 import UserSettings from './components/UserSettings';
 import UserDashboard from './components/UserDashboard';
-
+import Chat from './Chat';
 function App() {
   return (
     <div style={{ background:" #ffffff"}}>
@@ -24,6 +24,7 @@ function App() {
       <Route path="/users/cartPage" element={<CartPage />} />
       <Route path="/users/UserDashboard" element={<UserDashboard/>} />
       <Route path="/users/UserSettings" element={<UserSettings />} />
+      <Route path="/chat" element={<Chat />} />
 
       <Route path="/users/log" element={<AuthForm />} />
       <Route path="/users/acceuil" element={<Acceuil />} />

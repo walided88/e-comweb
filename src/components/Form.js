@@ -5,7 +5,6 @@ import { instanceClients } from '../axios';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateProducts, prodSelected, rebootList,setCurrentAdds } from '../reducers/userReducer';
 
 const ErrorMessage = styled.p`
   color: red;
@@ -138,6 +137,7 @@ function Form({totaleP}) {
       {isSubmitted && <p style={styles.successMessage}>Form submitted successfully!</p>}
 
     </form>
+    
   );
 }
 

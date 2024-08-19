@@ -9,6 +9,12 @@ const prodSchema = new mongoose.Schema({
     quantity: { type: Number },
     selled: { type: Boolean, default: false }
 });
+const messageSchema = new mongoose.Schema({
+    selfMessage: { type: String },
+    idReceiver: { type: Number },
+    date: { type: Date, default: Date.now }
+
+});
 
 // Schéma principal pour 'Client'
 const clientSchema = new mongoose.Schema({
@@ -32,6 +38,9 @@ const clientSchema = new mongoose.Schema({
     ville: {
         type: String,
         required: true
+    },
+    conversation: {
+        messages: [messageSchema],  // Utilisation du sous-schéma pour 'prods'
     },
     commandes: [{
         prods: [prodSchema],  // Utilisation du sous-schéma pour 'prods'

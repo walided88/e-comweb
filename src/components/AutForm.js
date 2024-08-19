@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import Navbar from './Navbar';
 import { useNavigate } from 'react-router-dom';
 import { instanceUsers, instanceClients } from '../axios';
+import { updateProducts, prodSelected, setIndex,getClient } from '../reducers/clientsReducer';
+import { useSelector, useDispatch } from 'react-redux';
 
 const Container = styled.div`
   display: flex;
@@ -97,6 +99,7 @@ const AuthForm = () => {
     const [age, setAge] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -123,6 +126,9 @@ const AuthForm = () => {
             setPassword('');
             setAge('');
             navigate('/users/clientForm');
+            dispatch(getClient(email));
+            
+
         } catch (error) {
             setError('Failed to process request: ' + (error.response?.data?.message || error.message));
         }

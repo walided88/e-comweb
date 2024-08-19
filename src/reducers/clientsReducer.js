@@ -3,7 +3,11 @@ import { createSlice } from '@reduxjs/toolkit';
 const clientsSlice = createSlice({
     name: 'clients',
     initialState: [],
+    clientId:"",
     reducers: {
+        getClient: (state, action) => {
+            state.clientId= action.payload;
+        },
         setClients: (state, action) => {
             return action.payload;
         },
@@ -22,6 +26,6 @@ const clientsSlice = createSlice({
     },
 });
 
-export const { setClients, addClient, updateClient, deleteClient } = clientsSlice.actions;
+export const { setClients, addClient, updateClient, deleteClient,getClient } = clientsSlice.actions;
 
 export default clientsSlice.reducer;

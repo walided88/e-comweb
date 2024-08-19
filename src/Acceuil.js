@@ -7,6 +7,7 @@ import ProductItem from './components/ProductItem';
 import { updateProducts, prodSelected, setIndex,setCurrentAdds } from './reducers/userReducer';
 import { useSelector, useDispatch, } from 'react-redux';
 import { useMediaQuery } from 'react-responsive'; // Importer le hook
+import Chat from './Chat';
 
 const Accueil = () => {
     const navigate = useNavigate();

@@ -26,12 +26,13 @@ function Navbar() {
         {isMobile && (  <HamburgerMenu /> )}
         </div> 
 
-        <div className="nav-container">
+        <div >
     <div className="nav-links">
         <Link to="/users/acceuil" className="nav-link">Home</Link>
         <Link to="/" className="nav-link">Products</Link>
         <Link to="/users/cartPage" className="nav-link">CartPage</Link>
         <Link to="/users/Log" className="nav-link">Login for Admins</Link>
+        <Link to="/chat" className="nav-link">Chat</Link>
     </div>
 </div>
 

@@ -1,15 +1,22 @@
+// server/server.js
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
+const http = require('http');
+const setupSocket = require('./socket'); // Importer la configuration de socket.io
 
 const userRoutes = require('./routes/userRoutes');
 const clientRoutes = require('./routes/clientRoutes');
 
 const app = express();
 
-app.use(cors());
+app.use(cors()); // Activer CORS pour toutes les routes
 app.use(express.json());
+
+const server = http.createServer(app); // Créer le serveur HTTP
+
+setupSocket(server); // Configurer socket.io avec le serveur
 
 // Connexion à MongoDB
 mongoose.connect(process.env.MONGO_URI)
@@ -21,6 +28,4 @@ app.use('/users', userRoutes);
 app.use('/clients', clientRoutes);
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
-
-
+server.listen(PORT, () => console.log(`Server is running on port ${PORT}`)); // Utiliser 'server.listen' et non 'app.listen'
