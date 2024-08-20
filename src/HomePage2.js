@@ -107,7 +107,8 @@ const HomePage = () => {
             {list.map((src, index) => (
                 <div 
                     key={index} 
-                    style={{ position: 'relative', margin: '5px' }}
+                    style={{ position: 'relative', margin: '5px',width: '200px', height: '320px',  backgroundColor :" #e8e8e8",marginTop:'22px'
+                    }}
                     onMouseOver={() => handleMouseOver(index)}
                     onMouseOut={handleMouseOut}
                 >

@@ -15,28 +15,7 @@ const HomePage = () => {
     const navigate = useNavigate();
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
 
-    // const headers = [
-    //     require('./images/11.png'),
-    //     require('./images/22.png'),
-    //     require('./images/33.png'),
-    //     require('./images/44.png'),
-    //     require('./images/55.png'),
-    //     require('./images/66.png'),
-    //     require('./images/77.png'),
-    //     require('./images/88.png'),
-    // ];
 
-    // useEffect(() => {
-    //     const timer = setTimeout(() => {
-    //         setIsLoading(false);
-    //     }, 20);
-
-    //     return () => clearTimeout(timer);
-    // }, []);
-
-    // const handleImageClick = (index) => {
-    //     navigate(`/about/${index}`);
-    // };
 
     return (
         <div>
@@ -52,28 +31,7 @@ const HomePage = () => {
      {!isMobile && (
    <SearchProduct />) }
       </div>
-            {/* {isLoading ? (
-                <div className="banner" style={{ marginTop: '20px', top: '200px', left: "200px" }}>
-                    loading...
-                </div>
-            ) : (
-                <Carousel
-                autoPlay
-                infiniteLoop
-                showThumbs={false}
-                onClickItem={handleImageClick}
-                dynamicHeight={true}
-                showStatus={false}
-                interval={5000} // Durée pendant laquelle chaque diapositive est affichée (en millisecondes)
-                transitionTime={2000} // Durée de la transition entre les diapositives (en millisecondes)
-            >
-                    {headers.map((src, index) => (
-                        <div  key={index}>
-                            <img  src={src} alt={`header-${index}`} style={{ cursor: 'pointer',width: '30%', height: '50%'}} />
-                        </div>
-                    ))}
-                </Carousel>
-            )} */}
+ 
                         <Homepage2 />
 
         </div>

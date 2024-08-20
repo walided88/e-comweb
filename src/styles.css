@@ -102,6 +102,16 @@ code {
   transition: transform 0.3s;
 }
 
+.category-item2 {
+  flex: 1 1 30%;
+  margin: 10px;
+  padding: 20px;
+  background-color: #f8f8f8;
+  text-align: center;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
 .category-item:hover {
   transform: scale(1.05);
 }
