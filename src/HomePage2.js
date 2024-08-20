@@ -107,8 +107,12 @@ const HomePage = () => {
             {list.map((src, index) => (
                 <div 
                     key={index} 
-                    style={{ position: 'relative', margin: '5px',width: '200px', height: '320px',  backgroundColor :" #e8e8e8",marginTop:'22px'
+                    style={{ position: 'relative', margin: '5px',width: '200px', 
+                        height: '320px',  backgroundColor :" #e8e8e8",
+                        marginTop:'22px',marginLeft:"2%"
                     }}
+                    className='mobileStyle'
+                    
                     onMouseOver={() => handleMouseOver(index)}
                     onMouseOut={handleMouseOut}
                 >

@@ -95,7 +95,7 @@ code {
   flex: 1 1 30%;
   margin: 10px;
   padding: 20px;
-  background-color: #f8f8f8;
+  background-color: #e8e8e8;
   text-align: center;
   border-radius: 10px;
   cursor: pointer;
@@ -478,7 +478,16 @@ margin-left: 77px;
     max-width: 1200px;
     margin: 0 auto;
   }
-
+  .mobileStyle {
+    flex: 1 1 30%;
+    margin: 10px;
+    padding: 20px;
+    background-color: #e8e8e8;
+    text-align: center;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.3s;
+  }
   h1 {
     font-size: 2em;
   }
@@ -525,7 +534,16 @@ margin-left: 77px;
     flex-direction: column;
   }
 }
-
+.mobileStyle {
+  flex: 1 1 30%;
+  margin: 10px;
+  padding: 20px;
+  background-color: #e8e8e8;
+  text-align: center;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
 /* Media query pour les écrans mobiles */
 @media (max-width: 768px) {
   .cadre {
