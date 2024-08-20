@@ -535,14 +535,11 @@ margin-left: 77px;
   }
 }
 .mobileStyle {
-  flex: 1 1 30%;
-  margin: 10px;
-  padding: 20px;
+  flex: 30%;
   background-color: #e8e8e8;
   text-align: center;
   border-radius: 10px;
   cursor: pointer;
-  transition: transform 0.3s;
 }
 /* Media query pour les écrans mobiles */
 @media (max-width: 768px) {

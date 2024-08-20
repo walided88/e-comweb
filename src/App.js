@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createContext, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Home from './Home';
 import Navbar from './components/Navbar';
@@ -12,11 +12,25 @@ import CartPage from './components/CartPage';
 import UserSettings from './components/UserSettings';
 import UserDashboard from './components/UserDashboard';
 import Chat from './Chat';
+import ParentComponent from './components/ParentComponent';
+
+
+
+
+// export const SocketContext = createContext(null);
+
+
+
+
+
+
 function App() {
+  const [socket, setSocket] = useState(null);
+
   return (
     <div style={{ background:" #ffffff"}}>
             <Navbar />
- 
+
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/about" element={<Home />} />
@@ -26,7 +40,7 @@ function App() {
       <Route path="/users/UserSettings" element={<UserSettings />} />
       <Route path="/chat" element={<Chat />} />
 
-      <Route path="/users/log" element={<AuthForm />} />
+      <Route path="/users/log" element={<ParentComponent />} />
       <Route path="/users/acceuil" element={<Acceuil />} />
       <Route path="/users/clientForm" element={<ClientForm/>} />
 

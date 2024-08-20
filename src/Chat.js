@@ -1,32 +1,27 @@
-// src/Chat.js
 import React, { useState, useEffect } from 'react';
-import io from 'socket.io-client';
-import './styles.css'; // Assure-toi d'avoir ce fichier pour le style
-import { useSelector, useDispatch } from 'react-redux';
+import './styles.css';
+import { useSelector } from 'react-redux';
 
-const socket = io('http://localhost:5000'); // Assure-toi que l'URL du serveur est correcte
-
-const Chat = () => {
+const Chat = ({ socket }) => {
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
     const cltId = useSelector((state) => state.clients.clientId);
-    console.log("cltIdcltIdcltIdcltIdcltId:", cltId); // Vérifie le message envoyé
-
     useEffect(() => {
+        if (!socket) return;
+        console.log(socket.auth,'socketsocketsocketsocketsocket');
+
         socket.on('message', (message) => {
-            console.log("New message received:", message); // Vérifie si le message est bien reçu
             setMessages((prevMessages) => [...prevMessages, message]);
         });
 
         return () => {
             socket.disconnect();
         };
-    }, []);
+    }, [socket, cltId]);
 
     const sendMessage = () => {
         if (input.trim()) {
-            console.log("Sending message:", input); // Vérifie le message envoyé
-            socket.emit('message', { text: input, sender: 'me',id:cltId }); // Assure-toi que le format du message est correct
+            socket.emit('message', { text: input, sender: 'me', id: cltId });
             setInput('');
         }
     };

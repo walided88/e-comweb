@@ -1,11 +1,128 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import Navbar from './Navbar';
 import { useNavigate } from 'react-router-dom';
-import { instanceUsers, instanceClients } from '../axios';
-import { updateProducts, prodSelected, setIndex,getClient } from '../reducers/clientsReducer';
-import { useSelector, useDispatch } from 'react-redux';
+import { instanceUsers } from '../axios';
+import { useDispatch } from 'react-redux';
+import { getClient } from '../reducers/clientsReducer';
+import io from 'socket.io-client';
 
+const AuthForm = ({ setSocket }) => {
+    const [isSignUp, setIsSignUp] = useState(false);
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [age, setAge] = useState('');
+    const [error, setError] = useState('');
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError('');
+
+        try {
+            let response;
+            if (isSignUp) {
+                response = await instanceUsers.post('http://localhost:5000/users/signup', { 
+                    name,
+                    email,
+                    password,
+                    age
+                });
+            } else {
+                response = await instanceUsers.post('http://localhost:5000/users/login', {
+                    email,
+                    password
+                });
+            }
+
+            // Save token in localStorage
+            localStorage.setItem('token', response.data.token);
+
+            // Initialize socket connection after login/signup
+            const socket = io('http://localhost:5000', {
+                auth: {
+                    token: response.data.token
+                }
+            });
+            setSocket(socket); // Pass the socket to parent component
+
+            setName('');
+            setEmail('');
+            setPassword('');
+            setAge('');
+            // navigate('/chat');
+            dispatch(getClient(email));
+        } catch (error) {
+            setError('Failed to process request: ' + (error.response?.data?.message || error.message));
+        }
+    };
+
+    return (
+        <Container>
+            <FormWrapper>
+                <Title>{isSignUp ? 'Sign Up' : 'Login'}</Title>
+                {error && <ErrorMessage>{error}</ErrorMessage>}
+                <form onSubmit={handleSubmit}>
+                    {isSignUp && (
+                        <FormGroup>
+                            <Label htmlFor="name">Name:</Label>
+                            <Input
+                                type="text"
+                                id="name"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                required={isSignUp}
+                                placeholder="Enter your name"
+                            />
+                        </FormGroup>
+                    )}
+                    <FormGroup>
+                        <Label htmlFor="email">Email:</Label>
+                        <Input
+                            type="email"
+                            id="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                            placeholder="Enter your email"
+                        />
+                    </FormGroup>
+                    <FormGroup>
+                        <Label htmlFor="password">Password:</Label>
+                        <Input
+                            type="password"
+                            id="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                            placeholder="Enter your password"
+                        />
+                    </FormGroup>
+                    {isSignUp && (
+                        <FormGroup>
+                            <Label htmlFor="age">Age (optional):</Label>
+                            <Input
+                                type="number"
+                                id="age"
+                                value={age}
+                                onChange={(e) => setAge(e.target.value)}
+                                placeholder="Enter your age"
+                            />
+                        </FormGroup>
+                    )}
+                    <Button type="submit">{isSignUp ? 'Sign Up' : 'Login'}</Button>
+                </form>
+                <ToggleText>
+                    {isSignUp ? 'Already have an account?' : "Don't have an account?"}{' '}
+                    <ToggleButton onClick={() => setIsSignUp(!isSignUp)}>
+                        {isSignUp ? 'Login here' : 'Sign up here'}
+                    </ToggleButton>
+                </ToggleText>
+            </FormWrapper>
+        </Container>
+    );
+};
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -90,122 +207,4 @@ const ErrorMessage = styled.p`
   color: red;
   text-align: center;
 `;
-
-const AuthForm = () => {
-    const [isSignUp, setIsSignUp] = useState(false);
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [age, setAge] = useState('');
-    const [error, setError] = useState('');
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setError('');
-
-        try {
-            let response;
-            if (isSignUp) {
-                response = await instanceUsers.post('http://localhost:5000/users/signup', { 
-                    name,
-                    email,
-                    password,
-                    age
-                });
-            } else {
-                response = await instanceUsers.post('http://localhost:5000/users/login', {
-                    email,
-                    password
-                });
-            }
-            console.log(isSignUp ? 'User signed up:' : 'User logged in:', response.data);
-            setName('');
-            setEmail('');
-            setPassword('');
-            setAge('');
-            navigate('/users/clientForm');
-            dispatch(getClient(email));
-            
-
-        } catch (error) {
-            setError('Failed to process request: ' + (error.response?.data?.message || error.message));
-        }
-    };
-
-    return (
-        <div>
-
-        <Container>
-            
-
-
-            <FormWrapper>
-
-                <Title>{isSignUp ? 'Sign Up' : 'Login'}</Title>
-                {error && <ErrorMessage>{error}</ErrorMessage>}
-                <form onSubmit={handleSubmit}>
-                    {isSignUp && (
-                        <FormGroup>
-                            <Label htmlFor="name">Name:</Label>
-                            <Input
-                                type="text"
-                                id="name"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                                required={isSignUp}
-                                placeholder="Enter your name"
-                            />
-                        </FormGroup>
-                    )}
-                    <FormGroup>
-                        <Label htmlFor="email">Email:</Label>
-                        <Input
-                            type="email"
-                            id="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                            placeholder="Enter your email"
-                        />
-                    </FormGroup>
-                    <FormGroup>
-                        <Label htmlFor="password">Password:</Label>
-                        <Input
-                            type="password"
-                            id="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                            placeholder="Enter your password"
-                        />
-                    </FormGroup>
-                    {isSignUp && (
-                        <FormGroup>
-                            <Label htmlFor="age">Age (optional):</Label>
-                            <Input
-                                type="number"
-                                id="age"
-                                value={age}
-                                onChange={(e) => setAge(e.target.value)}
-                                placeholder="Enter your age"
-                            />
-                        </FormGroup>
-                    )}
-                    <Button type="submit">{isSignUp ? 'Sign Up' : 'Login'}</Button>
-                </form>
-                <ToggleText>
-                    {isSignUp ? 'Already have an account?' : "Don't have an account?"}{' '}
-                    <ToggleButton onClick={() => setIsSignUp(!isSignUp)}>
-                        {isSignUp ? 'Login here' : 'Sign up here'}
-                    </ToggleButton>
-                </ToggleText>
-            </FormWrapper>
-        </Container>
-        </div>
-
-    );
-};
-
 export default AuthForm;
