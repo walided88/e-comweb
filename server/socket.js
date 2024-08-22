@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken');
 const socketIo = require('socket.io');
+const jwtSecret = process.env.JWT_SECRET; // Assurez-vous que cette variable est définie dans Render
+const mongoDbUrl = process.env.MONGODB_URL; // Assurez-vous que cette variable est définie dans Render
 
 
 
@@ -17,7 +19,7 @@ const setupSocket = (server) => {
     io.use((socket, next) => {
         const token = socket.handshake.auth.token;
         if (token) {
-            jwt.verify(token, 'xxxx', (err, decoded) => { // Replace 'xxxx' with your JWT secret
+            jwt.verify(token, jwtSecret, (err, decoded) => { // Replace 'xxxx' with your JWT secret
                 if (err) {
                     return next(new Error("Authentication error"));
                 }
