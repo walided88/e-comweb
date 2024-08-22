@@ -4,6 +4,8 @@ const router = express.Router();
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const jwtSecret = process.env.JWT_SECRET; // Assurez-vous que cette variable est définie dans Render
+
 const date = new Date();
 const formattedDate = date.toLocaleString('en-GB', { 
     year: 'numeric', 
@@ -78,7 +80,7 @@ router.post('/login', async (req, res) => {
         }
 
         // Generate JWT token
-        const token = jwt.sign({ userId: user._id, name: user.name,date:formattedDate}, JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ userId: user._id, name: user.name,date:formattedDate}, jwtSecret, { expiresIn: '1h' });
 
         res.status(200).json({ message: 'Login successful', token, user });
     } catch (error) {
