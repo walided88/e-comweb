@@ -10,7 +10,7 @@ const ParentComponent = () => {
     return (
         <div>
        <SocketContext.Provider value={socket}>
-            <AuthForm setSocket={setSocket} />
+       {!socket &&<AuthForm setSocket={setSocket} />}
             {socket && <Chat socket={socket} />}
         </SocketContext.Provider>
         </div>

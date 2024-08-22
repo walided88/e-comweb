@@ -616,11 +616,14 @@ margin-left:  -44px;
 .my-message {
   background-color: #dcf8c6; /* Couleur de fond pour les messages envoyés par l'utilisateur */
   align-self: flex-end;
+  margin-left: 40%;
+
 }
 
 .other-message {
-  background-color: #fff;
+  background-color: #62badd;
   align-self: flex-start;
+  margin-right: 40%;
 }
 
 .chat-input {
