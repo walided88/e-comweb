@@ -114,7 +114,7 @@ const Chat = ({ socket }) => {
             <div style={{color:'red'}}>date:{msg.currentDate}</div> {/* Affichez la date reçue avec le message */}
             <p style={{color:'blue'}}>name:{msg.name}</p>
                         <p>{msg.text}</p>
-                        {!socket.on && <h2>{cltName} est deconecté</h2>}
+                        {/* {!socket.on && <h2>{cltName} est deconecté</h2>} */}
 
                     </div>
                 ))}
