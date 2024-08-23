@@ -15,11 +15,12 @@ socket.emit('chat message', 'Hello World!');
 
 const setupSocket = (server) => {
     const io = socketIo(server, {
-        cors: {
-            origin: "http://localhost:3000",
-            methods: ["GET", "POST"],
-            credentials: true
-        }
+   cors: {
+    origin: "https://ecom-chi-nine.vercel.app", 
+    methods: ["GET", "POST"],
+    credentials: true
+}
+
     });
 
 
