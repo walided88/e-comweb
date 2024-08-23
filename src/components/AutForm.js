@@ -28,14 +28,14 @@ const AuthForm = ({ setSocket }) => {
         try {
             let response;
             if (isSignUp) {
-                response = await instanceUsers.post('https://nasal-sugar-strawflower.glitch.me/users/signup', { 
+                response = await instanceUsers.post('https://e-com-cb4u.onrender.com/users/signup', { 
                     name,
                     email,
                     password,
                     age
                 });
             } else {
-                response = await instanceUsers.post('https://nasal-sugar-strawflower.glitch.me/users/login', {
+                response = await instanceUsers.post('https://e-com-cb4u.onrender.com/users/login', {
                     email,
                     password
                 });
@@ -51,7 +51,7 @@ const AuthForm = ({ setSocket }) => {
             localStorage.setItem('token', response.data.token);
 
             // Initialize socket connection after login/signup
-                const socket = io('https://nasal-sugar-strawflower.glitch.me', {
+                const socket = io('https://e-com-cb4u.onrender.com', {
               auth: {
                     token: "xxxx",
                     mail:email,
