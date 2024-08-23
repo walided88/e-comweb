@@ -5,7 +5,7 @@ const jwtSecret = process.env.JWT_SECRET;
 const setupSocket = (server) => {
     const io = socketIo(server, {
         cors: {
-            origin: "https://ecom-chi-nine.vercel.app", // Remplacez par l'origine de votre frontend
+            origin: "https://ecom-chi-nine.vercel.app", 
             methods: ["GET", "POST"],
             credentials: true
         }

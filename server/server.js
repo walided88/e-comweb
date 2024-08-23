@@ -1,10 +1,32 @@
 const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+require('dotenv').config();
 const http = require('http');
+const setupSocket = require('./socket'); // Importer la configuration de socket.io
 const socketIo = require('socket.io');
-const app = express();
-const server = http.createServer(app);
 const jwt = require('jsonwebtoken');
-const jwtSecret = process.env.JWT_SECRET;
+const app = express();
+
+const userRoutes = require('./routes/userRoutes');
+const clientRoutes = require('./routes/clientRoutes');
+const server = http.createServer(app);
+
+
+app.use(cors({
+    origin: "https://ecom-chi-nine.vercel.app", // Remplacez par l'origine de votre frontend
+    methods: ["GET", "POST"],
+    credentials: true
+}));
+
+app.use('/users', userRoutes);
+app.use('/clients', clientRoutes);
+app.use(cors()); // Activer CORS pour toutes les routes
+app.use(express.json());
+
+
+const jwtSecret = process.env.JWT_SECRET || 'default_secret'; // Utiliser une clé secrète sécurisée en production
+
 const io = socketIo(server, {
     cors: {
         origin: "https://ecom-chi-nine.vercel.app",
@@ -29,27 +51,13 @@ io.use((socket, next) => {
     }
 });
 
-// Gestion des connexions
-io.on('connection', (socket) => {
-    console.log('A user connected:', socket.user);
 
-    socket.on('message', (message) => {
-        const fullMessage = {
-            ...message,
-            mail: socket.user.mail,
-            name: socket.user.name,
-            createdAt: new Date().toISOString()
-        };
-        io.emit('message', fullMessage);
-    });
+setupSocket(server);
 
-    socket.on('disconnect', () => {
-        console.log('User disconnected');
-    });
-});
+mongoose.connect(process.env.MONGO_URI)
+    .then(() => console.log('Connected to MongoDB'))
+    .catch(err => console.error('Error connecting to MongoDB:', err.message));
 
-// Démarrer le serveur
-const port = process.env.PORT || 5000;
-server.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-});
+
+const PORT = process.env.PORT || 5000;
+server.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
