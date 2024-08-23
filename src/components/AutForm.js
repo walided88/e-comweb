@@ -53,7 +53,7 @@ const AuthForm = ({ setSocket }) => {
             // Initialize socket connection after login/signup
                 const socket = io('https://nasal-sugar-strawflower.glitch.me', {
               auth: {
-                    token: response.data.token,
+                    token: "xxxx",
                     mail:email,
                 }
             });
