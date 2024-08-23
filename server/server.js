@@ -1,9 +1,9 @@
-// server/server.js
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
 const http = require('http');
+const socketIo = require('socket.io');
 const setupSocket = require('./socket'); // Importer la configuration de socket.io
 
 const userRoutes = require('./routes/userRoutes');
@@ -11,7 +11,17 @@ const clientRoutes = require('./routes/clientRoutes');
 
 const app = express();
 
-app.use(cors()); // Activer CORS pour toutes les routes
+// Configurer CORS pour permettre toutes les origines nécessaires
+const corsOptions = {
+    origin: [
+        'http://localhost:3000',  // Développement
+        'https://ecom-chi-nine.vercel.app' // Production
+    ],
+    methods: ['GET', 'POST'],
+    credentials: true
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 const server = http.createServer(app); // Créer le serveur HTTP
