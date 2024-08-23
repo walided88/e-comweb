@@ -3,7 +3,7 @@ const socketIo = require('socket.io');
 const jwtSecret = process.env.JWT_SECRET; // Assurez-vous que cette variable est définie dans Render
 const mongoDbUrl = process.env.MONGODB_URL; // Assurez-vous que cette variable est définie dans Render
 
-const socket = io('https://glitch.com/~nasal-sugar-strawflower.glitch.me');
+const socket = io('https://nasal-sugar-strawflower.glitch.me');
 
 socket.on('chat message', function(msg) {
   console.log('Message received: ' + msg);
