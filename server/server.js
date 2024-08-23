@@ -24,10 +24,11 @@ const clientRoutes = require('./routes/clientRoutes');
 
 // Configurer CORS pour Express
 app.use(cors({
-    origin: "https://ecom-chi-nine.vercel.app",
+    origin: ["https://ecom-chi-nine.vercel.app", "http://localhost:3000"], // Ajoutez toutes les origines nécessaires ici
     methods: ["GET", "POST"],
     credentials: true
 }));
+
 
 app.use(express.json()); // Middleware pour parser le JSON
 
