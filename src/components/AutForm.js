@@ -55,7 +55,9 @@ const AuthForm = ({ setSocket }) => {
               auth: {
                     token: "xxxx",
                     mail:email,
-                }
+                },
+                transports: ['websocket']
+
             });
             
             setSocket(socket); // Pass the socket to parent component
