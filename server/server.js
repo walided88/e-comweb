@@ -14,7 +14,6 @@ const app = express();
 // Configurer CORS pour permettre toutes les origines nécessaires
 const corsOptions = {
     origin: [
-        'http://localhost:3000',  // Développement
         'https://ecom-chi-nine.vercel.app' // Production
     ],
     methods: ['GET', 'POST'],
