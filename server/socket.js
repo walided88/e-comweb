@@ -3,12 +3,20 @@ const socketIo = require('socket.io');
 const jwtSecret = process.env.JWT_SECRET; // Assurez-vous que cette variable est définie dans Render
 const mongoDbUrl = process.env.MONGODB_URL; // Assurez-vous que cette variable est définie dans Render
 
+const socket = io('https://nasal-sugar-strawflower.glitch.me');
+
+socket.on('chat message', function(msg) {
+  console.log('Message received: ' + msg);
+});
+
+// Envoyer un message
+socket.emit('chat message', 'Hello World!');
 
 
 const setupSocket = (server) => {
     const io = socketIo(server, {
         cors: {
-            origin: 'https://ecom-chi-nine.vercel.app', // L'URL de ton site en production
+            origin: "http://localhost:3000",
             methods: ["GET", "POST"],
             credentials: true
         }
