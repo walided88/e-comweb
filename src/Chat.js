@@ -67,12 +67,7 @@ const Chat = ({ socket }) => {
         };
     }, [socket, cltId]);
 
-    const sendMessage = () => {
-        if (input.trim()) {
-            socket.emit('message', { text: input, sender: 'me', id: cltId });
-            setInput('');
-        }
-    };
+
 
     return (
 
@@ -87,7 +82,6 @@ const Chat = ({ socket }) => {
             <div style={{color:'red'}}>date:{msg.currentDate}</div> {/* Affichez la date reçue avec le message */}
             <p style={{color:'blue'}}>name:{msg.name}</p>
                         <p>{msg.text}</p>
-                        {deconnection && <Deconnection nom={msg.nam} />}
 
                     </div>
                 ))}
