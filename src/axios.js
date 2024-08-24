@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Déterminer l'URL de base en fonction de l'environnement
 const baseURL = process.env.NODE_ENV === 'production'
-    ? 'https://ecom-chi-nine.vercel.app' // URL en production
+    ? ('https://ecom-chi-nine.vercel.app' || "http://localhost:3000") // URL en production
     : ('http://localhost:5000' || "https://e-com-cb4u.onrender.com"); // URL en développement
 
 // Instance pour les requêtes liées aux utilisateurs
