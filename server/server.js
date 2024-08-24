@@ -2,7 +2,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-require('dotenv').config();
 const http = require('http');
 const setupSocket = require('./socket'); // Importer la configuration de socket.io
 
