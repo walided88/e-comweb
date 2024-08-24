@@ -34,7 +34,7 @@ app.use('/users', userRoutes);
 app.use('/clients', clientRoutes);
 
 const PORT = process.env.PORT || 5000;
-const HOST = '0.0.0.0';
+const HOST = '192.168.206.188';
 
 
 app.listen(PORT, HOST, () => {
