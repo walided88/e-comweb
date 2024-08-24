@@ -105,6 +105,8 @@ router.put('/:clientId/:commandeId/:prodId', async (req, res) => {
 
         // Trouver le produit
         const prod = commande.prods.id(prodId);
+        console.log('Product  found:', prodId);
+
         if (!prod) {
             console.log('Product not found:', prodId);
             return res.status(404).json({ message: 'Product not found' });
