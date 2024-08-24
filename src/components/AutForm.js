@@ -51,7 +51,7 @@ const AuthForm = ({ setSocket }) => {
             localStorage.setItem('token', response.data.token);
 
             // Initialize socket connection after login/signup
-            const socket = io('http://localhost:5000', {
+            const socket = io('http://105.71.7.5:5000', {
               auth: {
                     token: response.data.token,
                     mail:email,
