@@ -5,7 +5,6 @@ const Client = require('../models/Client');
 // const bcrypt = require('bcryptjs');
 // const jwt = require('jsonwebtoken');
 
-// Secret key for JWT
 // const JWT_SECRET = 'xxxx'; // Replace with a strong secret key
 router.post('/submit', async (req, res) => {
     try {
@@ -78,14 +77,11 @@ router.get('/:id', async (req, res) => {
 
 
     
-<<<<<<< HEAD
-});router.put('/:clientId/:commandeId/:prodId', async (req, res) => {
-=======
 });
 
 router.put('/:clientId/:commandeId/:prodId', async (req, res) => {
->>>>>>> f51c6bc464cb82841cead568aaf3cc70a198f8d9
     try {
+        // const { selled } = req.body;
         const client = await Client.findById(req.params.clientId);
         
         if (!client) {
