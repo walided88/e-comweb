@@ -19,6 +19,7 @@ const AuthForm = ({ setSocket }) => {
     const dispatch = useDispatch();
     const [users, setUsers] = useState([]);
 
+    const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000';
 
   
     const handleSubmit = async (e) => {
@@ -51,7 +52,7 @@ const AuthForm = ({ setSocket }) => {
             localStorage.setItem('token', response.data.token);
 
             // Initialize socket connection after login/signup
-            const socket = io('http://localhost:5000', {
+            const socket = io('backendUrl', {
               auth: {
                     token: response.data.token,
                     mail:email,

@@ -1,14 +1,15 @@
 // src/axios.js
 import axios from 'axios';
+const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000';
 
 // Instance pour les requêtes liées aux utilisateurs
 const instanceUsers = axios.create({
-    baseURL: 'https://e-com-cb4u.onrender.com/users', // Base URL pour les utilisateurs
+    baseURL: `${backendUrl}/users`, // Base URL pour les utilisateurs
 });
 
 // Instance pour les requêtes liées aux clients
 const instanceClients = axios.create({
-    baseURL: 'https://e-com-cb4u.onrender.com/clients', // Base URL pour les clients
+    baseURL: `${backendUrl}/clients`, // Base URL pour les clients
 });
 
 // Exportation des deux instances
