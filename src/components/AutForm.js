@@ -52,7 +52,7 @@ const AuthForm = ({ setSocket }) => {
             localStorage.setItem('token', response.data.token);
 
             // Initialize socket connection after login/signup
-            const socket = io('backendUrl', {
+            const socket = io(`${backendUrl}`, {
               auth: {
                     token: response.data.token,
                     mail:email,
