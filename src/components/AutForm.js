@@ -51,7 +51,7 @@ const AuthForm = ({ setSocket }) => {
             localStorage.setItem('token', response.data.token);
 
             // Initialize socket connection after login/signup
-            const socket = io('http://localhost:5000', {
+            const socket = io(['http://localhost:5000',"https://ecom-chi-nine.vercel.app","https://e-com-cb4u.onrender.com"], {
               auth: {
                     token: response.data.token,
                     mail:email,

@@ -11,7 +11,7 @@ const socketIo = require('socket.io');
 const setupSocket = (server) => {
     const io = socketIo(server, {
         cors: {
-            origin: ["https://ecom-chi-nine.vercel.app","http://localhost:3000"], // Remplacez par l'origine de votre frontend
+            origin: ["https://ecom-chi-nine.vercel.app","http://localhost:3000","https://e-com-cb4u.onrender.com"], // Remplacez par l'origine de votre frontend
 
     methods: ["GET", "POST","PUT", "DELETE"],
             credentials: true
