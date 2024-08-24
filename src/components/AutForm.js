@@ -28,14 +28,14 @@ const AuthForm = ({ setSocket }) => {
         try {
             let response;
             if (isSignUp) {
-                response = await instanceUsers.post('http://localhost:5000/users/signup', { 
+                response = await instanceUsers.post('/signup', { 
                     name,
                     email,
                     password,
                     age
                 });
             } else {
-                response = await instanceUsers.post('http://localhost:5000/users/login', {
+                response = await instanceUsers.post('/login', {
                     email,
                     password
                 });

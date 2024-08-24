@@ -66,29 +66,14 @@ const Chat = ({ socket }) => {
             socket.disconnect();
         };
     }, [socket, cltId]);
-    
-    const chatRoute = `/${(cltId)}`;
-    console.log('A user connected:', deconnection);
 
-
-        useEffect(() => {
-            const fetchUsers = async () => {
-                try {
-                    const response = await instanceUsers.get(chatRoute);
-                     setUsers(response.data);
-                } catch (error) {
-                   console.error('Error fetching users:', error);
-                }
-            };
-    
-            fetchUsers();
-        }, []);
-
-        function Deconnection(nom){
-            if(deconnection)
-                <h2>{nom} est deconecté</h2>
-    
+    const sendMessage = () => {
+        if (input.trim()) {
+            socket.emit('message', { text: input, sender: 'me', id: cltId });
+            setInput('');
         }
+    };
+
     return (
 
 

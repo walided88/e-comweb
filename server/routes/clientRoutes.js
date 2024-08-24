@@ -5,7 +5,6 @@ const Client = require('../models/Client');
 // const bcrypt = require('bcryptjs');
 // const jwt = require('jsonwebtoken');
 
-// Secret key for JWT
 // const JWT_SECRET = 'xxxx'; // Replace with a strong secret key
 router.post('/submit', async (req, res) => {
     try {
@@ -77,10 +76,12 @@ router.get('/:id', async (req, res) => {
 
 
 
-    
-});router.put('/:clientId/:commandeId/:prodId', async (req, res) => {
+
+});
+
+router.put('/:clientId/:commandeId/:prodId', async (req, res) => {
     try {
-        const { selled } = req.body;
+        // const { selled } = req.body;
         const client = await Client.findById(req.params.clientId);
         
         if (!client) {
@@ -94,7 +95,7 @@ router.get('/:id', async (req, res) => {
         }
 
         // Trouver le produit avec l'ID spécifié dans la commande
-        const prod = commande.prods.find(prod => prod.id == req.params.prodId);
+        const prod = commande.prods.find(prod => prod.id === req.params.prodId);
         if (!prod) {
             return res.status(404).json({ message: 'Product not found' });
         }
