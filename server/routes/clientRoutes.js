@@ -73,6 +73,11 @@ router.get('/:id', async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
+
+
+
+
+    
 });router.put('/:clientId/:commandeId/:prodId', async (req, res) => {
     try {
         const { selled } = req.body;

@@ -3,12 +3,16 @@ import { createSlice } from '@reduxjs/toolkit';
 const clientsSlice = createSlice({
     name: 'clients',
     initialState: {
-        clientId: "",
+        clientId: null,
+        name:null,
         clientsList: [], // Renommez l'état du tableau des clients pour plus de clarté
     },
     reducers: {
         getClient: (state, action) => {
             state.clientId = action.payload; // Met à jour clientId avec la valeur de l'action
+        },
+        getName: (state, action) => {
+            state.name = action.payload; // Met à jour clientId avec la valeur de l'action
         },
         setClients: (state, action) => {
             state.clientsList = action.payload; // Met à jour la liste des clients
@@ -28,6 +32,6 @@ const clientsSlice = createSlice({
     },
 });
 
-export const { setClients, addClient, updateClient, deleteClient, getClient } = clientsSlice.actions;
+export const { setClients, addClient, updateClient, deleteClient, getClient,getName } = clientsSlice.actions;
 
 export default clientsSlice.reducer;

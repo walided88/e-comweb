@@ -25,7 +25,6 @@ import ParentComponent from './components/ParentComponent';
 
 
 function App() {
-  const [socket, setSocket] = useState(null);
 
   return (
     <div style={{ background:" #ffffff"}}>
