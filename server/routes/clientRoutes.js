@@ -2,6 +2,8 @@
 const express = require('express');
 const router = express.Router();
 const Client = require('../models/Client');
+const mongoose = require('mongoose');
+
 // const bcrypt = require('bcryptjs');
 // const jwt = require('jsonwebtoken');
 
@@ -80,39 +82,45 @@ router.get('/:id', async (req, res) => {
 });
 
 router.put('/:clientId/:commandeId/:prodId', async (req, res) => {
+    const { clientId, commandeId, prodId } = req.params;
+
+    console.log('Client ID:', clientId);
+    console.log('Commande ID:', commandeId);
+    console.log('Product ID:', prodId);
+
     try {
-        // const { selled } = req.body;
-        const client = await Client.findById(req.params.clientId);
-        
+        // Trouver le client
+        const client = await Client.findById(clientId);
         if (!client) {
+            console.log('Client not found:', clientId);
             return res.status(404).json({ message: 'Client not found' });
         }
 
-        // Trouver la commande avec l'ID spécifié
-        const commande = client.commandes.id(req.params.commandeId);
+        // Trouver la commande
+        const commande = client.commandes.id(commandeId);
         if (!commande) {
+            console.log('Commande not found:', commandeId);
             return res.status(404).json({ message: 'Commande not found' });
         }
 
-        // Trouver le produit avec l'ID spécifié dans la commande
-        const prod = commande.prods.find(prod => prod.id === req.params.prodId);
+        // Trouver le produit
+        const prod = commande.prods.id(prodId);
         if (!prod) {
+            console.log('Product not found:', prodId);
             return res.status(404).json({ message: 'Product not found' });
         }
 
-        // Mettre à jour la propriété 'selled'
+        // Mettre à jour le produit
         prod.selled = true;
 
-        // Sauvegarder les changements dans le client
+        // Sauvegarder les changements
         await client.save();
         res.status(200).json(client);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        console.error('Error updating product:', error);
+        res.status(500).json({ message: 'Internal server error' });
     }
 });
-
-
-
 
 // Route pour supprimer un utilisateur par ID
 router.delete('/:id', async (req, res) => {

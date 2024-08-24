@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { instanceClients } from '../axios';
+import { instanceClients,instanceUsers } from '../axios';
 import styled from 'styled-components';
 
 function DataTable({ headers, data }) {
@@ -11,18 +11,17 @@ function DataTable({ headers, data }) {
   function setChang() {
     setChangColor('32%');
   }
-// Fonction pour gérer le clic sur une image
-const handleImageClick = async (clientId, commandeId, prodId) => {
-  try {
-      const response = await instanceClients.put(`/${clientId}/${commandeId}/${prodId}`, {
-      });
-      console.log('Produit mis à jourProduit mis à jour:', response.data);
+  const handleImageClick = async (clientId, commandeId, prodId) => {
+    try {
+      console.log(`Client ID: ${clientId}, Commande ID: ${commandeId}, Produit ID: ${prodId}`);
+      const response = await instanceClients.put(`/${clientId}/${commandeId}/${prodId}`, {});
+      console.log('Produit mis à jour:', response.data);
       window.location.reload();
-
-  } catch (error) {
+    } catch (error) {
       console.error('Erreur lors de la mise à jour du produit:', error);
-  }
-};
+    }
+  };
+  
 
 
   return (
@@ -58,7 +57,7 @@ const handleImageClick = async (clientId, commandeId, prodId) => {
                           <img src={prod.image} alt={prod.name} style={{ width: '100px', height: '100px' }} />
                           {!prod.selled && (
                             <button 
-                              onClick={() => handleImageClick(item._id, commande._id,prod.id, true)}>
+                              onClick={() => handleImageClick(item._id, commande._id,prod._id)}>
                               Mark as Sold
                             </button>
                           )}
