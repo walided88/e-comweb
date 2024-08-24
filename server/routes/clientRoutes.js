@@ -2,9 +2,6 @@
 const express = require('express');
 const router = express.Router();
 const Client = require('../models/Client');
-const mongoose = require('mongoose');
-const ObjectId = mongoose.Types.ObjectId;
-
 // const bcrypt = require('bcryptjs');
 // const jwt = require('jsonwebtoken');
 
@@ -83,41 +80,23 @@ router.get('/:id', async (req, res) => {
 });
 
 router.put('/:clientId/:commandeId/:prodId', async (req, res) => {
-    const { clientId, commandeId, prodId } = req.params;
-
-    console.log('Client ID:', clientId);
-    console.log('Commande ID:', commandeId);
-    console.log('Product ID:', prodId);
-    const productId = new ObjectId(prodId);
-    console.log('productIdproductIdproductId:', productId);
-
     try {
-        // Trouver le client
-        const client = await Client.findById(clientId);
+        // const { selled } = req.body;
+        const client = await Client.findById(req.params.clientId);
+        
         if (!client) {
             console.log('Client not found:', clientId);
             return res.status(404).json({ message: 'Client not found' });
         }
 
-        // Trouver la commande
-        const commande = client.commandes.id(commandeId);
-        console.log('commandecommandecommandecommande:', commande.prods);
+        // Trouver la commande avec l'ID spécifié
+        const commande = client.commandes.id(req.params.commandeId);
         if (!commande) {
-            console.log('Commande not found:', commande);
             return res.status(404).json({ message: 'Commande not found' });
         }
 
-        // Trouver le produit
-        const prod = commande.prods.find(product => product._id.equals(productId));
-
-        if (prod) {
-            console.log('Product found:', prod);
-        } else {
-            console.log('Product not found');
-        }
-
-        console.log('prodprodprodprod:', prod);
-
+        // Trouver le produit avec l'ID spécifié dans la commande
+        const prod = commande.prods.find(prod => prod.id === req.params.prodId);
         if (!prod) {
             console.log('Product not found:', prodId);
             return res.status(404).json({ message: 'Product not found' });
