@@ -28,14 +28,14 @@ const AuthForm = ({ setSocket }) => {
         try {
             let response;
             if (isSignUp) {
-                response = await instanceUsers.post('http://localhost:5000/users/signup', { 
+                response = await instanceUsers.post('/signup', { 
                     name,
                     email,
                     password,
                     age
                 });
             } else {
-                response = await instanceUsers.post('http://localhost:5000/users/login', {
+                response = await instanceUsers.post('/login', {
                     email,
                     password
                 });
@@ -52,9 +52,8 @@ const AuthForm = ({ setSocket }) => {
 
             // Initialize socket connection after login/signup
             const socket = io('http://localhost:5000', {
-              auth: {
-                    token: response.data.token,
-                    mail:email,
+                auth: {
+                    token: response.data.token
                 }
             });
             

@@ -12,7 +12,7 @@ const setupSocket = (server) => {
     const io = socketIo(server, {
         cors: {
             origin: ["https://ecom-chi-nine.vercel.app","http://localhost:3000"], // Remplacez par l'origine de votre frontend
-            methods: ["GET", "POST","PUT", "DELETE"],
+    methods: ["GET", "POST","PUT", "DELETE"],
             credentials: true
         }
     });

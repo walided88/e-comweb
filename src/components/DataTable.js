@@ -58,7 +58,7 @@ const handleImageClick = async (clientId, commandeId, prodId) => {
                           <img src={prod.image} alt={prod.name} style={{ width: '100px', height: '100px' }} />
                           {!prod.selled && (
                             <button 
-                              onClick={() => handleImageClick(item._id, commande._id,prod.id, prod.selled=true)}>
+                              onClick={() => handleImageClick(item._id, commande._id,prod.id, true)}>
                               Mark as Sold
                             </button>
                           )}

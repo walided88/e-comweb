@@ -66,29 +66,7 @@ const Chat = ({ socket }) => {
             socket.disconnect();
         };
     }, [socket, cltId]);
-    
-    const chatRoute = `/${(cltId)}`;
-    console.log('A user connected:', deconnection);
 
-
-        useEffect(() => {
-            const fetchUsers = async () => {
-                try {
-                    const response = await instanceUsers.get(chatRoute);
-                     setUsers(response.data);
-                } catch (error) {
-                   console.error('Error fetching users:', error);
-                }
-            };
-    
-            fetchUsers();
-        }, []);
-
-        function Deconnection(nom){
-            if(deconnection)
-                <h2>{nom} est deconecté</h2>
-    
-        }
     return (
 
 
@@ -102,8 +80,6 @@ const Chat = ({ socket }) => {
             <div style={{color:'red'}}>date:{msg.currentDate}</div> {/* Affichez la date reçue avec le message */}
             <p style={{color:'blue'}}>name:{msg.name}</p>
                         <p>{msg.text}</p>
-                        {deconnection && <Deconnection nom={msg.nam} />}
-
                     </div>
                 ))}
             </div>
