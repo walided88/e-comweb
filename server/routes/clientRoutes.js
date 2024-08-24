@@ -2,6 +2,9 @@
 const express = require('express');
 const router = express.Router();
 const Client = require('../models/Client');
+const mongoose = require('mongoose');
+const ObjectId = mongoose.Types.ObjectId;
+
 // const bcrypt = require('bcryptjs');
 // const jwt = require('jsonwebtoken');
 
@@ -78,29 +81,38 @@ router.get('/:id', async (req, res) => {
 
 
 });
-
 router.put('/:clientId/:commandeId/:prodId', async (req, res) => {
+    const { clientId, commandeId, prodId } = req.params;
+
+    console.log('Client ID:', clientId);
+    console.log('Commande ID:', commandeId);
+    console.log('Product ID:', prodId);
+
     try {
-        // const { selled } = req.body;
-        const client = await Client.findById(req.params.clientId);
-        
+        // Trouver le client
+        const client = await Client.findById(clientId);
         if (!client) {
             console.log('Client not found:', clientId);
             return res.status(404).json({ message: 'Client not found' });
         }
 
-        // Trouver la commande avec l'ID spécifié
-        const commande = client.commandes.id(req.params.commandeId);
+        // Trouver la commande
+        const commande = client.commandes.id(commandeId);
         if (!commande) {
+            console.log('Commande not found:', commandeId);
             return res.status(404).json({ message: 'Commande not found' });
         }
 
-        // Trouver le produit avec l'ID spécifié dans la commande
-        const prod = commande.prods.find(prod => prod.id === req.params.prodId);
-        if (!prod) {
-            console.log('Product not found:', prodId);
+        // Trouver l'index du produit avec id égal à prodId
+        const index = commande.prods.findIndex(prod => prod.id === parseInt(prodId, 10));
+        if (index === -1) {
+            console.log('Product not found with id:', prodId);
             return res.status(404).json({ message: 'Product not found' });
         }
+
+        // Accéder au produit en utilisant l'index
+        const prod = commande.prods[index];
+        console.log('Product found:', prod);
 
         // Mettre à jour le produit
         prod.selled = true;
@@ -113,6 +125,7 @@ router.put('/:clientId/:commandeId/:prodId', async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 });
+
 
 // Route pour supprimer un utilisateur par ID
 router.delete('/:id', async (req, res) => {
