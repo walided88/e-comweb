@@ -5,7 +5,7 @@ import DataTable from './DataTable';
 
 const Home = () => {
     const [users, setUsers] = useState([]);
-    const headers = ['Nom', 'Email', 'Num','Adresse','Ville',"commandes"];
+    const headerss = ['Nom', 'Email', 'Num','Adresse','Ville',"commandes"];
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -19,14 +19,13 @@ const Home = () => {
 
         fetchUsers();
     }, []);
-
     return (
 
       <div >
 
         <div >
 
-        <DataTable  headers={headers} data={users} />
+        <DataTable  headers={headerss} data={users} />
         </div>
 
  

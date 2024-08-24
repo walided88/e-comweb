@@ -12,11 +12,11 @@ function DataTable({ headers, data }) {
     setChangColor('32%');
   }
 // Fonction pour gérer le clic sur une image
-const handleImageClick = async (clientId, commandeId, prodId, isSelled) => {
+const handleImageClick = async (clientId, commandeId, prodId) => {
   try {
       const response = await instanceClients.put(`/${clientId}/${commandeId}/${prodId}`, {
       });
-      console.log('Produit mis à jour:', response.data);
+      console.log('Produit mis à jourProduit mis à jour:', response.data);
       window.location.reload();
 
   } catch (error) {
@@ -58,7 +58,7 @@ const handleImageClick = async (clientId, commandeId, prodId, isSelled) => {
                           <img src={prod.image} alt={prod.name} style={{ width: '100px', height: '100px' }} />
                           {!prod.selled && (
                             <button 
-                              onClick={() => handleImageClick(item._id, commande._id,prod.id, true)}>
+                              onClick={() => handleImageClick(item._id, commande._id,prod.id, prod.selled=true)}>
                               Mark as Sold
                             </button>
                           )}

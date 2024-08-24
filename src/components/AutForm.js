@@ -1,21 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { instanceUsers } from '../axios';
 import { useDispatch } from 'react-redux';
-import { getClient } from '../reducers/clientsReducer';
+import { getClient,getName} from '../reducers/clientsReducer';
 import io from 'socket.io-client';
 
 const AuthForm = ({ setSocket }) => {
     const [isSignUp, setIsSignUp] = useState(false);
-    const [name, setName] = useState('');
+    const [name, setName] = useState(null);
+    const [fetchedName, setFetchedName] = useState('');
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [age, setAge] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [users, setUsers] = useState([]);
 
+
+  
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
@@ -34,28 +39,48 @@ const AuthForm = ({ setSocket }) => {
                     email,
                     password
                 });
+
+                setUsers(response.data);
+                // setFetchedName(users.user.name);
+                // dispatch(getName(fetchedName));
             }
+            // console.log('  users.name users.name users.name:',users.user.name); // Check received message
+            console.log(' emailemailemail:',email); // Check received message
 
             // Save token in localStorage
             localStorage.setItem('token', response.data.token);
 
             // Initialize socket connection after login/signup
             const socket = io('http://localhost:5000', {
-                auth: {
-                    token: response.data.token
+              auth: {
+                    token: response.data.token,
+                    mail:email,
                 }
             });
+            
             setSocket(socket); // Pass the socket to parent component
-
+            const chatRoute = `/${email}`;
+            // console.log(email,"emailemailemailemailemailemail");
             setName('');
             setEmail('');
             setPassword('');
             setAge('');
-            // navigate('/chat');
+            navigate('/chat');
             dispatch(getClient(email));
+
+            navigate({chatRoute});
+
         } catch (error) {
             setError('Failed to process request: ' + (error.response?.data?.message || error.message));
         }
+        // console.log(users.name, 'users.nameusers.name');
+
+
+
+
+
+
+
     };
 
     return (

@@ -48,9 +48,9 @@ const CartPage = () => {
 setCartItems(prevItems => list.filter(item => item.quantity > 0));
  
     }
-     }, [cartItem, dispatch]);
+     }, [totalPrices, dispatch]);
  
-console.log(cartItem,"xxxxxxxxxxxxxxxxxxx")
+// console.log(cartItem,"xxxxxxxxxxxxxxxxxxx")
 
   return (
     <div>

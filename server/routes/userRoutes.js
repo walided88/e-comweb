@@ -4,7 +4,17 @@ const router = express.Router();
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const date = new Date();
+const formattedDate = date.toLocaleString('en-GB', { 
+    year: 'numeric', 
+    month: '2-digit', 
+    day: '2-digit', 
+    hour: '2-digit', 
+    minute: '2-digit', 
+    second: '2-digit' 
+}).replace(',', ''); 
 
+console.log(formattedDate);
 // Secret key for JWT
 const JWT_SECRET = 'xxxx'; // Replace with a strong secret key
 
@@ -68,7 +78,7 @@ router.post('/login', async (req, res) => {
         }
 
         // Generate JWT token
-        const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ userId: user._id, name: user.name,date:formattedDate}, JWT_SECRET, { expiresIn: '1h' });
 
         res.status(200).json({ message: 'Login successful', token, user });
     } catch (error) {
@@ -87,18 +97,19 @@ router.get('/', async (req, res) => {
     }
 });
 
-// Route pour obtenir un utilisateur par ID
-router.get('/:id', async (req, res) => {
+router.get('/:email', async (req, res) => {
     try {
-        const user = await User.findById(req.params.id);
+        const user = await User.findOne({ email: req.params.email });
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
         res.status(200).json(user);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        console.error('Error fetching user:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
     }
 });
+
 
 // Route pour mettre à jour un utilisateur par ID
 router.put('/:id', async (req, res) => {
