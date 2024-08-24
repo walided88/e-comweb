@@ -13,7 +13,7 @@ const app = express();
 app.use(cors({
     origin: ["https://ecom-chi-nine.vercel.app","http://localhost:3000"], // Remplacez par l'origine de votre frontend
 
-    methods: ["GET", "POST","PUT", "DELETE"],
+    methods: ["GET", "POST","PUT"],
     // allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true
 }));
