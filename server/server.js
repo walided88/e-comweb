@@ -13,7 +13,7 @@ app.use(cors({
     origin: ["https://ecom-chi-nine.vercel.app","http://localhost:3000"], // Remplacez par l'origine de votre frontend
 
     methods: ["GET", "POST","PUT", "DELETE"],
-    // allowedHeaders: ["Content-Type", "Authorization"],
+    allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true
 }));
 app.use(cors()); // Activer CORS pour toutes les routes
