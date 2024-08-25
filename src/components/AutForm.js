@@ -19,7 +19,7 @@ const AuthForm = ({ setSocket }) => {
     const dispatch = useDispatch();
     const [users, setUsers] = useState([]);
 
-    const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000';
+    const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
   
     const handleSubmit = async (e) => {
