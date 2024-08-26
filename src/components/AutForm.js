@@ -19,7 +19,6 @@ const AuthForm = ({ setSocket }) => {
     const dispatch = useDispatch();
     const [users, setUsers] = useState([]);
 
-    const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
   
     const handleSubmit = async (e) => {
@@ -52,11 +51,15 @@ const AuthForm = ({ setSocket }) => {
             localStorage.setItem('token', response.data.token);
 
             // Initialize socket connection after login/signup
-            const socket = io(`${backendUrl}`, {
+            const socket = io('https://e-comweb.onrender.com', {
               auth: {
                     token: response.data.token,
                     mail:email,
-                }
+                },
+                transports: ['websocket'],// Force l'utilisation de WebSocket
+                timeout: 5000, // Délai d'attente de 5 secondes
+
+
             });
             
             setSocket(socket); // Pass the socket to parent component

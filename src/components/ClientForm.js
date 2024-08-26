@@ -12,10 +12,12 @@ const Home = () => {
             try {
                 const response = await instanceClients.get('/');
                  setUsers(response.data);
+
             } catch (error) {
                console.error('Error fetching users:', error);
             }
         };
+console.log(users);
 
         fetchUsers();
     }, []);

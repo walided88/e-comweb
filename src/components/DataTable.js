@@ -7,6 +7,7 @@ function DataTable({ headers, data }) {
   const [changColor, setChangColor] = useState('100%');
   const navigate = useNavigate();
   const [error, setError] = useState('');
+  console.log(data);
 
   function setChang() {
     setChangColor('32%');
@@ -57,7 +58,7 @@ function DataTable({ headers, data }) {
                           <img src={prod.image} alt={prod.name} style={{ width: '100px', height: '100px' }} />
                           {!prod.selled && (
                             <button 
-                              onClick={() => handleImageClick(item._id, commande._id,prod.id)}>
+                              onClick={() => handleImageClick(item._id, commande._id,prod._id)}>
                               Mark as Sold
                             </button>
                           )}

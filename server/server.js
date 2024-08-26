@@ -11,12 +11,13 @@ const clientRoutes = require('./routes/clientRoutes');
 
 const app = express();
 app.use(cors({
-    origin: ["https://ecom-chi-nine.vercel.app","http://localhost:3000","https://ecomfront-c7k2.onrender.com", "https://8c2f-105-66-4-49.ngrok-free.app"], // Remplacez par l'origine de votre frontend
+    origin: '*', // Autorise toutes les origines, pour les tests
 
     methods: ["GET", "POST","PUT"],
     // allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true
 }));
+app.use(cors()); // Activer CORS pour toutes les routes
 app.use(express.json());
 
 const server = http.createServer(app); // Créer le serveur HTTP
@@ -32,5 +33,5 @@ mongoose.connect(process.env.MONGO_URI)
 app.use('/users', userRoutes);
 app.use('/clients', clientRoutes);
 
-const PORT =5000;
-server.listen(PORT, '0.0.0.0', () => console.log(`Server is running on port ${PORT}`));
+const PORT = 5000;
+server.listen(PORT, () => console.log(`Server is running on port ${PORT}`)); // Utiliser 'server.listen' et non 'app.listen'

@@ -11,11 +11,13 @@ const socketIo = require('socket.io');
 const setupSocket = (server) => {
     const io = socketIo(server, {
         cors: {
-            origin: ["https://ecom-chi-nine.vercel.app","http://localhost:3000","https://ecomfront-c7k2.onrender.com", "https://8c2f-105-66-4-49.ngrok-free.app"], // Remplacez par l'origine de votre frontend
+            origin: '*', // Autorise toutes les origines, pour les tests
 
-            methods: ["GET", "POST","PUT", "DELETE"],
+    methods: ["GET", "POST","PUT", "DELETE"],
             credentials: true
-        }
+        },
+        transports: ['websocket'], // Forcer l'utilisation de WebSocket
+
     });
 
 
