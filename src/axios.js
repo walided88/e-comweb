@@ -1,6 +1,6 @@
 // src/axios.js
 import axios from 'axios';
-const backendUrl = process.env.REACT_APP_BACKEND_URL;
+const backendUrl ="https://8c2f-105-66-4-49.ngrok-free.app";
 
 // Instance pour les requêtes liées aux utilisateurs
 const instanceUsers = axios.create({
