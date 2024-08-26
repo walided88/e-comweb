@@ -58,7 +58,7 @@ function DataTable({ headers, data }) {
                           <img src={prod.image} alt={prod.name} style={{ width: '100px', height: '100px' }} />
                           {!prod.selled && (
                             <button 
-                              onClick={() => handleImageClick(item._id, commande._id,prod._id)}>
+                              onClick={() => handleImageClick(item._id, commande._id,prod.id)}>
                               Mark as Sold
                             </button>
                           )}
