@@ -17,7 +17,6 @@ app.use(cors({
     // allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true
 }));
-app.use(cors()); // Activer CORS pour toutes les routes
 app.use(express.json());
 
 const server = http.createServer(app); // Créer le serveur HTTP
