@@ -1,7 +1,7 @@
 # Getting Started with Create React App
-**my demo frontEnd  : http://ecom-chi-nine.vercel.app**
+**My demo frontEnd  : http://ecom-chi-nine.vercel.app**
 
-**my demo fullstack(after activation of render server) : https://e-comfront.onrender.com**
+**My demo fullstack(after activation of render server) : https://e-comfront.onrender.com**
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
