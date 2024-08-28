@@ -25,7 +25,7 @@ const setupSocket = (server) => {
     io.use((socket, next) => {
         const token = socket.handshake.auth.token;
         if (token) {
-            jwt.verify(token, 'xxxx', (err, decoded) => { // Replace 'xxxx' with your JWT secret
+            jwt.verify(token, 'xxxx', (err, decoded) => { 
                 if (err) {
                     return next(new Error("Authentication error"));
                 }
@@ -38,7 +38,7 @@ const setupSocket = (server) => {
     });
     io.on('connection', (socket) => {
         console.log('A user connected:', socket.user);
-        console.log('A user connected:', socket.user); // Ajoutez ce log
+        console.log('A user connected:', socket.user); 
         console.log('User mail:', socket.user?.mail);  // Vérifiez la propriété mail
         console.log('User name:', socket.user?.name);  // Vérifiez la propriété name
         socket.on('message', (message) => {

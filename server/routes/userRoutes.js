@@ -30,10 +30,17 @@ router.post('/signup', async (req, res) => {
         }
 
         // Create a new user
-        const user = new User({ name, email, password, age });
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const user = new User({ name, email, password: hashedPassword, age });
         await user.save();
 
-        res.status(201).json({ message: 'User created successfully', user });
+        const token = jwt.sign(
+            { userId: user._id, name: user.name },
+            JWT_SECRET,
+            { expiresIn: '1h' }
+        );
+
+        res.status(201).json({ message: 'User created successfully', token, user });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
