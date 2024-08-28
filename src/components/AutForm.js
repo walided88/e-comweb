@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { instanceUsers } from '../axios';
 import { useDispatch } from 'react-redux';
-import { getClient,getName} from '../reducers/clientsReducer';
+import { getClient } from '../reducers/clientsReducer';
 import io from 'socket.io-client';
 import Loader from './Loader';
 
 const AuthForm = ({ setSocket }) => {
     const [isSignUp, setIsSignUp] = useState(false);
-    const [name, setName] = useState(null);
+    const [name, setName] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
     const [email, setEmail] = useState('');
@@ -18,21 +18,14 @@ const AuthForm = ({ setSocket }) => {
     const [error, setError] = useState('');
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [users, setUsers] = useState([]);
 
-function loading(){
-  if(isLoading){
-    <Loader />
-  }
-}
-  
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
+        setIsLoading(true);
 
         try {
             let response;
-            setIsLoading(true)
             if (isSignUp) {
                 response = await instanceUsers.post('/signup', { 
                     name,
@@ -42,56 +35,40 @@ function loading(){
                 });
             } else {
                 response = await instanceUsers.post('/login', {
-
                     email,
                     password
                 });
-                console.log("loadingloadingloading");
-                setUsers(response.data);
-                // setFetchedName(users.user.name);
-                // dispatch(getName(fetchedName));
             }
-            // console.log('  users.name users.name users.name:',users.user.name); // Check received message
-            console.log(' emailemailemail:',email); // Check received message
 
-            // Save token in localStorage
             localStorage.setItem('token', response.data.token);
 
-            // Initialize socket connection after login/signup
-            const socket = io('https://e-comweb.onrender.com', {
-              auth: {
-                    token: response.data.token,
-                    mail:email,
-                },
-                transports: ['websocket'],// Force l'utilisation de WebSocket
-                timeout: 5000, // Délai d'attente de 5 secondes
+            // Initialize socket connection
+        setTimeout(() => {
+    const socket = io('https://e-comweb.onrender.com', {
+        auth: {
+            token: response.data.token,
+            mail: email,
+        },
+        transports: ['websocket'],
+        timeout: 5000,
+    });
+    setSocket(socket);
+}, 1000);  // Adjust delay as needed
 
+            dispatch(getClient(email));
 
-            });
-            
-            setSocket(socket); // Pass the socket to parent component
-            const chatRoute = `/${email}`;
-            // console.log(email,"emailemailemailemailemailemail");
+            // Clear form fields
             setName('');
             setEmail('');
             setPassword('');
             setAge('');
-            navigate('/chat');
-            dispatch(getClient(email));
+            setIsLoading(false);
 
-            navigate({chatRoute});
-
+            // Navigate to chat page
         } catch (error) {
+            setIsLoading(false);
             setError('Failed to process request: ' + (error.response?.data?.message || error.message));
         }
-        // console.log(users.name, 'users.nameusers.name');
-
-
-
-
-
-
-
     };
 
     return (
@@ -99,10 +76,8 @@ function loading(){
             <FormWrapper>
                 <Title>{isSignUp ? 'Sign Up' : 'Login'}</Title>
                 {error && <ErrorMessage>{error}</ErrorMessage>}
-
                 <form onSubmit={handleSubmit}>
-                {isLoading && <div>    <Loader /></div>}
-
+                    {isLoading && <Loader />}
                     {isSignUp && (
                         <FormGroup>
                             <Label htmlFor="name">Name:</Label>
@@ -111,7 +86,7 @@ function loading(){
                                 id="name"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
-                                required={isSignUp}
+                                required
                                 placeholder="Enter your name"
                             />
                         </FormGroup>
@@ -150,13 +125,13 @@ function loading(){
                             />
                         </FormGroup>
                     )}
-                    <Button type="submit">{isSignUp ? 'Sign Up' : 'Login'}</Button>
-
+                    <Button type="submit" disabled={isLoading}>
+                        {isSignUp ? 'Sign Up' : 'Login'}
+                    </Button>
                 </form>
                 <ToggleText>
                     {isSignUp ? 'Already have an account?' : "Don't have an account?"}{' '}
                     <ToggleButton onClick={() => setIsSignUp(!isSignUp)}>
-
                         {isSignUp ? 'Login here' : 'Sign up here'}
                     </ToggleButton>
                 </ToggleText>
@@ -164,6 +139,7 @@ function loading(){
         </Container>
     );
 };
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -248,4 +224,5 @@ const ErrorMessage = styled.p`
   color: red;
   text-align: center;
 `;
+
 export default AuthForm;
