@@ -82,6 +82,8 @@ function loading(){
             navigate({chatRoute});
 
         } catch (error) {
+          setIsLoading(false);
+
             setError('Failed to process request: ' + (error.response?.data?.message || error.message));
         }
         // console.log(users.name, 'users.nameusers.name');
