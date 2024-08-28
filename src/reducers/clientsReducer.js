@@ -5,6 +5,7 @@ const clientsSlice = createSlice({
     initialState: {
         clientId: null,
         name:null,
+        clientMessage:[],
         clientsList: [], // Renommez l'état du tableau des clients pour plus de clarté
     },
     reducers: {
@@ -20,6 +21,9 @@ const clientsSlice = createSlice({
         addClient: (state, action) => {
             state.clientsList.push(action.payload); // Ajoute un client à la liste
         },
+        addMessage: (state, action) => {
+            state.clientMessage.push(action.payload); // Ajoute un client à la liste
+        },
         updateClient: (state, action) => {
             const index = state.clientsList.findIndex(client => client.id === action.payload.id);
             if (index !== -1) {
@@ -32,6 +36,6 @@ const clientsSlice = createSlice({
     },
 });
 
-export const { setClients, addClient, updateClient, deleteClient, getClient,getName } = clientsSlice.actions;
+export const { setClients, addClient, updateClient, deleteClient, getClient,getName,addMessage } = clientsSlice.actions;
 
 export default clientsSlice.reducer;
