@@ -3,6 +3,8 @@ import React from 'react';
 function Loader() {
   return (
     <div style={{
+      position: 'absolute', // Positionnement absolu pour superposer
+
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
@@ -10,10 +12,14 @@ function Loader() {
     }}>
       <div style={{
         border: '4px solid rgba(0, 0, 0, 0.1)',
-        borderRadius: '50%',
-        borderTop: '4px solid #3498db',
+        borderRadius: '70%',
+        borderTop: '4px solid blue',
         width: '50px',
         height: '50px',
+        marginTop:'-1050%',
+        marginRight:'-666%',
+
+        right:"55%",
         animation: 'spin 1s linear infinite',
       }}>
         <style>
