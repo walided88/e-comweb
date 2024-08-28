@@ -55,13 +55,7 @@ function Form({totaleP}) {
       });
 
       console.log('Client data submitted:', response.data);
-    //   const updList=multiplyArrayElements(list,0)
 
-    //   const updatedProduct = {
-    //     ...list,
-    //     quantity:price
-    // };
-      // Réinitialiser les champs du formulaire après soumission
       setName('');
       setEmail('');
       setAdress('');
@@ -77,9 +71,6 @@ function Form({totaleP}) {
       setError('Failed to process request: ' + (error.response?.data?.message || error.message));
     }
 
-  //   if(isSubmitted){   dispatch(prodSelected(prodSelecteds*0));
-  //     dispatch(multiplyArrayElements(list.quantity, 0));
-  //     setCartItems([list]); }
    };
 
   return (
