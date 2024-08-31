@@ -7,6 +7,10 @@ import { addMessage } from './reducers/clientsReducer';
 const Chat = ({ socket }) => {
     const [messages, setMessages] = useState([]);
     const [utilisateurs, setUtilisateurs] = useState([]);
+    const [selectdUser, setSelectdUser] = useState([]);
+    const [messageToSend, setMessageToSend] = useState([]);
+    const [test, setTest] = useState([]);
+
     const [input, setInput] = useState('');
     const [userEmail, setUserEmail] = useState('');
     const [userName, setUserName] = useState('');
@@ -14,8 +18,35 @@ const Chat = ({ socket }) => {
 
     const dispatch = useDispatch();
     const cltId = useSelector((state) => state.clients.clientId);
-
+ 
     useEffect(() => {
+        const sendMsg = async () => {
+            try {
+                const encodedMessage = encodeURIComponent(messageToSend);  // Encode message if needed
+                const response = await instanceUsers.put(`/${userEmail}/${encodedMessage}`);
+                
+                console.log('Response:', response.data);
+    
+                // Clear the message input (assuming messageToSend is an array or a string)
+                setMessageToSend([]);
+            } catch (error) {
+                console.error('Error sending message:', error);
+                if (error.response) {
+                    console.error('Response data:', error.response.data);
+                    console.error('Response status:', error.response.status);
+                }
+                setError('Failed to send message');
+            }
+        };
+    
+        if (userEmail && messageToSend) {
+            sendMsg();
+        }
+    }, [userEmail, messageToSend]);  // Run effect when userEmail or messageToSend changes
+    
+
+
+useEffect(() => {
         const fetchUtilisateurs = async () => {
             try {
                 const response = await instanceUsers.get('/');
@@ -28,6 +59,8 @@ const Chat = ({ socket }) => {
 
         fetchUtilisateurs();
     }, []);
+
+
 
     useEffect(() => {
         if (!socket) return;
@@ -57,7 +90,7 @@ const Chat = ({ socket }) => {
                 minute: '2-digit',
                 second: '2-digit'
             }).replace(',', '');
-
+            setMessageToSend([input,selectdUser.email,formattedDate]);
             socket.emit('message', {
                 text: input,
                 sender: cltId,
@@ -66,7 +99,25 @@ const Chat = ({ socket }) => {
             });
             setInput('');
         }
+        const tab=[messageToSend[0]]
+        setTest(tab);
     };
+
+
+    async function selectedUser(userId){
+    try {
+        const response = await instanceUsers.get(`/${userId}`);
+        setSelectdUser(response.data);
+        console.log('ResponseResponseResponse:', response.data);
+    } catch (error) {
+        setError('Failed to fetch utilisateurs');
+    }
+
+}
+console.log("selectdUserselectdUserselectdUser",selectdUser);
+    console.log("messageToSendmessageToSendmessageToSend",messageToSend);
+
+
 
     return (
         <div className="chat-wrapper">
@@ -74,13 +125,14 @@ const Chat = ({ socket }) => {
                 <h3>Utilisateurs</h3>
                 <ul>
                     {utilisateurs.map((user) => (
-                        <li key={user._id}>{user.name}</li>
+                        <li key={user._id} onClick={() => selectedUser(user.email)}>{user.name}</li>
+                        
                     ))}
                 </ul>
             </div>
             <div className="chat-container">
                 <div className="chat-header">
-                    <h2>Chat</h2>
+                    <h2>{selectdUser.name}</h2>
                 </div>
                 <div className="chat-messages">
                     {messages.map((msg, index) => (

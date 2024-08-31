@@ -30,8 +30,7 @@ router.post('/signup', async (req, res) => {
         }
 
         // Create a new user
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const user = new User({ name, email, password: hashedPassword, age });
+        const user = new User({ name, email, password, age });
         await user.save();
 
         const token = jwt.sign(
@@ -45,26 +44,46 @@ router.post('/signup', async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 });
-
-router.post('/sendMessage', async (req, res) => {
+router.put('/:userEmail/:messageToSend', async (req, res) => {
     try {
-        const { messages,clientId } = req.body;
+        const  messageToSend = req.params.messageToSend;
+        const  userEmail= req.params.userEmail;
 
-        // Check if the client already exists
-        let user = await User.findOne({ clientId });
+        // Debugging logs
+        // console.log("messageToSend:", messageToSend[1]);
+        console.log("userEmailss:", userEmail);
+        // Check if the user already exists
+        let user = await User.findOne({ email: userEmail });
         if (user) {
-            // Add new order to existing client
-            user.messages.details.push({ messages });
+            console.log("userfounded:", user.conversation.messages[1]);
+   // Create a new message object following the messageSchema
+   const newMessage = {
+    selfMessage: messageToSend,
+    // idReceiver: null,  // or set to another user's ID if needed
+};
+            // Add new message to existing user's conversation
+            user.conversation.messages.push(messageToSend);
             await user.save();
 
-            return res.status(201).json({ messages: 'New order added to existing client', client });
+            return res.status(201).json({ message: 'Message added to existing user', user });
         }
 
-        res.status(201).json({ message: 'Client created successfully', client });
+        // // If user does not exist, you may want to create a new user (optional)
+        // user = new User({
+        //     email: userEmail,
+        //     conversation: {
+        //         messages: [{ message: messageToSend }]
+        //     }
+        // });
+
+        await user.save();
+
+        res.status(201).json({ message: 'User created successfully and message added', user });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 });
+
 
 
 // Login Route
