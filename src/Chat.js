@@ -62,13 +62,16 @@ console.log(messages,"messagesmessagesmessages");
                 toUserId: activeTab === 'private' && selectedUser ? selectedUser._id : null // Null for public chat
             };
 
-      
-        // Ajouter le message localement pour que le client puisse voir son propre message
-        setMessages((prevMessages) => [...prevMessages, message]);
-        dispatch(addMessage(message)); 
+      if(activeTab=== 'private'){
 
-        // Envoyer le message via socket
-        socket.emit('message', message);
+          // Ajouter le message localement pour que le client puisse voir son propre message
+          setMessages((prevMessages) => [...prevMessages, message]);
+          dispatch(addMessage(message)); 
+  
+      }
+      
+          // Envoyer le message via socket
+          socket.emit('message', message);
         setInput('');
         
         }
