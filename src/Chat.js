@@ -57,13 +57,20 @@ console.log(messages,"messagesmessagesmessages");
             const message = {
                 text: input,
                 sender: cltId,
-                name: socket.auth.name,
+                name: socket.auth.name || "You",
                 currentDate: date,
                 toUserId: activeTab === 'private' && selectedUser ? selectedUser._id : null // Null for public chat
             };
 
-            socket.emit('message', message);
-            setInput('');
+      
+        // Ajouter le message localement pour que le client puisse voir son propre message
+        setMessages((prevMessages) => [...prevMessages, message]);
+        dispatch(addMessage(message)); 
+
+        // Envoyer le message via socket
+        socket.emit('message', message);
+        setInput('');
+        
         }
     };
 
@@ -172,7 +179,7 @@ console.log(messages,"messagesmessagesmessages");
     
             {/* Liste des utilisateurs disponibles pour discuter */}
             <div className="users-list">
-                <h3>Salut {socket.auth.name}</h3> {/* Salutation personnalisée */}
+                <h3>Salut {cltId}</h3> {/* Salutation personnalisée */}
                 <h3>Utilisateurs</h3> {/* Titre de la liste des utilisateurs */}
                 <ul>
                     {/* Affichage des utilisateurs disponibles pour discuter en privé */}
