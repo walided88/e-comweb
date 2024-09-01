@@ -9,12 +9,14 @@ const Chat = ({ socket }) => {
     const [utilisateurs, setUtilisateurs] = useState([]);
     const [selectedUser, setSelectedUser] = useState(null);
     const [input, setInput] = useState('');
+    const [uderName, setUserName] = useState('');
+
     const [error, setError] = useState('');
     const [activeTab, setActiveTab] = useState('public'); // 'public' or 'private'
 
     const dispatch = useDispatch();
     const cltId = useSelector((state) => state.clients.clientId);
-
+console.log(messages,"messagesmessagesmessages");
     useEffect(() => {
         const fetchUtilisateurs = async () => {
             try {
@@ -77,40 +79,50 @@ const Chat = ({ socket }) => {
 
     return (
         <div className="chat-wrapper">
+            {/* Section pour basculer entre le chat public et privé */}
             <div className="chat-tabs">
+                {/* Bouton pour accéder au chat public */}
                 <button 
                     className={activeTab === 'public' ? 'active' : ''} 
                     onClick={() => setActiveTab('public')}
                 >
                     Public Chat
                 </button>
+    
+                {/* Bouton pour accéder au chat privé, désactivé si aucun utilisateur n'est sélectionné */}
                 <button 
                     className={activeTab === 'private' ? 'active' : ''} 
                     onClick={() => setActiveTab('private')}
-                    disabled={!selectedUser} // Disable private chat if no user is selected
+                    disabled={!selectedUser} // Désactive le chat privé si aucun utilisateur n'est sélectionné
                 >
                     Private Chat
                 </button>
             </div>
-
+    
+            {/* Contenu du chat public */}
             {activeTab === 'public' && (
                 <div className="chat-container">
                     <div className="chat-header">
-                        <h2>Public Chat</h2>
+                        <h2>Public Chat</h2> {/* Titre de la section de chat public */}
                     </div>
                     <div className="chat-messages">
+                        {/* Filtrer et afficher les messages publics (sans destinataire spécifique) */}
                         {messages.filter(msg => !msg.toUserId).map((msg, index) => (
                             <div 
                                 key={index} 
                                 className={`message ${msg.sender === cltId ? 'my-message' : 'other-message'}`}
                             >
+                                {/* Affichage de la date du message */}
                                 <div style={{color:'red'}}>Date: {msg.currentDate}</div>
+                                {/* Affichage du nom de l'utilisateur */}
                                 <p style={{color:'blue'}}>Name: {msg.name}</p>
+                                {/* Affichage du texte du message */}
                                 <p>{msg.text}</p>
                             </div>
                         ))}
                     </div>
                     <div className="chat-input">
+                        {/* Zone de saisie du message et bouton d'envoi */}
                         <input 
                             value={input} 
                             onChange={(e) => setInput(e.target.value)} 
@@ -121,25 +133,32 @@ const Chat = ({ socket }) => {
                     </div>
                 </div>
             )}
-
+    
+            {/* Contenu du chat privé, visible seulement lorsqu'un utilisateur est sélectionné */}
             {activeTab === 'private' && selectedUser && (
                 <div className="chat-container">
                     <div className="chat-header">
+                        {/* Titre affichant le nom de l'utilisateur avec qui on discute */}
                         <h2>Chat with {selectedUser.name}</h2>
                     </div>
                     <div className="chat-messages">
+                        {/* Filtrer et afficher les messages privés envoyés à l'utilisateur sélectionné */}
                         {messages.filter(msg => msg.toUserId === selectedUser._id).map((msg, index) => (
                             <div 
                                 key={index} 
                                 className={`message ${msg.sender === cltId ? 'my-message' : 'other-message'}`}
                             >
+                                {/* Affichage de la date du message */}
                                 <div style={{color:'red'}}>Date: {msg.currentDate}</div>
+                                {/* Affichage du nom de l'utilisateur */}
                                 <p style={{color:'blue'}}>Name: {msg.name}</p>
+                                {/* Affichage du texte du message */}
                                 <p>{msg.text}</p>
                             </div>
                         ))}
                     </div>
                     <div className="chat-input">
+                        {/* Zone de saisie du message et bouton d'envoi */}
                         <input 
                             value={input} 
                             onChange={(e) => setInput(e.target.value)} 
@@ -150,17 +169,20 @@ const Chat = ({ socket }) => {
                     </div>
                 </div>
             )}
-
+    
+            {/* Liste des utilisateurs disponibles pour discuter */}
             <div className="users-list">
-                <h3>Utilisateurs</h3>
+                <h3>Salut {socket.auth.name}</h3> {/* Salutation personnalisée */}
+                <h3>Utilisateurs</h3> {/* Titre de la liste des utilisateurs */}
                 <ul>
+                    {/* Affichage des utilisateurs disponibles pour discuter en privé */}
                     {utilisateurs.map((user) => (
                         <li 
                             key={user._id} 
                             onClick={() => selectUser(user.email)}
                             className={selectedUser && selectedUser._id === user._id ? 'selected' : ''}
                         >
-                            {user.name}
+                            {user.name} {/* Nom de l'utilisateur */}
                         </li>
                     ))}
                 </ul>
