@@ -150,7 +150,7 @@ const Chat = ({ socket }) => {
             {activeTab === 'private' && selectedUser && (
                 <div className="chat-container">
                     <div className="chat-header">
-                        <h2>{selectedUser.name === userData.name ? 'Messages Recus' : "Chat with " + selectedUser.name}</h2>
+                    <h2>{selectedUser.name === userData.name ? 'Received Messages ' : "Messages sends to  " + selectedUser.name}</h2>
                     </div>
                     <div className="chat-messages">
                         {messages.filter(msg => msg.toUserId === selectedUser._id).map((msg, index) => (
@@ -203,7 +203,7 @@ const Chat = ({ socket }) => {
                     className="received-message" 
                     onClick={() => selectUser(userData.email)}
                     >
-                    Messages reçus
+                    Reveived Messages
                     </button>
                 </div>
         </div>
