@@ -17,6 +17,7 @@ const Chat = ({ socket }) => {
 
     const dispatch = useDispatch();
     const cltId = useSelector((state) => state.clients.clientId);
+    const reduxMessages = useSelector((state) => state.clients.clientMessage);
 
     useEffect(() => {
         const fetchUtilisateurs = async () => {
@@ -99,7 +100,12 @@ const Chat = ({ socket }) => {
             setError('Failed to fetch user');
         }
     };
-
+        console.log(messages,"messagesmessagesmessages");
+        console.log(reduxMessages,"reduxMessagesreduxMessagesreduxMessages");
+        // console.log('selectedUser._id:', selectedUser._id);
+        // console.log('userData._id:', userData._id);
+        // console.log('messages:', messages);
+        
     return (
         <div className="chat-wrapper">
             <div className="chat-tabs">
@@ -153,8 +159,10 @@ const Chat = ({ socket }) => {
                     <h2>{selectedUser.name === userData.name ? 'Received Messages ' : "Messages sends to  " + selectedUser.name}</h2>
                     </div>
                     <div className="chat-messages">
-                        {messages.filter(msg => msg.toUserId === selectedUser._id).map((msg, index) => (
-                            <div 
+                            {messages.filter(msg => 
+                        (msg.toUserId === selectedUser._id && msg.sender === cltId) || 
+                        (msg.toUserId === userData._id && msg.sender === selectedUser.email)
+                    ).map((msg, index) => (                            <div 
                                 key={index} 
                                 className={`message ${msg.sender === cltId ? 'my-message' : 'other-message'}`}
                             >
@@ -198,13 +206,13 @@ const Chat = ({ socket }) => {
 
             </div>
 
-            <div className=".chat-tabs" >
+            {/* <div className=".chat-tabs" >
                     <button 
                     onClick={() => selectUser(userData.email)}
                     >
                     Reveived Messages
                     </button>
-                </div>
+                </div> */}
         </div>
     );
 };
