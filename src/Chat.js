@@ -156,7 +156,7 @@ const Chat = ({ socket }) => {
             {activeTab === 'private' && selectedUser && (
                 <div className="chat-container">
                     <div className="chat-header">
-                    <h2>{selectedUser.name === userData.name ? 'Received Messages ' : "Messages sends to  " + selectedUser.name}</h2>
+                    <h2>{selectedUser.name &&  "Chat With " + selectedUser.name}</h2>
                     </div>
                     <div className="chat-messages">
                             {messages.filter(msg => 
@@ -185,8 +185,8 @@ const Chat = ({ socket }) => {
             )}
 
             <div className="users-list">
-                <h3>Salut {userData.name}</h3>
-                <h3>Utilisateurs</h3>
+                <h3>Hello {userData.name}</h3>
+                <h3>Users</h3>
                 <ul>
                         {utilisateurs
                             .filter(user => user.email !== userData.email) // Filtrer pour exclure userData
