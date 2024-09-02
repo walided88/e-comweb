@@ -9,7 +9,7 @@ const Chat = ({ socket }) => {
     const [utilisateurs, setUtilisateurs] = useState([]);
     const [selectedUser, setSelectedUser] = useState(null);
     const [input, setInput] = useState('');
-    const [uderName, setUserName] = useState('');
+    const [userData, setUserData] = useState([]);
 
     const [error, setError] = useState('');
     const [activeTab, setActiveTab] = useState('public'); // 'public' or 'private'
@@ -29,6 +29,20 @@ console.log(messages,"messagesmessagesmessages");
 
         fetchUtilisateurs();
     }, []);
+
+    useEffect(() => {
+        const fetchDataUser = async () => {
+            try {
+                const response = await instanceUsers.get(`/${cltId}`);
+                setUserData(response.data);
+            } catch (error) {
+                setError('Failed to fetch utilisateurs');
+            }
+        };
+
+        fetchDataUser();
+    }, []);
+    console.log(userData,"userDatauserDatauserData");
 
     useEffect(() => {
         if (!socket) return;
@@ -149,7 +163,7 @@ console.log(messages,"messagesmessagesmessages");
                 <div className="chat-container">
                     <div className="chat-header">
                         {/* Titre affichant le nom de l'utilisateur avec qui on discute */}
-                        <h2>Chat with {selectedUser.name}</h2>
+                        <h2>  {selectedUser.name==userData.name ? 'Messages Recus' : "Chat with " + selectedUser.name} </h2>
                     </div>
                     <div className="chat-messages">
                         {/* Filtrer et afficher les messages privés envoyés à l'utilisateur sélectionné */}
@@ -182,7 +196,7 @@ console.log(messages,"messagesmessagesmessages");
     
             {/* Liste des utilisateurs disponibles pour discuter */}
             <div className="users-list">
-                <h3>Salut {cltId}</h3> {/* Salutation personnalisée */}
+                <h3>Salut {userData.name}</h3> {/* Salutation personnalisée */}
                 <h3>Utilisateurs</h3> {/* Titre de la liste des utilisateurs */}
                 <ul>
                     {/* Affichage des utilisateurs disponibles pour discuter en privé */}
@@ -192,7 +206,10 @@ console.log(messages,"messagesmessagesmessages");
                             onClick={() => selectUser(user.email)}
                             className={selectedUser && selectedUser._id === user._id ? 'selected' : ''}
                         >
-                            {user.name} {/* Nom de l'utilisateur */}
+                    <span className={user.name === userData.name ? 'received-message' : 'sent-message'}>
+                    {user.name === userData.name ? <button>Messages reçus</button> : user.name}
+                    </span>
+
                         </li>
                     ))}
                 </ul>
