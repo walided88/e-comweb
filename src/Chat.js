@@ -10,13 +10,14 @@ const Chat = ({ socket }) => {
     const [selectedUser, setSelectedUser] = useState(null);
     const [input, setInput] = useState('');
     const [userData, setUserData] = useState([]);
+    const [isConnected, setIsConnected] = useState(false);
 
     const [error, setError] = useState('');
     const [activeTab, setActiveTab] = useState('public'); // 'public' or 'private'
 
     const dispatch = useDispatch();
     const cltId = useSelector((state) => state.clients.clientId);
-console.log(messages,"messagesmessagesmessages");
+
     useEffect(() => {
         const fetchUtilisateurs = async () => {
             try {
@@ -42,10 +43,13 @@ console.log(messages,"messagesmessagesmessages");
 
         fetchDataUser();
     }, []);
-    console.log(userData,"userDatauserDatauserData");
 
     useEffect(() => {
         if (!socket) return;
+
+        socket.on('connect', () => {
+            setIsConnected(true);
+        });
 
         socket.on('message', (message) => {
             setMessages((prevMessages) => [...prevMessages, message]);
@@ -76,18 +80,13 @@ console.log(messages,"messagesmessagesmessages");
                 toUserId: activeTab === 'private' && selectedUser ? selectedUser._id : null // Null for public chat
             };
 
-      if(activeTab=== 'private'){
+            if (activeTab === 'private') {
+                setMessages((prevMessages) => [...prevMessages, message]);
+                dispatch(addMessage(message));
+            }
 
-          // Ajouter le message localement pour que le client puisse voir son propre message
-          setMessages((prevMessages) => [...prevMessages, message]);
-          dispatch(addMessage(message)); 
-  
-      }
-      
-          // Envoyer le message via socket
-          socket.emit('message', message);
-        setInput('');
-        
+            socket.emit('message', message);
+            setInput('');
         }
     };
 
@@ -103,51 +102,40 @@ console.log(messages,"messagesmessagesmessages");
 
     return (
         <div className="chat-wrapper">
-            {/* Section pour basculer entre le chat public et privé */}
             <div className="chat-tabs">
-                {/* Bouton pour accéder au chat public */}
                 <button 
                     className={activeTab === 'public' ? 'active' : ''} 
                     onClick={() => setActiveTab('public')}
                 >
                     Public Chat
                 </button>
-    
-                {/* Bouton pour accéder au chat privé, désactivé si aucun utilisateur n'est sélectionné */}
                 <button 
                     className={activeTab === 'private' ? 'active' : ''} 
                     onClick={() => setActiveTab('private')}
-                    disabled={!selectedUser} // Désactive le chat privé si aucun utilisateur n'est sélectionné
+                    disabled={!selectedUser} 
                 >
                     Private Chat
                 </button>
             </div>
-    
-            {/* Contenu du chat public */}
+
             {activeTab === 'public' && (
                 <div className="chat-container">
                     <div className="chat-header">
-                        <h2>Public Chat</h2> {/* Titre de la section de chat public */}
+                        <h2>Public Chat</h2>
                     </div>
                     <div className="chat-messages">
-                        {/* Filtrer et afficher les messages publics (sans destinataire spécifique) */}
                         {messages.filter(msg => !msg.toUserId).map((msg, index) => (
                             <div 
                                 key={index} 
                                 className={`message ${msg.sender === cltId ? 'my-message' : 'other-message'}`}
                             >
-                                {/* Affichage de la date du message */}
                                 <div style={{color:'red'}}>Date: {msg.currentDate}</div>
-                                {/* Affichage du nom de l'utilisateur */}
-                                <p> Name: {msg.name==userData.name ? 'You' : msg.name} </p>
-
-                                {/* Affichage du texte du message */}
+                                <p> Name: {msg.name === userData.name ? 'You' : msg.name} </p>
                                 <p>{msg.text}</p>
                             </div>
                         ))}
                     </div>
                     <div className="chat-input">
-                        {/* Zone de saisie du message et bouton d'envoi */}
                         <input 
                             value={input} 
                             onChange={(e) => setInput(e.target.value)} 
@@ -158,32 +146,25 @@ console.log(messages,"messagesmessagesmessages");
                     </div>
                 </div>
             )}
-    
-            {/* Contenu du chat privé, visible seulement lorsqu'un utilisateur est sélectionné */}
+
             {activeTab === 'private' && selectedUser && (
                 <div className="chat-container">
                     <div className="chat-header">
-                        {/* Titre affichant le nom de l'utilisateur avec qui on discute */}
-                        <h2>  {selectedUser.name==userData.name ? 'Messages Recus' : "Chat with " + selectedUser.name} </h2>
+                        <h2>{selectedUser.name === userData.name ? 'Messages Recus' : "Chat with " + selectedUser.name}</h2>
                     </div>
                     <div className="chat-messages">
-                        {/* Filtrer et afficher les messages privés envoyés à l'utilisateur sélectionné */}
                         {messages.filter(msg => msg.toUserId === selectedUser._id).map((msg, index) => (
                             <div 
                                 key={index} 
                                 className={`message ${msg.sender === cltId ? 'my-message' : 'other-message'}`}
                             >
-                                {/* Affichage de la date du message */}
                                 <div style={{color:'red'}}>Date: {msg.currentDate}</div>
-                                {/* Affichage du nom de l'utilisateur */}
                                 <p style={{color:'blue'}}>Name: {msg.name}</p>
-                                {/* Affichage du texte du message */}
                                 <p>{msg.text}</p>
                             </div>
                         ))}
                     </div>
                     <div className="chat-input">
-                        {/* Zone de saisie du message et bouton d'envoi */}
                         <input 
                             value={input} 
                             onChange={(e) => setInput(e.target.value)} 
@@ -194,27 +175,37 @@ console.log(messages,"messagesmessagesmessages");
                     </div>
                 </div>
             )}
-    
-            {/* Liste des utilisateurs disponibles pour discuter */}
-            <div className="users-list">
-                <h3>Salut {userData.name}</h3> {/* Salutation personnalisée */}
-                <h3>Utilisateurs</h3> {/* Titre de la liste des utilisateurs */}
-                <ul>
-                    {/* Affichage des utilisateurs disponibles pour discuter en privé */}
-                    {utilisateurs.map((user) => (
-                        <li 
-                            key={user._id} 
-                            onClick={() => selectUser(user.email)}
-                            className={selectedUser && selectedUser._id === user._id ? 'selected' : ''}
-                        >
-                    <span className={user.name === userData.name ? 'received-message' : 'sent-message'}>
-                    {user.name === userData.name ? <button>Messages reçus</button> : user.name}
-                    </span>
 
-                        </li>
-                    ))}
+            <div className="users-list">
+                <h3>Salut {userData.name}</h3>
+                <h3>Utilisateurs</h3>
+                <ul>
+                        {utilisateurs
+                            .filter(user => user.email !== userData.email) // Filtrer pour exclure userData
+                            .map((user) => (
+                                <li 
+                                    key={user._id} 
+                                    onClick={() => selectUser(user.email)}
+                                    className={selectedUser && selectedUser._id === user._id ? 'selected' : ''}
+                                >
+                                    <span className='sent-message'>
+                                        {user.name}
+                                    </span>
+                                </li>
+                            ))
+                        }
                 </ul>
+
             </div>
+
+            <div className="received-message-container">
+                    <button 
+                    className="received-message" 
+                    onClick={() => selectUser(userData.email)}
+                    >
+                    Messages reçus
+                    </button>
+                </div>
         </div>
     );
 };

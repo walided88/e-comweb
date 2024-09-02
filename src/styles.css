@@ -1016,7 +1016,41 @@ margin-left:  -44px;
   border-radius: 5px;
 }
 
-.users-list li.selected {
-  background-color: #007bff;
-  color: white;
+
+.received-message {
+  text-align: right;
+  background-color: #e0e0e0;
+  padding: 10px;
+  border-radius: 10px;
+  display: inline-block;
+  max-width: 77%;
+  position: absolute;
+  margin-top: 250px;
+}
+
+.sent-message {
+  text-align: left;
+  background-color: #d0f0c0;
+  padding: 10px;
+  border-radius: 10px;
+  display: inline-block;
+  max-width: 70%;
+}
+.received-message-container {
+  position: absolute;
+  bottom: 520px;
+  right:  -20px;
+  width: 20%;
+
+}
+
+.received-message {
+  position: absolute;
+
+  text-align: left;
+  background-color: #d0f0c0;
+  padding: 10px;
+  border-radius: 10px;
+  display: inline-block;
+  max-width: 70%;
 }
