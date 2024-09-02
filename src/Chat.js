@@ -139,7 +139,8 @@ console.log(messages,"messagesmessagesmessages");
                                 {/* Affichage de la date du message */}
                                 <div style={{color:'red'}}>Date: {msg.currentDate}</div>
                                 {/* Affichage du nom de l'utilisateur */}
-                                <p style={{color:'blue'}}>Name: {msg.name}</p>
+                                <p> Name: {msg.name==userData.name ? 'You' : msg.name} </p>
+
                                 {/* Affichage du texte du message */}
                                 <p>{msg.text}</p>
                             </div>
