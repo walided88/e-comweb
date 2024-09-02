@@ -198,9 +198,8 @@ const Chat = ({ socket }) => {
 
             </div>
 
-            <div className="received-message-container">
+            <div className=".chat-tabs" >
                     <button 
-                    className="received-message" 
                     onClick={() => selectUser(userData.email)}
                     >
                     Reveived Messages
