@@ -614,7 +614,7 @@ max-height: 80%;
 
 .my-message {
   background-color: #d1e7dd; /* Couleur de fond pour les messages de l'utilisateur */
-}
+ }
 
 
 
@@ -987,14 +987,7 @@ max-height: 80%;
 
 }
 
-.sent-message {
-  text-align: left;
-  background-color: #d0f0c0;
-  padding: 10px;
-  border-radius: 10px;
-  display: inline-block;
-  max-width: 70%;
-}
+
 .received-message-container {
   position: absolute;
   bottom: 55%;
