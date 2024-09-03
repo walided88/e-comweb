@@ -613,10 +613,7 @@ max-height: 80%;
 }
 
 .my-message {
-  background-color: #dcf8c6; /* Couleur de fond pour les messages envoyés par l'utilisateur */
-  align-self: flex-end;
-  margin-right:22% ;
-
+  background-color: #d1e7dd; /* Couleur de fond pour les messages de l'utilisateur */
 }
 
 
@@ -842,10 +839,6 @@ max-height: 80%;
   margin-bottom: 10px;
 }
 
-.my-message {
-  text-align: right;
-}
-
 
 .chat-input {
   display: flex;
@@ -923,8 +916,11 @@ max-height: 80%;
 
 
 .other-message {
-  background-color: #f1f1f1;
-  align-self: flex-start;
+    background-color: #f8d7da; /* Couleur de fond pour les messages de l'autre utilisateur */
+    align-self: flex-start; /* Aligne les messages de l'autre utilisateur à gauche */
+    text-align: right;
+    margin-left: auto;
+    
 }
 
 .chat-input {
