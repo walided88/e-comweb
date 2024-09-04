@@ -35,7 +35,18 @@ const setupSocket = (server) => {
     io.on('connection', (socket) => {
         const userId = socket.user.userId; // Récupère l'ID de l'utilisateur à partir du token JWT
         console.log('A user connected:', socket.user);
-
+        socket.on('join-room', ({ roomId, userName }) => {
+            socket.join(roomId);
+            console.log(`${userName} joined room: ${roomId}`);
+    
+            // Notifier les autres utilisateurs de la room
+            socket.to(roomId).emit('user-joined', { userName });
+        });
+    
+        socket.on('message', ({ roomId, message }) => {
+            io.to(roomId).emit('message', message);
+        });
+    
         // Stocke le socket de l'utilisateur connecté dans la Map
         userSockets.set(userId, socket);
         console.log('userSocketsuserSocketsuserSockets:', userSockets);

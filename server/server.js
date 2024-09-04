@@ -8,6 +8,7 @@ const setupSocket = require('./socket'); // Importer la configuration de socket.
 
 const userRoutes = require('./routes/userRoutes');
 const clientRoutes = require('./routes/clientRoutes');
+const messageRoutes = require('./routes/messageRoutes');
 
 const app = express();
 app.use(cors({
@@ -32,6 +33,7 @@ mongoose.connect(process.env.MONGO_URI)
 // Définition des routes
 app.use('/users', userRoutes);
 app.use('/clients', clientRoutes);
+app.use('/messages', messageRoutes);
 
 const PORT = 5000;
 server.listen(PORT, () => console.log(`Server is running on port ${PORT}`)); // Utiliser 'server.listen' et non 'app.listen'

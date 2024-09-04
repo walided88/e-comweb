@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './styles.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { instanceUsers } from './axios';
-import { addMessage } from './reducers/clientsReducer';
+import { instanceUsers,instanceMessages } from './axios';
+import { addMessage,deleteMessage } from './reducers/clientsReducer';
 
 const Chat = ({ socket }) => {
     const [messages, setMessages] = useState([]);
@@ -31,7 +31,7 @@ const Chat = ({ socket }) => {
 
         fetchUtilisateurs();
     }, []);
-
+ 
     useEffect(() => {
         const fetchDataUser = async () => {
             try {
@@ -44,7 +44,23 @@ const Chat = ({ socket }) => {
 
         fetchDataUser();
     }, []);
+    useEffect(() => {
+        const fetchDataUser = async () => {
+            try {
+                const response = await instanceMessages.put("/", {
+                    reduxMessages
+                });
+                console.log(response,"responseresponseresponse")
+                dispatch(deleteMessage());
 
+            } catch (error) {
+                setError('Failed to fetch utilisateurs');
+            }
+        };
+
+        fetchDataUser();
+
+    }, [messages]);
     useEffect(() => {
         if (!socket) return;
 
@@ -53,16 +69,15 @@ const Chat = ({ socket }) => {
         });
 
         socket.on('message', (message) => {
-            setMessages((prevMessages) => [...prevMessages, message]);
             dispatch(addMessage(message));
         });
 
         return () => {
             socket.disconnect();
         };
-    }, [socket, dispatch]);
+    }, [socket, dispatch,messages]);
 
-    const sendMessage = () => {
+    const sendMessage = async () => {
         if (input.trim()) {
             const date = new Date().toLocaleString('en-GB', {
                 year: 'numeric',
@@ -80,12 +95,16 @@ const Chat = ({ socket }) => {
                 currentDate: date,
                 toUserId: activeTab === 'private' && selectedUser ? selectedUser._id : null // Null for public chat
             };
+      
+            // if (activeTab === 'private') {
+            //     const messageString = "votreMessage"; // ou une variable contenant le message
 
-            if (activeTab === 'private') {
-                setMessages((prevMessages) => [...prevMessages, message]);
-                dispatch(addMessage(message));
-            }
+             
 
+              
+            // }
+            setMessages((prevMessages) => [...prevMessages, message]);
+            dispatch(addMessage(message));
             socket.emit('message', message);
             setInput('');
         }
@@ -102,10 +121,8 @@ const Chat = ({ socket }) => {
     };
         console.log(messages,"messagesmessagesmessages");
         console.log(reduxMessages,"reduxMessagesreduxMessagesreduxMessages");
-        // console.log('selectedUser._id:', selectedUser._id);
-        // console.log('userData._id:', userData._id);
-        // console.log('messages:', messages);
-        
+
+         
     return (
         <div className="chat-wrapper">
             <div className="chat-tabs">
@@ -133,7 +150,7 @@ const Chat = ({ socket }) => {
                         {messages.filter(msg => !msg.toUserId).map((msg, index) => (
                             <div 
                                 key={index} 
-                                className={`message ${msg.sender === cltId ? 'my-message' : 'other-message'}`}
+                                className={`message ${msg.sender === cltId ? 'other-message' : 'my-message'}`}
                             >
                                 <div style={{color:'red'}}>Date: {msg.currentDate}</div>
                                 <p> Name: {msg.name === userData.name ? 'You' : msg.name} </p>
