@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useCallback } from 'react';
 import './styles.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { instanceUsers,instanceMessages } from './axios';
@@ -31,6 +31,21 @@ const Chat = ({ socket }) => {
 
         fetchUtilisateurs();
     }, []);
+
+    
+    const fetchMessages = useCallback(async () => {
+        try {
+            const response = await instanceMessages.get('/');
+            setMessages(response.data);
+        } catch (error) {
+            setError('Failed to fetch messages');
+        }
+    }, []); // Add dependencies if needed
+
+    useEffect(() => {
+        fetchMessages();
+    }, [fetchMessages, reduxMessages]); // Adding `fetchMessages` and `reduxMessages` to the dependency array
+
  
     useEffect(() => {
         const fetchDataUser = async () => {
@@ -44,27 +59,13 @@ const Chat = ({ socket }) => {
 
         fetchDataUser();
     }, []);
-    useEffect(() => {
-        const fetchDataUser = async () => {
-            try {
-                const response = await instanceMessages.put("/", {
-                    reduxMessages
-                });
-                console.log(response,"responseresponseresponse")
-                dispatch(deleteMessage());
-
-            } catch (error) {
-                setError('Failed to fetch utilisateurs');
-            }
-        };
-
-        fetchDataUser();
-
-    }, [messages]);
+ 
     useEffect(() => {
         if (!socket) return;
 
-        socket.on('connect', () => {
+        socket.on('connect', async () => {
+            const response = await instanceMessages.get('/');
+                setMessages(response.data);
             setIsConnected(true);
         });
 
@@ -72,10 +73,31 @@ const Chat = ({ socket }) => {
             dispatch(addMessage(message));
         });
 
-        return () => {
+        return async () => {
+     
+            dispatch(deleteMessage());
             socket.disconnect();
         };
     }, [socket, dispatch,messages]);
+
+    useEffect(() => {
+        const putMessages = async () => {
+            if (reduxMessages.length > 0) {
+                try {
+                    const response = await instanceMessages.put("/", { reduxMessages });
+                    console.log(response, "PUT response");
+                    dispatch(deleteMessage()); // Delete messages from the Redux store after successful PUT
+                } catch (error) {
+                    console.error('Failed to update messages:', error);
+                }
+            }
+        };
+    
+        putMessages();
+    }, [reduxMessages, dispatch]); // Depend only on reduxMessages
+    
+
+
 
     const sendMessage = async () => {
         if (input.trim()) {
@@ -91,7 +113,7 @@ const Chat = ({ socket }) => {
             const message = {
                 text: input,
                 sender: cltId,
-                name: socket.auth.name || "You",
+                name: userData.name || "You",
                 currentDate: date,
                 toUserId: activeTab === 'private' && selectedUser ? selectedUser._id : null // Null for public chat
             };
@@ -119,10 +141,7 @@ const Chat = ({ socket }) => {
             setError('Failed to fetch user');
         }
     };
-        console.log(messages,"messagesmessagesmessages");
-        console.log(reduxMessages,"reduxMessagesreduxMessagesreduxMessages");
-
-         
+     
     return (
         <div className="chat-wrapper">
             <div className="chat-tabs">
@@ -147,7 +166,8 @@ const Chat = ({ socket }) => {
                         <h2>Public Chat</h2>
                     </div>
                     <div className="chat-messages">
-                        {messages.filter(msg => !msg.toUserId).map((msg, index) => (
+                    {messages.map((obj) => 
+    (obj.messages ?? []).filter(msg => !msg.toUserId).map((msg, index) => (
                             <div 
                                 key={index} 
                                 className={`message ${msg.sender === cltId ? 'other-message' : 'my-message'}`}
@@ -156,7 +176,8 @@ const Chat = ({ socket }) => {
                                 <p> Name: {msg.name === userData.name ? 'You' : msg.name} </p>
                                 <p>{msg.text}</p>
                             </div>
-                        ))}
+                     ))
+                    )}  
                     </div>
                     <div className="chat-input">
                         <input 
@@ -176,7 +197,8 @@ const Chat = ({ socket }) => {
                     <h2>{selectedUser.name &&  "Chat With " + selectedUser.name}</h2>
                     </div>
                     <div className="chat-messages">
-                            {messages.filter(msg => 
+                    {messages.map((obj) => 
+    (obj.messages ?? []).filter(msg => 
                         (msg.toUserId === selectedUser._id && msg.sender === cltId) || 
                         (msg.toUserId === userData._id && msg.sender === selectedUser.email)
                     ).map((msg, index) => (                            <div 
@@ -187,8 +209,8 @@ const Chat = ({ socket }) => {
                                 <p style={{color:'blue'}}>Name: {msg.name}</p>
                                 <p>{msg.text}</p>
                             </div>
-                        ))}
-                    </div>
+                 ))
+                )}                    </div>
                     <div className="chat-input">
                         <input 
                             value={input} 
@@ -235,3 +257,6 @@ const Chat = ({ socket }) => {
 };
 
 export default Chat;
+
+
+
