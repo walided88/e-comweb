@@ -206,7 +206,7 @@ const Chat = ({ socket }) => {
                                 className={`message ${msg.sender === cltId ? 'my-message' : 'other-message'}`}
                             >
                                 <div style={{color:'red'}}>Date: {msg.currentDate}</div>
-                                <p style={{color:'blue'}}>Name: {msg.name}</p>
+                                <p> Name: {msg.name === userData.name ? 'You' : msg.name} </p>
                                 <p>{msg.text}</p>
                             </div>
                  ))
@@ -260,3 +260,17 @@ export default Chat;
 
 
 
+
+// {messages.map((obj) => 
+//     (obj.messages ?? [])
+//         .filter(msg => !msg.toUserId).map((msg, index) => (
+//                 <div 
+//                     key={index} 
+//                     className={`message ${msg.sender === cltId ? 'my-message' : 'other-message'}`}
+//                 >
+//                     <div style={{color:'red'}}>Date: {msg.currentDate}</div>
+//                     <p>Name: {msg.name === userData.name ? 'You' : msg.name}</p>
+//                     <p>{msg.text}</p>
+//                 </div>
+//                  ))
+// )}
