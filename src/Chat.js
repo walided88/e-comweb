@@ -12,6 +12,7 @@ const Chat = ({ socket }) => {
     const [userData, setUserData] = useState([]);
     const [isConnected, setIsConnected] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [test, setTest] = useState(true);
 
     const [error, setError] = useState('');
     const [activeTab, setActiveTab] = useState('public'); // 'public' or 'private'
@@ -38,12 +39,11 @@ const Chat = ({ socket }) => {
     const fetchMessages = useCallback(async () => {
         try {
             const response = await instanceMessages.get('/');
-            setIsLoading(true);
+           
             setMessages(response.data);
         } catch (error) {
             setError('Failed to fetch messages');
         }
-        setIsLoading(false);
 
     }, []); // Add dependencies if needed
 
@@ -70,16 +70,23 @@ const Chat = ({ socket }) => {
 
         socket.on('connect', async () => {
             const response = await instanceMessages.get('/');
-            setIsLoading(true);
 
                 setMessages(response.data);
-            setIsConnected(true);
         });
+        setIsConnected(true);
 
         socket.on('message', (message) => {
+            setIsLoading(true);
+
             dispatch(addMessage(message));
+            socket.on('message', (message) => {
+                setIsLoading(true);
+                setTimeout(() => {
+               
+                    setIsLoading(false);
+                }, 2000); // Ajuste ce délai selon tes besoins
+            });
         });
-        setIsLoading(false);
 
         return async () => {
      
@@ -133,7 +140,6 @@ const Chat = ({ socket }) => {
 
               
             // }
-            setIsLoading(true);
 
             setMessages((prevMessages) => [...prevMessages, message]);
             dispatch(addMessage(message));
@@ -176,10 +182,11 @@ const Chat = ({ socket }) => {
                 <div className="chat-container">
                     <div className="chat-header">
                         <h2>Public Chat</h2>
+                      
+
                     </div>
                     <div className="chat-messages">
                     {isLoading && <Loader />}
-
                     {messages.map((obj) => 
     (obj.messages ?? []).filter(msg => !msg.toUserId).map((msg, index) => (
                             <div 
