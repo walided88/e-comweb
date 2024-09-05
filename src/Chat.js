@@ -3,7 +3,7 @@ import './styles.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { instanceUsers,instanceMessages } from './axios';
 import { addMessage,deleteMessage } from './reducers/clientsReducer';
-
+import Loader from "./components/Loader";
 const Chat = ({ socket }) => {
     const [messages, setMessages] = useState([]);
     const [utilisateurs, setUtilisateurs] = useState([]);
@@ -11,6 +11,7 @@ const Chat = ({ socket }) => {
     const [input, setInput] = useState('');
     const [userData, setUserData] = useState([]);
     const [isConnected, setIsConnected] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const [error, setError] = useState('');
     const [activeTab, setActiveTab] = useState('public'); // 'public' or 'private'
@@ -23,6 +24,7 @@ const Chat = ({ socket }) => {
         const fetchUtilisateurs = async () => {
             try {
                 const response = await instanceUsers.get('/');
+                
                 setUtilisateurs(response.data);
             } catch (error) {
                 setError('Failed to fetch utilisateurs');
@@ -36,10 +38,13 @@ const Chat = ({ socket }) => {
     const fetchMessages = useCallback(async () => {
         try {
             const response = await instanceMessages.get('/');
+            setIsLoading(true);
             setMessages(response.data);
         } catch (error) {
             setError('Failed to fetch messages');
         }
+        setIsLoading(false);
+
     }, []); // Add dependencies if needed
 
     useEffect(() => {
@@ -65,6 +70,8 @@ const Chat = ({ socket }) => {
 
         socket.on('connect', async () => {
             const response = await instanceMessages.get('/');
+            setIsLoading(true);
+
                 setMessages(response.data);
             setIsConnected(true);
         });
@@ -72,6 +79,7 @@ const Chat = ({ socket }) => {
         socket.on('message', (message) => {
             dispatch(addMessage(message));
         });
+        setIsLoading(false);
 
         return async () => {
      
@@ -125,9 +133,13 @@ const Chat = ({ socket }) => {
 
               
             // }
+            setIsLoading(true);
+
             setMessages((prevMessages) => [...prevMessages, message]);
             dispatch(addMessage(message));
             socket.emit('message', message);
+            setIsLoading(false);
+
             setInput('');
         }
     };
@@ -166,6 +178,8 @@ const Chat = ({ socket }) => {
                         <h2>Public Chat</h2>
                     </div>
                     <div className="chat-messages">
+                    {isLoading && <Loader />}
+
                     {messages.map((obj) => 
     (obj.messages ?? []).filter(msg => !msg.toUserId).map((msg, index) => (
                             <div 
@@ -197,6 +211,8 @@ const Chat = ({ socket }) => {
                     <h2>{selectedUser.name &&  "Chat With " + selectedUser.name}</h2>
                     </div>
                     <div className="chat-messages">
+                    {isLoading && <Loader />}
+
                     {messages.map((obj) => 
     (obj.messages ?? []).filter(msg => 
                         (msg.toUserId === selectedUser._id && msg.sender === cltId) || 
