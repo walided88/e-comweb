@@ -2,7 +2,7 @@ import React, { useState, useEffect,useCallback } from 'react';
 import './styles.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { instanceUsers,instanceMessages } from './axios';
-import { addMessage,deleteMessage,addConnected } from './reducers/clientsReducer';
+import { addMessage,deleteMessage } from './reducers/clientsReducer';
 import Loader from "./components/Loader";
 const Chat = ({ socket }) => {
     const [messages, setMessages] = useState([]);
@@ -58,7 +58,6 @@ const Chat = ({ socket }) => {
         const fetchDataUser = async () => {
             try {
                 const response = await instanceUsers.get(`/${cltId}`);
-                dispatch(addConnected(cltId));
 
                 setUserData(response.data);
             } catch (error) {
