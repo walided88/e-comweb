@@ -92,12 +92,14 @@ const Chat = ({ socket }) => {
      
             dispatch(deleteMessage());
             socket.disconnect();
+            setIsConnected(false);
+
         };
     }, [socket, dispatch,messages]);
 
     useEffect(() => {
         const putMessages = async () => {
-            if (reduxMessages.length > 0) {
+            if (reduxMessages.length > 0 && isConnected) {
                 try {
                     const response = await instanceMessages.put("/", { reduxMessages });
                     console.log(response, "PUT response");
