@@ -2,90 +2,79 @@ const jwt = require('jsonwebtoken');
 const socketIo = require('socket.io');
 
 // Stocke les connexions des utilisateurs par ID
-const userSockets = new Map(); // Utilisation d'une Map pour stocker les sockets des utilisateurs par leur ID unique
+const userSockets = new Map();
 
 const setupSocket = (server) => {
-    // Initialisation de socket.io avec les paramètres de configuration
     const io = socketIo(server, {
         cors: {
-            origin: '*', // Permet les connexions CORS depuis n'importe quelle origine
-            methods: ["GET", "POST", "PUT", "DELETE"], // Méthodes HTTP autorisées
-            credentials: true // Permet l'envoi de cookies lors de la connexion
+            origin: '*',
+            methods: ["GET", "POST", "PUT", "DELETE"],
+            credentials: true
         },
-        transports: ['websocket'], // Utilise uniquement le transport WebSocket pour la communication
+        transports: ['websocket'],
     });
 
-    // Middleware d'authentification pour vérifier le token JWT lors de la connexion
+    // Middleware d'authentification
     io.use((socket, next) => {
-        const token = socket.handshake.auth.token; // Récupère le token JWT depuis les informations de handshake
+        const token = socket.handshake.auth.token;
         if (token) {
-            jwt.verify(token, 'xxxx', (err, decoded) => { // Vérifie le token avec la clé secrète 'xxxx'
+            jwt.verify(token, 'xxxx', (err, decoded) => {
                 if (err) {
-                    return next(new Error("Authentication error")); // Si le token est invalide, renvoie une erreur d'authentification
+                    return next(new Error("Authentication error"));
                 }
-                socket.user = decoded; // Ajoute les informations d'utilisateur décodées au socket
-                next(); // Continue le processus de connexion
+                socket.user = decoded;
+                next();
             });
         } else {
-            next(new Error("Authentication error")); // Si aucun token n'est présent, renvoie une erreur d'authentification
+            next(new Error("Authentication error"));
         }
     });
 
-    // Gère les connexions des utilisateurs
+    // Écoute de la connexion utilisateur
     io.on('connection', (socket) => {
-        const userId = socket.user.userId; // Récupère l'ID de l'utilisateur à partir du token JWT
+        const userId = socket.user.userId;
         console.log('A user connected:', socket.user);
+
+        // Stocke le socket de l'utilisateur connecté
+        userSockets.set(userId, socket);
+        console.log('userSockets:', userSockets);
+
+        // Gère l'entrée dans une salle
         socket.on('join-room', ({ roomId, userName }) => {
             socket.join(roomId);
             console.log(`${userName} joined room: ${roomId}`);
-    
-            // Notifier les autres utilisateurs de la room
             socket.to(roomId).emit('user-joined', { userName });
         });
-    
-        socket.on('message', ({ roomId, message }) => {
-            io.to(roomId).emit('message', message);
-        });
-    
-        // Stocke le socket de l'utilisateur connecté dans la Map
-        userSockets.set(userId, socket);
-        console.log('userSocketsuserSocketsuserSockets:', userSockets);
 
-        // Écoute les messages envoyés par l'utilisateur
+        // Gestion des messages
         socket.on('message', (message) => {
+            const fullMessage = {
+                ...message,
+                mail: socket.user.mail,
+                name: socket.user.name,
+                createdAt: new Date().toISOString()
+            };
+
             if (message.toUserId) {
-                // Si un toUserId est spécifié, il s'agit d'un message privé
-                const recipientSocket = userSockets.get(message.toUserId); // Récupère le socket du destinataire à partir de la Map
+                const recipientSocket = userSockets.get(message.toUserId);
                 if (recipientSocket) {
-                    // Crée un message complet avec les détails de l'expéditeur
-                    const fullMessage = {
-                        ...message,
-                        mail: socket.user.mail,
-                        name: socket.user.name,
-                        createdAt: new Date().toISOString() // Ajoute une date de création au message
-                    };
-                    recipientSocket.emit('message', fullMessage); // Envoie le message au destinataire
+                    recipientSocket.emit('message', fullMessage);
                 } else {
-                    console.log('Recipient not connected'); // Le destinataire n'est pas connecté
+                    console.log('Recipient not connected');
                 }
+            } else if (message.roomId) {
+                io.to(message.roomId).emit('message', fullMessage);
             } else {
-                // Si aucun toUserId n'est spécifié, il s'agit d'un message public
-                const fullMessage = {
-                    ...message,
-                    mail: socket.user.mail,
-                    name: socket.user.name,
-                    createdAt: new Date().toISOString() // Ajoute une date de création au message
-                };
-                io.emit('message', fullMessage); // Diffuse le message à tous les utilisateurs connectés
+                io.emit('message', fullMessage);
             }
         });
 
-        // Gère la déconnexion des utilisateurs
+        // Gestion des déconnexions
         socket.on('disconnect', () => {
             console.log('User disconnected');
-            userSockets.delete(userId); // Supprime le socket de l'utilisateur de la Map lors de la déconnexion
+            userSockets.delete(userId);
         });
     });
 };
 
-module.exports = setupSocket; // Exporte la fonction setupSocket pour être utilisée ailleurs dans le projet
+module.exports = setupSocket;
