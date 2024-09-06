@@ -65,33 +65,36 @@ const Chat = ({ socket }) => {
         fetchDataUser();
     }, []);
  
+
     useEffect(() => {
         if (!socket) return;
-
+    
+        // Écouteur pour l'événement 'connect'
         socket.on('connect', async () => {
-            const response = await instanceMessages.get('/');
-
+            try {
+                const response = await instanceMessages.get('/');
                 setMessages(response.data);
+                setIsConnected(true);
+            } catch (error) {
+                console.error('Error fetching messages:', error);
+            }
         });
-        setIsConnected(true);
-
+    
+        // Écouteur pour l'événement 'message'
         socket.on('message', (message) => {
-
             dispatch(addMessage(message));
-            socket.on('message', (message) => {
-             
-            });
         });
-
-        return async () => {
-     
-            dispatch(deleteMessage());
-            socket.disconnect();
-            setIsConnected(false);
-
+    
+        // Nettoyage
+        return () => {
+            socket.off('message'); // Nettoie l'écouteur d'événement 'message'
+            socket.disconnect(); // Déconnecte le socket
+            setIsConnected(false); // Met à jour l'état de connexion
         };
-    }, [socket, dispatch,messages]);
+    }, [socket]);
+    
 
+    
     useEffect(() => {
         const putMessages = async () => {
             if (reduxMessages.length > 0) {
