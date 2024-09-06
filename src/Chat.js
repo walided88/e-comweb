@@ -269,7 +269,7 @@ const Chat = ({ socket }) => {
                 </div>
             )}<div className="users-list">
             <h3>
-                Hello {userData.name} - {userStatus[userData._id] === 'online' ? 'Online' : 'Offline'}
+                Hello {userData.name}
             </h3>
             <h3>Users</h3>
             <ul>
