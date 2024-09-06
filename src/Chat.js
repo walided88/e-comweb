@@ -112,7 +112,7 @@ const Chat = ({ socket }) => {
     
     useEffect(() => {
         const putMessages = async () => {
-            if (reduxMessages.length > 0) {
+            if (reduxMessages.length > 0 && activeTab) {
                 setIsLoading(true);
 
                 try {
@@ -128,7 +128,7 @@ const Chat = ({ socket }) => {
         };
     
         putMessages();
-    }, [reduxMessages, dispatch]); // Depend only on reduxMessages
+    }, [reduxMessages,activeTab]); // Depend only on reduxMessages
     
 
 
@@ -269,7 +269,7 @@ const Chat = ({ socket }) => {
                 </div>
             )}<div className="users-list">
             <h3>
-                Hello {userData.name}
+                Hello {userData.name} - {userStatus[userData._id] === 'online' ? 'Online' : 'Offline'}
             </h3>
             <h3>Users</h3>
             <ul>
