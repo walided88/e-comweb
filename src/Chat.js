@@ -76,15 +76,11 @@ const Chat = ({ socket }) => {
         setIsConnected(true);
 
         socket.on('message', (message) => {
-            setIsLoading(true);
 
             dispatch(addMessage(message));
             socket.on('message', (message) => {
                 setIsLoading(true);
-                setTimeout(() => {
-               
-                    setIsLoading(false);
-                }, 2000); // Ajuste ce délai selon tes besoins
+             
             });
         });
 
@@ -99,7 +95,7 @@ const Chat = ({ socket }) => {
 
     useEffect(() => {
         const putMessages = async () => {
-            if (reduxMessages.length > 0 && isConnected) {
+            if (reduxMessages.length > 0) {
                 try {
                     const response = await instanceMessages.put("/", { reduxMessages });
                     console.log(response, "PUT response");
