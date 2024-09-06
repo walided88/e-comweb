@@ -181,7 +181,7 @@ const Chat = ({ socket }) => {
 
             <div style={{marginTop:"20%"}}>
 
-            { <Loader />}
+            {isLoading && <Loader />}
             </div>
 
             {activeTab === 'public' && (
