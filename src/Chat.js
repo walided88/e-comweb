@@ -94,7 +94,6 @@ const Chat = ({ socket }) => {
     });
         // Écouteur pour l'événement 'message'
         socket.on('message', (message) => {
-            dispatch(addMessage(message));
         });
     
         // Nettoyage
@@ -112,7 +111,7 @@ const Chat = ({ socket }) => {
     
     useEffect(() => {
         const putMessages = async () => {
-            if (reduxMessages.length > 0 && activeTab) {
+            if (reduxMessages.length > 0) {
                 setIsLoading(true);
 
                 try {
@@ -159,7 +158,7 @@ const Chat = ({ socket }) => {
 
               
             // }
-
+            console.log("sendsendsendsendsendsend");
             setMessages((prevMessages) => [...prevMessages, message]);
             dispatch(addMessage(message));
             socket.emit('message', message);
