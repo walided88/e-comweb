@@ -79,7 +79,6 @@ const Chat = ({ socket }) => {
 
             dispatch(addMessage(message));
             socket.on('message', (message) => {
-                setIsLoading(true);
              
             });
         });
@@ -96,10 +95,14 @@ const Chat = ({ socket }) => {
     useEffect(() => {
         const putMessages = async () => {
             if (reduxMessages.length > 0) {
+                setIsLoading(true);
+
                 try {
                     const response = await instanceMessages.put("/", { reduxMessages });
                     console.log(response, "PUT response");
                     dispatch(deleteMessage()); // Delete messages from the Redux store after successful PUT
+                    setIsLoading(false);
+
                 } catch (error) {
                     console.error('Failed to update messages:', error);
                 }
@@ -175,6 +178,7 @@ const Chat = ({ socket }) => {
                     Private Chat
                 </button>
             </div>
+            {isLoading && <Loader />}
 
             {activeTab === 'public' && (
                 <div className="chat-container">
@@ -184,7 +188,6 @@ const Chat = ({ socket }) => {
 
                     </div>
                     <div className="chat-messages">
-                    {isLoading && <Loader />}
                     {messages.map((obj) => 
     (obj.messages ?? []).filter(msg => !msg.toUserId).map((msg, index) => (
                             <div 
@@ -199,6 +202,7 @@ const Chat = ({ socket }) => {
                     )}  
                     </div>
                     <div className="chat-input">
+
                         <input 
                             value={input} 
                             onChange={(e) => setInput(e.target.value)} 
@@ -216,7 +220,6 @@ const Chat = ({ socket }) => {
                     <h2>{selectedUser.name &&  "Chat With " + selectedUser.name}</h2>
                     </div>
                     <div className="chat-messages">
-                    {isLoading && <Loader />}
 
                     {messages.map((obj) => 
     (obj.messages ?? []).filter(msg => 
