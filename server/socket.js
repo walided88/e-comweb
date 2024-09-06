@@ -11,15 +11,16 @@ const setupSocket = (server) => {
             methods: ["GET", "POST", "PUT", "DELETE"],
             credentials: true
         },
-        transports: ['websocket'],
+        transports: ['websocket', 'polling'], // Ajoute 'polling' pour plus de robustesse
     });
 
     // Middleware d'authentification
     io.use((socket, next) => {
         const token = socket.handshake.auth.token;
         if (token) {
-            jwt.verify(token, 'xxxx', (err, decoded) => {
+            jwt.verify(token,process.env.JWT_SECRET, (err, decoded) => {
                 if (err) {
+                    console.log('JWT Error:', err.message); // Log de l'erreur JWT
                     return next(new Error("Authentication error"));
                 }
                 socket.user = decoded;
@@ -30,23 +31,30 @@ const setupSocket = (server) => {
         }
     });
 
-    // Écoute de la connexion utilisateur
+    // Gère les connexions utilisateurs
     io.on('connection', (socket) => {
         const userId = socket.user.userId;
-        console.log('A user connected:', socket.user);
+        console.log('A user connected:', userId);
 
         // Stocke le socket de l'utilisateur connecté
-        userSockets.set(userId, socket);
-        console.log('userSockets:', userSockets);
+        userSockets.set(socket.user.userId, socket);
+        // Émettre un événement pour notifier que l'utilisateur est en ligne
+        io.emit('user-status', { userId, status: 'online' });
+ // Envoyer le statut de tous les utilisateurs aux nouveaux clients
+ const userStatus = {};
+ userSockets.forEach((_, id) => {
+     userStatus[id] = 'online';
+ });
+ socket.emit('initialUserStatus', userStatus);
+        // Envoie un ping immédiatement après la connexion
+        socket.emit('ping', 'ping');
 
-        // Gère l'entrée dans une salle
-        socket.on('join-room', ({ roomId, userName }) => {
-            socket.join(roomId);
-            console.log(`${userName} joined room: ${roomId}`);
-            socket.to(roomId).emit('user-joined', { userName });
-        });
+        // Envoie des pings toutes les 25 secondes pour maintenir la connexion active
+        const pingInterval = setInterval(() => {
+            socket.emit('ping', 'ping');
+        }, 25000);
 
-        // Gestion des messages
+        // Gère les messages
         socket.on('message', (message) => {
             const fullMessage = {
                 ...message,
@@ -69,10 +77,16 @@ const setupSocket = (server) => {
             }
         });
 
-        // Gestion des déconnexions
+        // Gère la déconnexion des utilisateurs
         socket.on('disconnect', () => {
-            console.log('User disconnected');
-            userSockets.delete(userId);
+               // Émettre un événement pour notifier que l'utilisateur est en ligne
+        io.emit('user-status', { userId, status: 'Offline' });
+            console.log('User disconnected', userId);
+            userSockets.delete(socket.user.userId);
+            clearInterval(pingInterval); // Arrête l'envoi des pings à la déconnexion
+         // Émettre un événement pour notifier que l'utilisateur est hors ligne
+         io.emit('userStatusUpdate', { userId: socket.user.userId, status: 'offline' });
+       
         });
     });
 };

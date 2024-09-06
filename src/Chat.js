@@ -21,6 +21,7 @@ const Chat = ({ socket }) => {
     const cltId = useSelector((state) => state.clients.clientId);
     const reduxMessages = useSelector((state) => state.clients.clientMessage);
     const listCo = useSelector((state) => state.clients.listConnected);
+    const [userStatus, setUserStatus] = useState({}); // État pour suivre le statut des utilisateurs
 
     useEffect(() => {
         const fetchUtilisateurs = async () => {
@@ -71,7 +72,13 @@ const Chat = ({ socket }) => {
 
     useEffect(() => {
         if (!socket) return;
-    
+       // Écouteur pour l'événement 'user-status'
+       socket.on('user-status', ({ userId, status }) => {
+        setUserStatus(prevStatus => ({
+            ...prevStatus,
+            [userId]: status
+        }));
+    });
         // Écouteur pour l'événement 'connect'
         socket.on('connect', async () => {
             try {
@@ -82,7 +89,10 @@ const Chat = ({ socket }) => {
                 console.error('Error fetching messages:', error);
             }
         });
-    
+     // Écouteur pour l'événement 'initialUserStatus'
+     socket.on('initialUserStatus', (statusMap) => {
+        setUserStatus(statusMap);
+    });
         // Écouteur pour l'événement 'message'
         socket.on('message', (message) => {
             dispatch(addMessage(message));
@@ -91,12 +101,13 @@ const Chat = ({ socket }) => {
         // Nettoyage
         return () => {
             dispatch(deleteMessage());
-    
+            socket.off('user-status');
+            socket.off('initialUserStatus');
             socket.off('message'); // Nettoie l'écouteur d'événement 'message'
             socket.disconnect(); // Déconnecte le socket
             setIsConnected(false); // Met à jour l'état de connexion
         };
-    }, [socket, dispatch,messages]);
+    }, [socket]);
 
 
     
@@ -257,29 +268,37 @@ const Chat = ({ socket }) => {
                         <button onClick={sendMessage}>Send</button>
                     </div>
                 </div>
-            )}
-
-            <div className="users-list">
-                <h3>Hello {userData.name}</h3>
-                <h3>Users</h3>
-                <ul>
-                        {utilisateurs
-                            .filter(user => user.email !== userData.email) // Filtrer pour exclure userData
-                            .map((user) => (
-                                <li 
-                                    key={user._id} 
-                                    onClick={() => selectUser(user.email)}
-                                    className={selectedUser && selectedUser._id === user._id ? 'selected' : ''}
+            )}<div className="users-list">
+            <h3>
+                Hello {userData.name} - {userStatus[userData._id] === 'online' ? 'Online' : 'Offline'}
+            </h3>
+            <h3>Users</h3>
+            <ul>
+                {utilisateurs
+                    .filter(user => user.email !== userData.email) // Filtrer pour exclure userData
+                    .map((user) => (
+                        <li 
+                            key={user._id} 
+                            onClick={() => selectUser(user.email)}
+                            className={selectedUser && selectedUser._id === user._id ? 'selected' : ''}
+                        >
+                            <span className='sent-message'>
+                                {user.name}  
+                                <span
+                                    style={{
+                                        color: userStatus[user._id] === 'online' ? 'green' : 'red',
+                                        marginLeft: '10px'
+                                    }}
                                 >
-                                    <span className='sent-message'>
-                                        {user.name} 
-                                    </span>
-                                </li>
-                            ))
-                        }
-                </ul>
-
-            </div>
+                                    {userStatus[user._id] === 'online' ? 'Online' : 'Offline'}
+                                </span>
+                            </span>
+                        </li>
+                    ))
+                }
+            </ul>
+        </div>
+        
 
             {/* <div className=".chat-tabs" >
                     <button 
@@ -296,3 +315,17 @@ export default Chat;
 
 
 
+
+// {messages.map((obj) => 
+//     (obj.messages ?? [])
+//         .filter(msg => !msg.toUserId).map((msg, index) => (
+//                 <div 
+//                     key={index} 
+//                     className={`message ${msg.sender === cltId ? 'my-message' : 'other-message'}`}
+//                 >
+//                     <div style={{color:'red'}}>Date: {msg.currentDate}</div>
+//                     <p>Name: {msg.name === userData.name ? 'You' : msg.name}</p>
+//                     <p>{msg.text}</p>
+//                 </div>
+//                  ))
+// )}
