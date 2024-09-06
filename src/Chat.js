@@ -2,7 +2,7 @@ import React, { useState, useEffect,useCallback } from 'react';
 import './styles.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { instanceUsers,instanceMessages } from './axios';
-import { addMessage,deleteMessage } from './reducers/clientsReducer';
+import { addMessage,deleteMessage,addConnected } from './reducers/clientsReducer';
 import Loader from "./components/Loader";
 const Chat = ({ socket }) => {
     const [messages, setMessages] = useState([]);
@@ -20,6 +20,7 @@ const Chat = ({ socket }) => {
     const dispatch = useDispatch();
     const cltId = useSelector((state) => state.clients.clientId);
     const reduxMessages = useSelector((state) => state.clients.clientMessage);
+    const listCo = useSelector((state) => state.clients.listConnected);
 
     useEffect(() => {
         const fetchUtilisateurs = async () => {
@@ -56,6 +57,8 @@ const Chat = ({ socket }) => {
         const fetchDataUser = async () => {
             try {
                 const response = await instanceUsers.get(`/${cltId}`);
+                dispatch(addConnected(cltId));
+
                 setUserData(response.data);
             } catch (error) {
                 setError('Failed to fetch utilisateurs');
@@ -87,12 +90,14 @@ const Chat = ({ socket }) => {
     
         // Nettoyage
         return () => {
+            dispatch(deleteMessage());
+    
             socket.off('message'); // Nettoie l'écouteur d'événement 'message'
             socket.disconnect(); // Déconnecte le socket
             setIsConnected(false); // Met à jour l'état de connexion
         };
-    }, [socket]);
-    
+    }, [socket, dispatch,messages]);
+
 
     
     useEffect(() => {
@@ -267,7 +272,7 @@ const Chat = ({ socket }) => {
                                     className={selectedUser && selectedUser._id === user._id ? 'selected' : ''}
                                 >
                                     <span className='sent-message'>
-                                        {user.name}
+                                        {user.name} 
                                     </span>
                                 </li>
                             ))
@@ -291,17 +296,3 @@ export default Chat;
 
 
 
-
-// {messages.map((obj) => 
-//     (obj.messages ?? [])
-//         .filter(msg => !msg.toUserId).map((msg, index) => (
-//                 <div 
-//                     key={index} 
-//                     className={`message ${msg.sender === cltId ? 'my-message' : 'other-message'}`}
-//                 >
-//                     <div style={{color:'red'}}>Date: {msg.currentDate}</div>
-//                     <p>Name: {msg.name === userData.name ? 'You' : msg.name}</p>
-//                     <p>{msg.text}</p>
-//                 </div>
-//                  ))
-// )}
