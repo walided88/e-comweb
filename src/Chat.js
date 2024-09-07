@@ -1,8 +1,8 @@
-import React, { useState, useEffect,useCallback } from 'react';
+import React, { useState, useEffect,useCallback,useRef  } from 'react';
 import './styles.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { instanceUsers,instanceMessages } from './axios';
-import { addMessage,deleteMessage } from './reducers/clientsReducer';
+import { addMessage,deleteMessage,addConnected } from './reducers/clientsReducer';
 import Loader from "./components/Loader";
 const Chat = ({ socket }) => {
     const [messages, setMessages] = useState([]);
@@ -22,6 +22,7 @@ const Chat = ({ socket }) => {
     const reduxMessages = useSelector((state) => state.clients.clientMessage);
     const listCo = useSelector((state) => state.clients.listConnected);
     const [userStatus, setUserStatus] = useState({}); // État pour suivre le statut des utilisateurs
+    const isUpdatingRef = useRef(false); // Crée une référence pour le flag `isUpdating`
 
     useEffect(() => {
         const fetchUtilisateurs = async () => {
@@ -40,6 +41,7 @@ const Chat = ({ socket }) => {
     
     const fetchMessages = useCallback(async () => {
         try {
+            
             const response = await instanceMessages.get('/');
            
             setMessages(response.data);
@@ -51,13 +53,14 @@ const Chat = ({ socket }) => {
 
     useEffect(() => {
         fetchMessages();
-    }, [fetchMessages, reduxMessages]); // Adding `fetchMessages` and `reduxMessages` to the dependency array
+    }, [fetchMessages, messages]); // Adding `fetchMessages` and `reduxMessages` to the dependency array
 
  
     useEffect(() => {
         const fetchDataUser = async () => {
             try {
                 const response = await instanceUsers.get(`/${cltId}`);
+                dispatch(addConnected(cltId));
 
                 setUserData(response.data);
             } catch (error) {
@@ -66,7 +69,7 @@ const Chat = ({ socket }) => {
         };
 
         fetchDataUser();
-    }, []);
+    }, [setUserData]);
  
 
     useEffect(() => {
@@ -98,9 +101,9 @@ const Chat = ({ socket }) => {
     
         // Nettoyage
         return () => {
-            dispatch(deleteMessage());
             socket.off('user-status');
             socket.off('initialUserStatus');
+
             socket.off('message'); // Nettoie l'écouteur d'événement 'message'
             socket.disconnect(); // Déconnecte le socket
             setIsConnected(false); // Met à jour l'état de connexion
@@ -109,28 +112,35 @@ const Chat = ({ socket }) => {
 
 
     
-    useEffect(() => {
-        const putMessages = async () => {
-            if (reduxMessages.length > 0) {
-                setIsLoading(true);
+    
+        useEffect(() => {
+            const putMessages = async () => {
 
-                try {
-                    const response = await instanceMessages.put("/", { reduxMessages });
-                    console.log(response, "PUT response");
-                    dispatch(deleteMessage()); // Delete messages from the Redux store after successful PUT
-                    setIsLoading(false);
+                if (reduxMessages.length > 0 && !isUpdatingRef.current) {
+                    isUpdatingRef.current = true; // Empêche les mises à jour répétées
+                    setIsLoading(true);
+    
+                    try {
 
-                } catch (error) {
-                    console.error('Failed to update messages:', error);
+                        const response = await instanceMessages.put("/", { reduxMessages });
+                        console.log(response, "PUT response");
+                    } catch (error) {
+                        console.error('Failed to update messages:', error);
+                    } finally {
+                        dispatch(deleteMessage()); // Supprime les messages du store Redux après succès
+
+                        setIsLoading(false);
+                        isUpdatingRef.current = false; // Réinitialise le flag après la mise à jour
+                    }
                 }
-            }
-        };
+            };
     
-        putMessages();
-    }, [reduxMessages,activeTab]); // Depend only on reduxMessages
+            putMessages();
+        }, [reduxMessages]); // Dépend uniquement de reduxMessages et dispatch
     
 
 
+        let isSending = false; // Flag pour éviter les envois multiples
 
     const sendMessage = async () => {
         if (input.trim()) {
@@ -153,18 +163,17 @@ const Chat = ({ socket }) => {
       
             // if (activeTab === 'private') {
             //     const messageString = "votreMessage"; // ou une variable contenant le message
-
-             
-
-              
-            // }
-            console.log("sendsendsendsendsendsend");
-            setMessages((prevMessages) => [...prevMessages, message]);
-            dispatch(addMessage(message));
-            socket.emit('message', message);
-            setIsLoading(false);
-
-            setInput('');
+            try {
+                dispatch(addMessage(message));
+                await socket.emit('message', message);
+                setInput('');
+            } catch (error) {
+                console.error('Failed to send message:', error);
+            } finally {
+                isSending = false; // Réinitialise le flag après l'envoi
+                setIsLoading(false);
+            }
+        
         }
     };
 

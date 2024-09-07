@@ -45,14 +45,17 @@ const setupSocket = (server) => {
  userSockets.forEach((_, id) => {
      userStatus[id] = 'online';
  });
+
+
  socket.emit('initialUserStatus', userStatus);
         // Envoie un ping immédiatement après la connexion
         socket.emit('ping', 'ping');
+        console.log('pingpingpingping:');
 
         // Envoie des pings toutes les 25 secondes pour maintenir la connexion active
         const pingInterval = setInterval(() => {
             socket.emit('ping', 'ping');
-        }, 25000);
+        }, 250);
 
         // Gère les messages
         socket.on('message', (message) => {
@@ -70,10 +73,6 @@ const setupSocket = (server) => {
                 } else {
                     console.log('Recipient not connected');
                 }
-            } else if (message.roomId) {
-                io.to(message.roomId).emit('message', fullMessage);
-            } else {
-                io.emit('message', fullMessage);
             }
         });
 
