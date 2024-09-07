@@ -2,7 +2,7 @@ import React, { useState, useEffect,useCallback,useRef  } from 'react';
 import './styles.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { instanceUsers,instanceMessages } from './axios';
-import { addMessage,deleteMessage } from './reducers/clientsReducer';
+import { addMessage,deleteMessage,addConnected } from './reducers/clientsReducer';
 import Loader from "./components/Loader";
 const Chat = ({ socket }) => {
     const [messages, setMessages] = useState([]);
