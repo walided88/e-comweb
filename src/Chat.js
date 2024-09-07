@@ -41,10 +41,11 @@ const Chat = ({ socket }) => {
     
     const fetchMessages = useCallback(async () => {
         try {
-            
+
             const response = await instanceMessages.get('/');
            
             setMessages(response.data);
+
         } catch (error) {
             setError('Failed to fetch messages');
         }
@@ -73,6 +74,7 @@ const Chat = ({ socket }) => {
 
     useEffect(() => {
         if (!socket) return;
+        
        // Écouteur pour l'événement 'user-status'
        socket.on('user-status', ({ userId, status }) => {
         setUserStatus(prevStatus => ({
@@ -83,9 +85,12 @@ const Chat = ({ socket }) => {
         // Écouteur pour l'événement 'connect'
         socket.on('connect', async () => {
             try {
+                setIsLoading(true);
+
                 const response = await instanceMessages.get('/');
                 setMessages(response.data);
-                setIsConnected(true);
+                setIsLoading(false);
+
             } catch (error) {
                 console.error('Error fetching messages:', error);
             }
@@ -102,10 +107,8 @@ const Chat = ({ socket }) => {
         return () => {
             socket.off('user-status');
             socket.off('initialUserStatus');
-
             socket.off('message'); // Nettoie l'écouteur d'événement 'message'
             socket.disconnect(); // Déconnecte le socket
-            setIsConnected(false); // Met à jour l'état de connexion
         };
     }, [socket]);
 
@@ -116,19 +119,21 @@ const Chat = ({ socket }) => {
             const putMessages = async () => {
 
                 if (reduxMessages.length > 0 && !isUpdatingRef.current) {
+
                     isUpdatingRef.current = true; // Empêche les mises à jour répétées
-                    setIsLoading(true);
-    
+
                     try {
+                        setIsLoading(true);
 
                         const response = await instanceMessages.put("/", { reduxMessages });
                         console.log(response, "PUT response");
+                        setIsLoading(false);
+
                     } catch (error) {
                         console.error('Failed to update messages:', error);
                     } finally {
                         dispatch(deleteMessage()); // Supprime les messages du store Redux après succès
 
-                        setIsLoading(false);
                         isUpdatingRef.current = false; // Réinitialise le flag après la mise à jour
                     }
                 }
@@ -142,6 +147,8 @@ const Chat = ({ socket }) => {
         let isSending = false; // Flag pour éviter les envois multiples
 
     const sendMessage = async () => {
+
+        
         if (input.trim()) {
             const date = new Date().toLocaleString('en-GB', {
                 year: 'numeric',
@@ -159,18 +166,22 @@ const Chat = ({ socket }) => {
                 currentDate: date,
                 toUserId: activeTab === 'private' && selectedUser ? selectedUser._id : null // Null for public chat
             };
-      
+
             // if (activeTab === 'private') {
             //     const messageString = "votreMessage"; // ou une variable contenant le message
             try {
+
                 dispatch(addMessage(message));
                 await socket.emit('message', message);
+                
                 setInput('');
+
             } catch (error) {
                 console.error('Failed to send message:', error);
             } finally {
+
                 isSending = false; // Réinitialise le flag après l'envoi
-                setIsLoading(false);
+
             }
         
         }
@@ -318,3 +329,6 @@ const Chat = ({ socket }) => {
 };
 
 export default Chat;
+
+
+
