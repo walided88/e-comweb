@@ -4,34 +4,41 @@ const clientsSlice = createSlice({
     name: 'clients',
     initialState: {
         clientId: null,
-        name:null,
-        clientsList: [], // Renommez l'état du tableau des clients pour plus de clarté
+        name: null,
+        clientMessage: [],
+        clientsList: [],
     },
     reducers: {
         getClient: (state, action) => {
-            state.clientId = action.payload; // Met à jour clientId avec la valeur de l'action
+            state.clientId = action.payload;
         },
         getName: (state, action) => {
-            state.name = action.payload; // Met à jour clientId avec la valeur de l'action
+            state.name = action.payload;
         },
         setClients: (state, action) => {
-            state.clientsList = action.payload; // Met à jour la liste des clients
+            state.clientsList = action.payload;
         },
         addClient: (state, action) => {
-            state.clientsList.push(action.payload); // Ajoute un client à la liste
+            state.clientsList.push(action.payload);
+        },
+        addMessage: (state, action) => {
+            state.clientMessage.push(action.payload);
         },
         updateClient: (state, action) => {
             const index = state.clientsList.findIndex(client => client.id === action.payload.id);
             if (index !== -1) {
-                state.clientsList[index] = action.payload; // Met à jour le client
+                state.clientsList[index] = action.payload;
             }
         },
         deleteClient: (state, action) => {
             state.clientsList = state.clientsList.filter(client => client.id !== action.payload);
         },
+        deleteMessage: (state, action) => {
+            state.clientMessage = []; // Réinitialise le tableau des messages
+        },
     },
 });
 
-export const { setClients, addClient, updateClient, deleteClient, getClient,getName } = clientsSlice.actions;
+export const { setClients, addClient, updateClient, deleteClient, getClient, getName, addMessage, deleteMessage } = clientsSlice.actions;
 
 export default clientsSlice.reducer;

@@ -5,6 +5,7 @@ import { instanceClients } from '../axios';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
+import Loader from './Loader';
 
 const ErrorMessage = styled.p`
   color: red;
@@ -25,6 +26,7 @@ function Form({totaleP}) {
   const dispatch = useDispatch();
   const prodSelecteds = useSelector((state) => state.user.productNumber);
   const [price, setPrice] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
 
   function multiplyArrayElements(arr, multiplier) {
@@ -38,6 +40,8 @@ function Form({totaleP}) {
   }, [list]);
 
   const handleSubmit = async (event) => {
+    setIsLoading(true)
+
     event.preventDefault();
     setError('');
     try {
@@ -51,13 +55,7 @@ function Form({totaleP}) {
       });
 
       console.log('Client data submitted:', response.data);
-    //   const updList=multiplyArrayElements(list,0)
 
-    //   const updatedProduct = {
-    //     ...list,
-    //     quantity:price
-    // };
-      // Réinitialiser les champs du formulaire après soumission
       setName('');
       setEmail('');
       setAdress('');
@@ -73,13 +71,12 @@ function Form({totaleP}) {
       setError('Failed to process request: ' + (error.response?.data?.message || error.message));
     }
 
-  //   if(isSubmitted){   dispatch(prodSelected(prodSelecteds*0));
-  //     dispatch(multiplyArrayElements(list.quantity, 0));
-  //     setCartItems([list]); }
    };
 
   return (
     <form onSubmit={handleSubmit} style={styles.form}>
+     {isLoading && <div>    <Loader /></div>}
+
       {error && <ErrorMessage>{error}</ErrorMessage>}
       <h2 style={styles.title}>Formulaire</h2>
 

@@ -5,11 +5,12 @@ import { instanceUsers } from '../axios';
 import { useDispatch } from 'react-redux';
 import { getClient,getName} from '../reducers/clientsReducer';
 import io from 'socket.io-client';
+import Loader from './Loader';
 
 const AuthForm = ({ setSocket }) => {
     const [isSignUp, setIsSignUp] = useState(false);
     const [name, setName] = useState(null);
-    const [fetchedName, setFetchedName] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -19,7 +20,11 @@ const AuthForm = ({ setSocket }) => {
     const dispatch = useDispatch();
     const [users, setUsers] = useState([]);
 
-
+function loading(){
+  if(isLoading){
+    <Loader />
+  }
+}
   
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -27,6 +32,7 @@ const AuthForm = ({ setSocket }) => {
 
         try {
             let response;
+            setIsLoading(true)
             if (isSignUp) {
                 response = await instanceUsers.post('/signup', { 
                     name,
@@ -36,10 +42,11 @@ const AuthForm = ({ setSocket }) => {
                 });
             } else {
                 response = await instanceUsers.post('/login', {
+
                     email,
                     password
                 });
-
+                console.log("loadingloadingloading");
                 setUsers(response.data);
                 // setFetchedName(users.user.name);
                 // dispatch(getName(fetchedName));
@@ -51,7 +58,7 @@ const AuthForm = ({ setSocket }) => {
             localStorage.setItem('token', response.data.token);
 
             // Initialize socket connection after login/signup
-            const socket = io('https://e-comweb.onrender.com', {
+            const socket = io('https://e-comweb-back.onrender.com', {
               auth: {
                     token: response.data.token,
                     mail:email,
@@ -75,6 +82,8 @@ const AuthForm = ({ setSocket }) => {
             navigate({chatRoute});
 
         } catch (error) {
+          setIsLoading(false);
+
             setError('Failed to process request: ' + (error.response?.data?.message || error.message));
         }
         // console.log(users.name, 'users.nameusers.name');
@@ -92,7 +101,10 @@ const AuthForm = ({ setSocket }) => {
             <FormWrapper>
                 <Title>{isSignUp ? 'Sign Up' : 'Login'}</Title>
                 {error && <ErrorMessage>{error}</ErrorMessage>}
+
                 <form onSubmit={handleSubmit}>
+                {isLoading && <div>    <Loader /></div>}
+
                     {isSignUp && (
                         <FormGroup>
                             <Label htmlFor="name">Name:</Label>
@@ -141,10 +153,12 @@ const AuthForm = ({ setSocket }) => {
                         </FormGroup>
                     )}
                     <Button type="submit">{isSignUp ? 'Sign Up' : 'Login'}</Button>
+
                 </form>
                 <ToggleText>
                     {isSignUp ? 'Already have an account?' : "Don't have an account?"}{' '}
                     <ToggleButton onClick={() => setIsSignUp(!isSignUp)}>
+
                         {isSignUp ? 'Login here' : 'Sign up here'}
                     </ToggleButton>
                 </ToggleText>
