@@ -1,0 +1,94 @@
+.article {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.article-title {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.article-meta {
+    font-size: 0.9rem;
+    color: #555555;
+    margin-bottom: 20px;
+}
+
+.article-author,
+.article-date {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.article-image {
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+    border-radius: 8px;
+}
+
+.article-content {
+    line-height: 1.6;
+    font-size: 1rem;
+}
+/* styles.css ou un fichier CSS équivalent */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Conteneur principal */
+  .container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 0 20px;
+  }
+  
+  /* Autres styles globaux ici */
+  
+  /* Media Queries pour mobile */
+  @media screen and (max-width: 768px) {
+    /* Vos ajustements pour mobile ici */
+    .container {
+      padding: 0 10px;
+    }
+  
+    h1, h2, h3 {
+      font-size: 1.2em;
+    }
+  
+    .products-list {
+      flex-direction: column;
+      gap: 10px;
+    }
+  
+    .product-item {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+  
+    .auth-page form, .user-settings form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+  
+    button {
+      width: 100%;
+      padding: 15px;
+      font-size: 1em;
+    }
+  
+    section {
+      padding: 10px 0;
+    }
+  }
+  
