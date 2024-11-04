@@ -44,7 +44,7 @@ const AuthForm = ({ setSocket }) => {
 
             // Initialize socket connection
         setTimeout(() => {
-    const socket = io('https://e-comweb-back.onrender.com', {
+    const socket = io('e-comweb-back.onrender.com', {
         auth: {
             token: response.data.token,
             mail: email,
