@@ -97,7 +97,9 @@ const HomePage = () => {
                         src={src.image}
                         alt={`header-${index}`}
                         style={{ 
-                            width: '200px', 
+                            width: '300px', 
+                            height: '300px', 
+
                             cursor: 'pointer', 
                             transform: hoveredIndex === index ? 'scale(1.1)' : 'scale(1)',
                             transition: 'transform 0.3s ease'
