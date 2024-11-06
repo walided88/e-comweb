@@ -6,27 +6,29 @@ import { useDispatch } from 'react-redux';
 import { getClient } from '../reducers/clientsReducer';
 import io from 'socket.io-client';
 import Loader from './Loader';
-
+ 
 const AuthForm = ({ setSocket }) => {
-    const [isSignUp, setIsSignUp] = useState(false);
-    const [name, setName] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
+    // States pour contrôler l'interface et les informations de l'utilisateur
+    const [isSignUp, setIsSignUp] = useState(false); // Indique si on est en mode inscription
+    const [name, setName] = useState(''); // Stocke le nom de l'utilisateur
+    const [isLoading, setIsLoading] = useState(false); // Indique si une requête est en cours
+    const [email, setEmail] = useState(''); // Stocke l'email de l'utilisateur
+    const [password, setPassword] = useState(''); // Stocke le mot de passe
+    const [age, setAge] = useState(''); // Stocke l'âge (optionnel)
+    const [error, setError] = useState(''); // Stocke les messages d'erreur
+    const navigate = useNavigate(); // Pour rediriger l'utilisateur après connexion/inscription
+    const dispatch = useDispatch(); // Utilisé pour déclencher des actions Redux
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [age, setAge] = useState('');
-    const [error, setError] = useState('');
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-
+    // Fonction déclenchée lors de la soumission du formulaire
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        setError('');
-        setIsLoading(true);
+        e.preventDefault(); // Empêche le rechargement de la page par défaut
+        setError(''); // Réinitialise les erreurs
+        setIsLoading(true); // Démarre le loader
 
         try {
             let response;
             if (isSignUp) {
+                // Requête API pour s'inscrire
                 response = await instanceUsers.post('/signup', { 
                     name,
                     email,
@@ -34,38 +36,38 @@ const AuthForm = ({ setSocket }) => {
                     age
                 });
             } else {
+                // Requête API pour se connecter
                 response = await instanceUsers.post('/login', {
                     email,
                     password
                 });
             }
 
-            // localStorage.setItem('token', response.data.token);
+            // Démarre une connexion socket avec un délai
+            setTimeout(() => {
+                const socket = io('e-comweb-back.onrender.com', {
+                    auth: {
+                        token: response.data.token, // Token JWT pour l'authentification socket
+                        mail: email, // Email utilisé pour l'authentification socket
+                    },
+                    transports: ['websocket', 'polling'], // Modes de transport socket
+                });
+                setSocket(socket); // Initialise le socket dans le parent avec setSocket
+            }, 1000); // Délai de 1000 ms
 
-            // Initialize socket connection
-        setTimeout(() => {
-    const socket = io('e-comweb-back.onrender.com', {
-        auth: {
-            token: response.data.token,
-            mail: email,
-        },
-        transports: ['websocket', 'polling'],
-    });
-    setSocket(socket);
-}, 1000);  
+            dispatch(getClient(email)); // Envoie une action Redux pour obtenir les infos client
 
-            dispatch(getClient(email));
-
-            // Clear form fields
+            // Réinitialise les champs du formulaire
             setName('');
             setEmail('');
             setPassword('');
             setAge('');
-            setIsLoading(false);
+            setIsLoading(false); // Arrête le loader
 
-            // Navigate to chat page
+            // Redirige vers la page de chat (ou autre destination souhaitée)
         } catch (error) {
-            setIsLoading(false);
+            setIsLoading(false); // Arrête le loader en cas d'erreur
+            // Définit un message d'erreur si la requête échoue
             setError('Failed to process request: ' + (error.response?.data?.message || error.message));
         }
     };

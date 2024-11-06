@@ -89,9 +89,6 @@ const Chat = ({ socket }) => {
      socket.on('initialUserStatus', (statusMap) => {
         setUserStatus(statusMap);
     });
-        // Écouteur pour l'événement 'message'
-        socket.on('message', (message) => {
-        }); 
     
         // Nettoyage
         return () => {
