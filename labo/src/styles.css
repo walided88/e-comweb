@@ -398,13 +398,7 @@ top:42px ;
   
   }
 }
-.cadre {
-  width: 100%; /* largeur du cadre */
-  height: 370px; /* hauteur du cadre */
-  overflow: auto; /* permettre le défilement manuel */
-  position: relative; /* pour permettre le positionnement absolu de l'enfant */
-margin-left: 3px;
-}
+
 .cadre2 {
   width: 800px; /* largeur du cadre */
   height: 30px; /* hauteur du cadre */

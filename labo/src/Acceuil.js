@@ -91,7 +91,6 @@ const Accueil = () => {
       <section>
       <h2>Popular Products</h2>
 
-      <div class="cadre">
   <div className="products-list" >
       {list.map((src, index) => (
         <ProductItem
@@ -104,7 +103,6 @@ const Accueil = () => {
         />
       ))}
 
-     </div>
 </div>
 
 
