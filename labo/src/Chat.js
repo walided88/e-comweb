@@ -131,7 +131,6 @@ const Chat = ({ socket }) => {
     
 
 
-        let isSending = false; // Flag pour éviter les envois multiples
 
     const sendMessage = async () => {
 
@@ -154,9 +153,7 @@ const Chat = ({ socket }) => {
                 toUserId: activeTab === 'private' && selectedUser ? selectedUser._id : null // Null for public chat
             };
 
-            // if (activeTab === 'private') {
-            //     const messageString = "votreMessage"; // ou une variable contenant le message
-            try {
+             try {
 
                 dispatch(addMessage(message));
                 await socket.emit('message', message);
@@ -165,11 +162,7 @@ const Chat = ({ socket }) => {
 
             } catch (error) {
                 console.error('Failed to send message:', error);
-            } finally {
-
-                isSending = false; // Réinitialise le flag après l'envoi
-
-            }
+            } 
         
         }
     };
@@ -225,7 +218,7 @@ const Chat = ({ socket }) => {
                                 <p> Name: {msg.name === userData.name ? 'You' : msg.name} </p>
                                 <p>{msg.text}</p>
                             </div>
-                     ))
+                     )) 
                     )}  
                     </div>
                     <div className="chat-input">
@@ -252,7 +245,8 @@ const Chat = ({ socket }) => {
     (obj.messages ?? []).filter(msg => 
                         (msg.toUserId === selectedUser._id && msg.sender === cltId) || 
                         (msg.toUserId === userData._id && msg.sender === selectedUser.email)
-                    ).map((msg, index) => (                            <div 
+                    ).map((msg, index) => (                            
+                            <div 
                                 key={index} 
                                 className={`message ${msg.sender === cltId ? 'my-message' : 'other-message'}`}
                             >

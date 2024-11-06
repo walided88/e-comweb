@@ -6,29 +6,27 @@ import { useDispatch } from 'react-redux';
 import { getClient } from '../reducers/clientsReducer';
 import io from 'socket.io-client';
 import Loader from './Loader';
- 
-const AuthForm = ({ setSocket }) => {
-    // States pour contrôler l'interface et les informations de l'utilisateur
-    const [isSignUp, setIsSignUp] = useState(false); // Indique si on est en mode inscription
-    const [name, setName] = useState(''); // Stocke le nom de l'utilisateur
-    const [isLoading, setIsLoading] = useState(false); // Indique si une requête est en cours
-    const [email, setEmail] = useState(''); // Stocke l'email de l'utilisateur
-    const [password, setPassword] = useState(''); // Stocke le mot de passe
-    const [age, setAge] = useState(''); // Stocke l'âge (optionnel)
-    const [error, setError] = useState(''); // Stocke les messages d'erreur
-    const navigate = useNavigate(); // Pour rediriger l'utilisateur après connexion/inscription
-    const dispatch = useDispatch(); // Utilisé pour déclencher des actions Redux
 
-    // Fonction déclenchée lors de la soumission du formulaire
+const AuthForm = ({ setSocket }) => {
+    const [isSignUp, setIsSignUp] = useState(false);
+    const [name, setName] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [age, setAge] = useState('');
+    const [error, setError] = useState('');
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     const handleSubmit = async (e) => {
-        e.preventDefault(); // Empêche le rechargement de la page par défaut
-        setError(''); // Réinitialise les erreurs
-        setIsLoading(true); // Démarre le loader
+        e.preventDefault();
+        setError('');
+        setIsLoading(true);
 
         try {
             let response;
             if (isSignUp) {
-                // Requête API pour s'inscrire
                 response = await instanceUsers.post('/signup', { 
                     name,
                     email,
@@ -36,38 +34,26 @@ const AuthForm = ({ setSocket }) => {
                     age
                 });
             } else {
-                // Requête API pour se connecter
                 response = await instanceUsers.post('/login', {
                     email,
                     password
                 });
             }
 
-            // Démarre une connexion socket avec un délai
-            setTimeout(() => {
-                const socket = io('e-comweb-back.onrender.com', {
-                    auth: {
-                        token: response.data.token, // Token JWT pour l'authentification socket
-                        mail: email, // Email utilisé pour l'authentification socket
-                    },
-                    transports: ['websocket', 'polling'], // Modes de transport socket
-                });
-                setSocket(socket); // Initialise le socket dans le parent avec setSocket
-            }, 1000); // Délai de 1000 ms
+       
+            dispatch(getClient(email));
 
-            dispatch(getClient(email)); // Envoie une action Redux pour obtenir les infos client
-
-            // Réinitialise les champs du formulaire
+            // Clear form fields
             setName('');
             setEmail('');
             setPassword('');
             setAge('');
-            setIsLoading(false); // Arrête le loader
+            setIsLoading(false);
+            navigate(`/users/clientForm`);
 
-            // Redirige vers la page de chat (ou autre destination souhaitée)
+            // Navigate to chat page
         } catch (error) {
-            setIsLoading(false); // Arrête le loader en cas d'erreur
-            // Définit un message d'erreur si la requête échoue
+            setIsLoading(false);
             setError('Failed to process request: ' + (error.response?.data?.message || error.message));
         }
     };

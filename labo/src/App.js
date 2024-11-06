@@ -34,7 +34,6 @@ function App() {
       <Route path="/users/list" element={<ListProd />} />
       <Route path="/users/cartPage" element={<CartPage />} />
       <Route path="/users/UserSettings" element={<UserSettings />} />
-      <Route path="/chat" element={<Chat />} />
 
       <Route path="/users/log" element={<ParentComponent />} />
       <Route path="/users/acceuil" element={<Acceuil />} />

@@ -31,8 +31,7 @@ function Navbar() {
         <Link to="/users/acceuil" className="nav-link">Home</Link>
         <Link to="/" className="nav-link">Products</Link>
         <Link to="/users/cartPage" className="nav-link">CartPage</Link>
-        <Link to="/users/Log" className="nav-link">Login for tchat</Link>
-        <Link to="/users/clientForm" className="nav-link">Orders</Link>
+        <Link to="/users/Log" className="nav-link">Login for Admins</Link>
     </div>
 </div>
 
