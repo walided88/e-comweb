@@ -68,13 +68,6 @@ router.put('/:userEmail/:messageToSend', async (req, res) => {
             return res.status(201).json({ message: 'Message added to existing user', user });
         }
 
-        // // If user does not exist, you may want to create a new user (optional)
-        // user = new User({
-        //     email: userEmail,
-        //     conversation: {
-        //         messages: [{ message: messageToSend }]
-        //     }
-        // });
 
         await user.save();
 
