@@ -9,9 +9,6 @@ import Acceuil  from './Acceuil';
 import ListProd from './components/ListProd';
 import CartPage from './components/CartPage';
 import UserSettings from './components/UserSettings';
-import Chat from './Chat';
-import ParentComponent from './components/ParentComponent';
-
 
 
 
@@ -35,7 +32,6 @@ function App() {
       <Route path="/users/cartPage" element={<CartPage />} />
       <Route path="/users/UserSettings" element={<UserSettings />} />
 
-      <Route path="/users/log" element={<ParentComponent />} />
       <Route path="/users/acceuil" element={<Acceuil />} />
       <Route path="/users/clientForm" element={<ClientForm/>} />
 
