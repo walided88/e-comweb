@@ -50,7 +50,7 @@ const Accueil = () => {
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              height: '33vh'
+              height: '43vh'
             }
             }>
     {!isMobile && (
@@ -70,7 +70,7 @@ const Accueil = () => {
             >
                     {list.map((src, index) => (
                         <div  key={index}>
-                            <img  src={src.image} alt={`header-${index}`} style={{ cursor: 'pointer',width: '30%', height: '0%'}} />
+                            <img  src={src.image} alt={`header-${index}`} style={{ cursor: 'pointer',width: '30%'}} />
                         </div>
                     ))}
                 </Carousel>
