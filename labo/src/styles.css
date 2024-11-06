@@ -227,6 +227,8 @@ nav {
 }
 .nav-links {
   display: flex;
+  margin-right: 660px;
+
   overflow-x: auto; /* Permet le défilement horizontal */
   white-space: nowrap; /* Empêche les liens de passer à la ligne */
   -webkit-overflow-scrolling: touch; /* Smooth scrolling pour iOS */
@@ -319,7 +321,7 @@ top:42px ;
   color: #17eb6f;
   font-size: 22px;
   top: 11px;
-  left: 90%;
+  left: 95%;
   transform: translate(260%, -50%);
   cursor: pointer;
   position: absolute;
@@ -335,7 +337,7 @@ top:42px ;
   color: #17eb6f;
   font-size: 22px;
   top: px;
-  left: 89%;
+  left: 94%;
   transform: translate(260%, -50%);
   cursor: pointer;
   position: absolute;
