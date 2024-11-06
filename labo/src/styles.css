@@ -143,8 +143,8 @@ code {
   display: flex;
   gap: 70px;
   width: 100%;
-  margin-left: 100px;
-  margin-top: -22px;
+  margin-left: 130px;
+  margin-top: -2px;
   overflow-x: unset;
   scroll-behavior: smooth;
   animation: scrollLeftRight 10s linear infinite;
@@ -296,6 +296,7 @@ top:42px ;
     gap: -4000px;
 
   }
+ 
   nav {
     flex-direction: column; /* Alignement vertical */
   }
@@ -397,7 +398,7 @@ top:42px ;
 }
 .cadre {
   width: 100%; /* largeur du cadre */
-  height: 300px; /* hauteur du cadre */
+  height: 370px; /* hauteur du cadre */
   overflow: auto; /* permettre le défilement manuel */
   position: relative; /* pour permettre le positionnement absolu de l'enfant */
 margin-left: 3px;
@@ -409,14 +410,7 @@ margin-left: 3px;
   position: relative; /* pour permettre le positionnement absolu de l'enfant */
 margin-left: 77px;
 }
-.contenu {
-  text-align: center;
-  line-height: 1.5;
-  position: absolute;
-  top: 80%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
+
 
 /* Media Queries */
 /* Petits écrans (jusqu'à 600px) */
@@ -441,18 +435,7 @@ margin-left: 77px;
     padding: 10px 0;
   }
 
-  .products-list {
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .products-list div {
-    width: 100%;
-    max-width: none;
-    margin-left: -120%;
-  }
-
+ 
   .product-item {
     width: 100%;
     margin-bottom: 20px;

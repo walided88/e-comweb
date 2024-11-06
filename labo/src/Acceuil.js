@@ -92,7 +92,6 @@ const Accueil = () => {
       <h2>Popular Products</h2>
 
       <div class="cadre">
-  <div class="contenu">
   <div className="products-list" >
       {list.map((src, index) => (
         <ProductItem
@@ -105,7 +104,6 @@ const Accueil = () => {
         />
       ))}
 
-    </div> 
      </div>
 </div>
 
