@@ -142,7 +142,7 @@ code {
 .products-list {
   display: flex;
   gap: 70px;
-  width: 200%;
+  width: 7730px;
   margin-left: 130px;
   overflow-x: unset;
   scroll-behavior: smooth;
