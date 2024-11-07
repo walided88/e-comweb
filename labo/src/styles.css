@@ -147,7 +147,7 @@ code {
   margin-top: -2px;
   overflow-x: unset;
   scroll-behavior: smooth;
-  animation: scrollLeftRight 10s linear infinite;
+  animation: scrollLeftRight 30s linear infinite;
 }
 
 @keyframes scrollLeftRight {
@@ -398,7 +398,12 @@ top:42px ;
   
   }
 }
-
+.cadre {
+  width: 7800px; /* largeur du cadre */
+  overflow: auto; /* permettre le défilement manuel */
+  position: relative; /* pour permettre le positionnement absolu de l'enfant */
+margin-left: 77px;
+}
 .cadre2 {
   width: 800px; /* largeur du cadre */
   height: 30px; /* hauteur du cadre */

@@ -90,8 +90,10 @@ const Accueil = () => {
       {/* Produits populaires */}
       <section>
       <h2>Popular Products</h2>
+      <div className="cadre" >
 
   <div className="products-list" >
+
       {list.map((src, index) => (
         <ProductItem
           key={index}
@@ -102,6 +104,7 @@ const Accueil = () => {
 
         />
       ))}
+</div>
 
 </div>
 
