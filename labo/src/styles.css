@@ -99,8 +99,8 @@ code {
   display: flex;
   align-items: center; /* centre verticalement */
   justify-content: center; /* centre horizontalement */
-
-  border: 1px solid #ccc; /* optionnel, pour ajouter une bordure visible */
+background-color: rgb(237, 237, 237);
+  border: 1px solid #bbbbbb; /* optionnel, pour ajouter une bordure visible */
   border-radius: 5px; /* optionnel, pour arrondir les coins */
 }
 
@@ -142,7 +142,7 @@ code {
 .products-list {
   display: flex;
   gap: 70px;
-  width: 7730px;
+  width: 100%;
   margin-left: 130px;
   overflow-x: unset;
   scroll-behavior: smooth;
@@ -297,7 +297,8 @@ top:42px ;
     gap: -4000px;
 
   }
- 
+
+
   nav {
     flex-direction: column; /* Alignement vertical */
   }
@@ -364,6 +365,14 @@ top:42px ;
 /* Optional: Hide the full nav-links on mobile if needed */
 @media (max-width: 768px) {
 
+.products-list {
+   display: flex;
+  gap: 70px;
+  width: 100%;
+  margin-left: 60px;
+  overflow-x: unset;
+  animation-play-state: paused;
+}
 
   .nav-shop {
     display: flex;
@@ -477,13 +486,17 @@ margin-left: 77px;
     max-width: 1200px;
     margin: 0 auto;
   }
-  .mobileStyle {
-    flex: 60%;
-    background-color: #e8e8e8;
-    text-align: center;
-    border-radius: 10px;
-    cursor: pointer;
+  .cadre {
+ 
+    gap: 70px;
   }
+  .products-list {
+    display: flex;
+    overflow-x: unset;
+  }
+
+
+ 
   h1 {
     font-size: 2em;
   }
@@ -492,7 +505,7 @@ margin-left: 77px;
     padding: 12px 25px;
   }
 
- 
+  
   .product-item {
     width: 100%;
     margin-bottom: 20px;
@@ -506,13 +519,7 @@ margin-left: 77px;
     max-width: 1200px;
     margin: 0 auto;
   }
-  .mobileStyle {
-    flex: 60%;
-    background-color: #e8e8e8;
-    text-align: center;
-    border-radius: 10px;
-    cursor: pointer;
-  }
+  
   h1 {
     font-size: 2.5em;
   }
@@ -536,27 +543,16 @@ margin-left: 77px;
     flex-direction: column;
   }
 }
-.mobileStyle {
-  flex: 30%;
-  background-color: #e8e8e8;
-  text-align: center;
-  border-radius: 10px;
-  cursor: pointer;
-}
+
 /* Media query pour les écrans mobiles */
 @media (max-width: 768px) {
-  .cadre {
-    padding: 10px;
-    box-shadow: none;
-    border-radius: 0;
-    width: 100%; /* largeur du cadre */
-  height: 300px; /* hauteur du cadre */
-  overflow: auto; /* permettre le défilement manuel */
-  position: relative; /* pour permettre le positionnement absolu de l'enfant */
-margin-left:  -44px;
-  
-  }
+  .products-list {
+    display: flex;
+    gap: 70px;
+    width: 7730px;
 
+  }
+ 
   .mobileStyle {
     flex: 60%;
     background-color: #e8e8e8;
@@ -565,6 +561,7 @@ margin-left:  -44px;
     cursor: pointer;
   }
 
+ 
 .imgContainer{
 
   position: 'relative';
