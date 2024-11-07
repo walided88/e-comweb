@@ -77,7 +77,7 @@ const HamburgerMenu = () => {
         navigate(`/users/acceuil`);
         break;
         case 4:
-          navigate(`/users/log`);
+          navigate(`/users/authForm`);
           break;
       default:
         console.warn(`No route defined for index: ${index}`);
