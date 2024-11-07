@@ -142,9 +142,8 @@ code {
 .products-list {
   display: flex;
   gap: 70px;
-  width: 100%;
+  width: 200%;
   margin-left: 130px;
-  margin-top: -2px;
   overflow-x: unset;
   scroll-behavior: smooth;
   animation: scrollLeftRight 30s linear infinite;
@@ -399,10 +398,11 @@ top:42px ;
   }
 }
 .cadre {
-  width: 7800px; /* largeur du cadre */
+  width: 100%; /* largeur du cadre */
   overflow: auto; /* permettre le défilement manuel */
   position: relative; /* pour permettre le positionnement absolu de l'enfant */
-margin-left: 77px;
+  margin-left: 7px;
+  
 }
 .cadre2 {
   width: 800px; /* largeur du cadre */
