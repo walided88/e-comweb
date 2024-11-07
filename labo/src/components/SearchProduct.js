@@ -1,6 +1,16 @@
 import React, { useState } from 'react';
 import '../styles.css'; // Importer le fichier CSS global
 
+
+// Exemple de données simulées pour les produits
+const products = [
+  { id: 1, name: 'Smartphone', category: 'Electronics' },
+  { id: 2, name: 'Laptop', category: 'Electronics' },
+  { id: 3, name: 'Shoes', category: 'Fashion' },
+  { id: 4, name: 'Blender', category: 'Home & Kitchen' },
+  { id: 5, name: 'T-shirt', category: 'Fashion' },
+  
+];
 const SearchProduct = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredProducts, setFilteredProducts] = useState(products);
@@ -43,14 +53,6 @@ const SearchProduct = () => {
   );
 };
 
-// Exemple de données simulées pour les produits
-const products = [
-  { id: 1, name: 'Smartphone', category: 'Electronics' },
-  { id: 2, name: 'Laptop', category: 'Electronics' },
-  { id: 3, name: 'Shoes', category: 'Fashion' },
-  { id: 4, name: 'Blender', category: 'Home & Kitchen' },
-  { id: 5, name: 'T-shirt', category: 'Fashion' },
-  
-];
+
 
 export default SearchProduct;
