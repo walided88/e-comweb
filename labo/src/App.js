@@ -9,6 +9,8 @@ import Acceuil  from './Acceuil';
 import ListProd from './components/ListProd';
 import CartPage from './components/CartPage';
 import UserSettings from './components/UserSettings';
+import AuthForm from './components/AutForm';
+
 
 
 
@@ -31,6 +33,7 @@ function App() {
       <Route path="/users/list" element={<ListProd />} />
       <Route path="/users/cartPage" element={<CartPage />} />
       <Route path="/users/UserSettings" element={<UserSettings />} />
+      <Route path="/users/authForm" element={<AuthForm/>} />
 
       <Route path="/users/acceuil" element={<Acceuil />} />
       <Route path="/users/clientForm" element={<ClientForm/>} />
