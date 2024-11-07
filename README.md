@@ -3,6 +3,10 @@
 
 An e-commerce website built with React, Express, and MongoDB that enables users to browse, search, and order products, focusing on a cash-on-delivery payment model. This website offers secure user authentication with JWT and includes an admin dashboard for order management.
 
+
+## Live Demo
+Visit the website: https://e-comweb-7how.vercel.app/users/acceuil
+
 ## Features
 
 - **Product Presentation and Search**: Users can browse available products and search by letter or keyword to find specific items.
