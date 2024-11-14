@@ -1,19 +1,18 @@
-
 # E-commerce Website with Cash on Delivery Service
 
-An e-commerce website built with React, Express, and MongoDB that enables users to browse, search, and order products, focusing on a cash-on-delivery payment model. This website offers secure user authentication with JWT and includes an admin dashboard for order management.
-
+An e-commerce website built with React, Express, and MongoDB that enables users to browse, search, and order products, focusing on a cash-on-delivery payment model. This website is optimized for both mobile and desktop users and includes an admin dashboard for order management.
 
 ## Live Demo
-Visit the website: https://e-comweb-7how.vercel.app/users/acceuil
+
+Visit the website: [https://e-comweb-7how.vercel.app/users/acceuil](https://e-comweb-7how.vercel.app/users/acceuil)
 
 ## Features
 
+- **Responsive Design**: The website is optimized for both mobile and desktop devices, ensuring a smooth user experience on any screen size.
 - **Product Presentation and Search**: Users can browse available products and search by letter or keyword to find specific items.
 - **Shopping Cart Management**: Add or remove quantities before placing an order.
 - **Order Placement**: Complete a form to confirm the order, saving the client's details and selected products in the database.
 - **Cash on Delivery (COD)**: The primary payment method is cash on delivery.
-- **User Authentication**: Secure user authentication with hashed passwords and JWT-based login system.
 - **Admin Access**: Admin users can log in to view orders, check the status of products, and mark items as sold or pending.
 
 ## Technology Stack
@@ -21,7 +20,7 @@ Visit the website: https://e-comweb-7how.vercel.app/users/acceuil
 - **Frontend**: React.js
 - **Backend**: Express.js, Node.js
 - **Database**: MongoDB
-- **Authentication**: JWT for token-based authentication, with bcrypt for password hashing
+- **Password Security**: Bcrypt for password hashing
 
 ## Installation
 
@@ -40,7 +39,6 @@ Make sure you have the following installed:
    ```
 
 2. **Backend Setup**:
-
    - Navigate to the backend folder:
      ```bash
      cd server
@@ -51,9 +49,8 @@ Make sure you have the following installed:
      ```
    - Configure environment variables:
      - Create a `.env` file in the backend directory with the following variables:
-       ```
+       ```plaintext
        MONGODB_URI=your_mongodb_connection_string
-       JWT_SECRET=your_secret_key
        ```
    - Start the backend server:
      ```bash
@@ -61,7 +58,6 @@ Make sure you have the following installed:
      ```
 
 3. **Frontend Setup**:
-
    - Navigate to the frontend folder:
      ```bash
      cd labo
@@ -83,26 +79,20 @@ Make sure you have the following installed:
 ## Key Functionalities
 
 1. **User Account and Login**:
-   - Users can create an account and log in securely with JWT-based authentication.
-   - Passwords are encrypted using bcrypt to ensure secure storage.
-
+   - Users can create an account and log in securely with hashed passwords.
 2. **Browsing and Searching Products**:
    - Users can browse a product catalog and search for items by typing letters or keywords.
-
 3. **Shopping Cart**:
    - Users can add items to the cart, adjust quantities, and view the total cost before proceeding to checkout.
-
 4. **Order Form and Data Persistence**:
    - On placing an order, users fill out a form with personal details, which, along with the cart items, is stored in MongoDB.
    - Orders are marked for cash-on-delivery payment.
-
 5. **Admin Dashboard**:
    - Admin users can access a dashboard to view all customer orders.
    - Admins can update the status of each product, marking items as "Sold" or "Pending."
 
 ## Security Features
 
-- **JWT Authentication**: JSON Web Tokens are used to manage secure user sessions.
 - **Password Hashing**: Passwords are hashed with bcrypt for secure storage in the database.
 
 ## License
