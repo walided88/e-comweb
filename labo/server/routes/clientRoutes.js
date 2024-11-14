@@ -3,10 +3,7 @@ const express = require('express');
 const router = express.Router();
 const Client = require('../models/Client');
 
-// const bcrypt = require('bcryptjs');
-// const jwt = require('jsonwebtoken');
 
-// const JWT_SECRET = 'xxxx'; // Replace with a strong secret key
 router.post('/submit', async (req, res) => {
     try {
         const { name, email, num, adresse, prods,ville } = req.body;
@@ -30,7 +27,6 @@ router.post('/submit', async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 });
-
 
 
 
