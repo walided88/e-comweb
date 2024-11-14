@@ -45,6 +45,13 @@ code {
   margin-bottom: 20px;
 }
 
+.mobileStyle {
+  flex: 30%;
+  background-color: #e8e8e8;
+  text-align: center;
+  border-radius: 10px;
+  cursor: pointer;
+}
 /* Styles pour la barre de recherche */
 .search-bar {
   width: 100%;
