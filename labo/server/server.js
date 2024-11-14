@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
 const http = require('http');
-const setupSocket = require('./socket'); // Importer la configuration de socket.io
 
 const userRoutes = require('./routes/userRoutes');
 const clientRoutes = require('./routes/clientRoutes');
@@ -23,7 +22,6 @@ app.use(express.json());
 
 const server = http.createServer(app); // Créer le serveur HTTP
 
-setupSocket(server); // Configurer socket.io avec le serveur
 
 // Connexion à MongoDB
 mongoose.connect(process.env.MONGO_URI)
